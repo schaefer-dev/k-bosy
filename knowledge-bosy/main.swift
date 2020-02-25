@@ -33,7 +33,6 @@ if let jsonData = jsonString.data(using: .utf8)
     let decoder = JSONDecoder()
     do {
         let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
-        print(spec.outputs)
     } catch {
         print(error.localizedDescription)
     }
