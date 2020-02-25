@@ -52,15 +52,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "Samples/simple_arbiter.bosy"
+            argument = "-i Samples/simple_arbiter.bosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "Samples/knowledge_01.kbosy"
+            argument = "--input Samples/knowledge_01.kbosy -s"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "Samples/load_balancer_3.json"
+            argument = "-i Samples/load_balancer_3.json"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

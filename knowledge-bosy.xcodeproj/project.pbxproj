@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556B924053C0200EAA07F /* simple_arbiter.bosy */; };
 		65A556C2240545BD00EAA07F /* load_balancer_3.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C12405456E00EAA07F /* load_balancer_3.json */; };
 		65A556C4240559DF00EAA07F /* knowledge_01.kbosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C3240559D800EAA07F /* knowledge_01.kbosy */; };
+		65A556C7240565A500EAA07F /* SPMUtility in Frameworks */ = {isa = PBXBuildFile; productRef = 65A556C6240565A500EAA07F /* SPMUtility */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65A556C7240565A500EAA07F /* SPMUtility in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +114,9 @@
 			dependencies = (
 			);
 			name = "knowledge-bosy";
+			packageProductDependencies = (
+				65A556C6240565A500EAA07F /* SPMUtility */,
+			);
 			productName = "knowledge-bosy";
 			productReference = 6578E5D823FD72FF00A46D35 /* knowledge-bosy */;
 			productType = "com.apple.product-type.tool";
@@ -140,6 +145,9 @@
 				Base,
 			);
 			mainGroup = 6578E5CF23FD72FF00A46D35;
+			packageReferences = (
+				65A556C5240565A500EAA07F /* XCRemoteSwiftPackageReference "swift-package-manager" */,
+			);
 			productRefGroup = 6578E5D923FD72FF00A46D35 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -316,6 +324,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		65A556C5240565A500EAA07F /* XCRemoteSwiftPackageReference "swift-package-manager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-package-manager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		65A556C6240565A500EAA07F /* SPMUtility */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65A556C5240565A500EAA07F /* XCRemoteSwiftPackageReference "swift-package-manager" */;
+			productName = SPMUtility;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6578E5D023FD72FF00A46D35 /* Project object */;
 }
