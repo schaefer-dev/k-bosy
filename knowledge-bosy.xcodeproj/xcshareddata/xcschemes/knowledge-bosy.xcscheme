@@ -55,6 +55,10 @@
             argument = "Samples/simple_arbiter.bosy"
             isEnabled = "YES">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "Samples/load_balancer_3.json"
+            isEnabled = "NO">
+         </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
