@@ -27,6 +27,7 @@
 		6578E5D823FD72FF00A46D35 /* knowledge-bosy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "knowledge-bosy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6578E5DB23FD72FF00A46D35 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6578E5E223FD741E00A46D35 /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
+		65A556B924053C0200EAA07F /* simple_arbiter.bosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = simple_arbiter.bosy; path = ../Examples/simple_arbiter.bosy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +44,7 @@
 		6578E5CF23FD72FF00A46D35 = {
 			isa = PBXGroup;
 			children = (
+				65A556BA24053CD700EAA07F /* Samples */,
 				6578E5DA23FD72FF00A46D35 /* knowledge-bosy */,
 				6578E5D923FD72FF00A46D35 /* Products */,
 			);
@@ -59,18 +61,18 @@
 		6578E5DA23FD72FF00A46D35 /* knowledge-bosy */ = {
 			isa = PBXGroup;
 			children = (
-				6578E5F023FD7E1600A46D35 /* Examples */,
 				6578E5DB23FD72FF00A46D35 /* main.swift */,
 				6578E5E223FD741E00A46D35 /* Specification.swift */,
 			);
 			path = "knowledge-bosy";
 			sourceTree = "<group>";
 		};
-		6578E5F023FD7E1600A46D35 /* Examples */ = {
+		65A556BA24053CD700EAA07F /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				65A556B924053C0200EAA07F /* simple_arbiter.bosy */,
 			);
-			path = Examples;
+			path = Samples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -9,6 +9,30 @@
 import Foundation
 
 
+let currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+print("currently in dir: " + currentDirURL.path)
+
+
+func shell(launchPath: String, arguments: [String]) -> String {
+
+    let process = Process()
+    process.launchPath = launchPath
+    process.arguments = arguments
+
+    let pipe = Pipe()
+    process.standardOutput = pipe
+    process.launch()
+
+    let output_from_command = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8)!
+
+    return output_from_command
+}
+
+let output = shell(launchPath: "/usr/bin/env", arguments: ["ls"])
+print(output)
+
+let jsonURL = URL(fileURLWithPath: CommandLine.arguments[1], relativeTo: currentDirURL)
+print("loading json from path: " + jsonURL.path)
 
 
 let jsonString = """
@@ -27,8 +51,9 @@ let jsonString = """
 """
 
 
-if let jsonData = jsonString.data(using: .utf8)
-{
+// if let jsonData = jsonString.data(using: .utf8)
+do {
+    let jsonData =  try Data(contentsOf: jsonURL)
     // jsonData can be used
     let decoder = JSONDecoder()
     do {
@@ -36,6 +61,6 @@ if let jsonData = jsonString.data(using: .utf8)
     } catch {
         print(error.localizedDescription)
     }
-} else {
+} catch {
     print("loading of jsonData error...")
 }
