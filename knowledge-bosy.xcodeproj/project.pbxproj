@@ -9,17 +9,20 @@
 /* Begin PBXBuildFile section */
 		6578E5DC23FD72FF00A46D35 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5DB23FD72FF00A46D35 /* main.swift */; };
 		6578E5E323FD741E00A46D35 /* Specification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5E223FD741E00A46D35 /* Specification.swift */; };
+		65A556BD24053DE800EAA07F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A556BC24053DE800EAA07F /* utils.swift */; };
+		65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556B924053C0200EAA07F /* simple_arbiter.bosy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6578E5D623FD72FF00A46D35 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -27,7 +30,8 @@
 		6578E5D823FD72FF00A46D35 /* knowledge-bosy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "knowledge-bosy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6578E5DB23FD72FF00A46D35 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6578E5E223FD741E00A46D35 /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
-		65A556B924053C0200EAA07F /* simple_arbiter.bosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = simple_arbiter.bosy; path = ../Examples/simple_arbiter.bosy; sourceTree = "<group>"; };
+		65A556B924053C0200EAA07F /* simple_arbiter.bosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple_arbiter.bosy; sourceTree = "<group>"; };
+		65A556BC24053DE800EAA07F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +65,7 @@
 		6578E5DA23FD72FF00A46D35 /* knowledge-bosy */ = {
 			isa = PBXGroup;
 			children = (
+				65A556BB24053DD300EAA07F /* Utils */,
 				6578E5DB23FD72FF00A46D35 /* main.swift */,
 				6578E5E223FD741E00A46D35 /* Specification.swift */,
 			);
@@ -73,6 +78,14 @@
 				65A556B924053C0200EAA07F /* simple_arbiter.bosy */,
 			);
 			path = Samples;
+			sourceTree = "<group>";
+		};
+		65A556BB24053DD300EAA07F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				65A556BC24053DE800EAA07F /* utils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65A556BD24053DE800EAA07F /* utils.swift in Sources */,
 				6578E5DC23FD72FF00A46D35 /* main.swift in Sources */,
 				6578E5E323FD741E00A46D35 /* Specification.swift in Sources */,
 			);

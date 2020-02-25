@@ -8,59 +8,31 @@
 
 import Foundation
 
-
 let currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 print("currently in dir: " + currentDirURL.path)
 
+// let jsonURL = URL(fileURLWithPath: CommandLine.arguments[1], relativeTo: currentDirURL)
 
-func shell(launchPath: String, arguments: [String]) -> String {
-
-    let process = Process()
-    process.launchPath = launchPath
-    process.arguments = arguments
-
-    let pipe = Pipe()
-    process.standardOutput = pipe
-    process.launch()
-
-    let output_from_command = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8)!
-
-    return output_from_command
-}
-
-let output = shell(launchPath: "/usr/bin/env", arguments: ["ls"])
-print(output)
-
-let jsonURL = URL(fileURLWithPath: CommandLine.arguments[1], relativeTo: currentDirURL)
-print("loading json from path: " + jsonURL.path)
-
-
-let jsonString = """
-{
-    "semantics": "mealy",
-    "inputs": ["r_0", "r_1", "r_2"],
-    "outputs": ["g_0", "g_1", "g_2"],
-    "assumptions": [],
-    "guarantees": [
-        "G ((!g_0 || ! g_1) && (!g_0 || !g_2) && (!g_1 || !g_2))",
-            "G (r_0 -> F g_0)",
-            "G (r_1 -> F g_1)",
-            "G (r_2 -> F g_2)",
-    ]
-}
-"""
-
-
-// if let jsonData = jsonString.data(using: .utf8)
-do {
-    let jsonData =  try Data(contentsOf: jsonURL)
-    // jsonData can be used
-    let decoder = JSONDecoder()
+if let specPath = Bundle.main.url(forResource: "simple_arbiter", withExtension: "bosy") {
+    
+    let jsonURL = URL(fileURLWithPath: specPath.path)
+    print("loading json from path: " + jsonURL.path)
+    
     do {
-        let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+        let jsonData =  try Data(contentsOf: jsonURL)
+        // jsonData can be used
+        let decoder = JSONDecoder()
+        do {
+            let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+        } catch {
+            print(error.localizedDescription)
+        }
     } catch {
-        print(error.localizedDescription)
+        print("loading of jsonData error...")
     }
-} catch {
-    print("loading of jsonData error...")
+    
+} else {
+    print("file was not found in Bundle")
 }
+
+print(shell(launchPath: "/usr/bin/env", arguments: ["ls", "knowledge-bosy"]))
