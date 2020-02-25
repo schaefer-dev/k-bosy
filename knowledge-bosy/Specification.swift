@@ -64,10 +64,12 @@ public struct SynthesisSpecification: Codable {
         return try from(data: data)
     }
 
+    
     public static func from(data: Data) throws -> SynthesisSpecification {
         // parse contents of `data`
         return try JSONDecoder().decode(SynthesisSpecification.self, from: data)
     }
+    
     
     public func writeToShell() {
         print("----------------------------------------")
@@ -80,6 +82,7 @@ public struct SynthesisSpecification: Codable {
         print("transformation rules: ", self.transformation_rules)
         print("----------------------------------------")
     }
+    
     
     public mutating func applyTransformationRules() -> Bool {
         let rules_max_index = self.transformation_rules.count
@@ -117,6 +120,7 @@ public struct SynthesisSpecification: Codable {
         return true
     }
     
+    
     public func jsonString() -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -134,17 +138,24 @@ public struct SynthesisSpecification: Codable {
         return ""
     }
     
-    public func writeJsonToDesktop(inputFileName: String) {
+    /* returns output filename */
+    public func writeJsonToDir(inputFileName: String, dir: URL) -> String {
         let jsonString = self.jsonString()
-        let filename = inputFileName.split(separator: ".")[0].description + "_transformed.bosy"
-        let output_file = getDesktopDirectory().appendingPathComponent(filename)
+        
+        // use input filename without the file-suffix (without .kbosy)
+        let output_filename = inputFileName.split(separator: ".")[0].description + "_transformed.bosy"
+        
+        let output_file = dir.appendingPathComponent(output_filename)
         
         do {
             try jsonString.write(to: output_file, atomically: true, encoding: String.Encoding.utf8)
+            return output_filename
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-            print("ERROR: writing json file to Desktop failed!")
+            print("ERROR: writing json file to Directory failed!")
+            
         }
+        return ""
     }
 
 }

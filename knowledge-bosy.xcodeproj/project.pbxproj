@@ -14,6 +14,7 @@
 		65A556C2240545BD00EAA07F /* load_balancer_3.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C12405456E00EAA07F /* load_balancer_3.json */; };
 		65A556C4240559DF00EAA07F /* knowledge_01.kbosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C3240559D800EAA07F /* knowledge_01.kbosy */; };
 		65A556C7240565A500EAA07F /* SPMUtility in Frameworks */ = {isa = PBXBuildFile; productRef = 65A556C6240565A500EAA07F /* SPMUtility */; };
+		65A556CA240573CC00EAA07F /* bosy_call.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C82405736100EAA07F /* bosy_call.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,6 +24,7 @@
 			dstPath = Samples;
 			dstSubfolderSpec = 16;
 			files = (
+				65A556CA240573CC00EAA07F /* bosy_call.sh in CopyFiles */,
 				65A556C4240559DF00EAA07F /* knowledge_01.kbosy in CopyFiles */,
 				65A556C2240545BD00EAA07F /* load_balancer_3.json in CopyFiles */,
 				65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */,
@@ -39,6 +41,7 @@
 		65A556BC24053DE800EAA07F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		65A556C12405456E00EAA07F /* load_balancer_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = load_balancer_3.json; sourceTree = "<group>"; };
 		65A556C3240559D800EAA07F /* knowledge_01.kbosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = knowledge_01.kbosy; sourceTree = "<group>"; };
+		65A556C82405736100EAA07F /* bosy_call.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bosy_call.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 		65A556BA24053CD700EAA07F /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				65A556C82405736100EAA07F /* bosy_call.sh */,
 				65A556C12405456E00EAA07F /* load_balancer_3.json */,
 				65A556B924053C0200EAA07F /* simple_arbiter.bosy */,
 				65A556C3240559D800EAA07F /* knowledge_01.kbosy */,
