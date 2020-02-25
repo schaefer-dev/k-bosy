@@ -66,5 +66,16 @@ public struct SynthesisSpecification: Codable {
         // parse contents of `data`
         return try JSONDecoder().decode(SynthesisSpecification.self, from: data)
     }
+    
+    public func writeToShell() {
+        print("----------------------------------------")
+        print("------------Synthesis spec:-------------")
+        print("semantics: ", self.semantics)
+        print("inputs: ", self.inputs)
+        print("outputs: ", self.outputs)
+        print("assumptions: ", self.assumptions)
+        print("guarantees: ", self.guarantees)
+        print("----------------------------------------")
+    }
 
 }

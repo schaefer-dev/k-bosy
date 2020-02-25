@@ -8,31 +8,27 @@
 
 import Foundation
 
-let currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-print("currently in dir: " + currentDirURL.path)
 
-// let jsonURL = URL(fileURLWithPath: CommandLine.arguments[1], relativeTo: currentDirURL)
+var currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 
-if let specPath = Bundle.main.url(forResource: "simple_arbiter", withExtension: "bosy") {
-    
-    let jsonURL = URL(fileURLWithPath: specPath.path)
-    print("loading json from path: " + jsonURL.path)
-    
+
+let jsonURL = URL(fileURLWithPath: CommandLine.arguments[1], relativeTo: currentDirURL)
+
+print("loading json from path: " + jsonURL.path)
+
+do {
+    let jsonData =  try Data(contentsOf: jsonURL)
+    // jsonData can be used
+    let decoder = JSONDecoder()
     do {
-        let jsonData =  try Data(contentsOf: jsonURL)
-        // jsonData can be used
-        let decoder = JSONDecoder()
-        do {
-            let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
-        } catch {
-            print(error.localizedDescription)
-        }
+        let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+        
+        /* handle spec here */
+        spec.writeToShell()
+        
     } catch {
-        print("loading of jsonData error...")
+        print(error.localizedDescription)
     }
-    
-} else {
-    print("file was not found in Bundle")
+} catch {
+    print("loading of jsonData error...")
 }
-
-print(shell(launchPath: "/usr/bin/env", arguments: ["ls", "knowledge-bosy"]))

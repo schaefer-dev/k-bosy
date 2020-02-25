@@ -22,3 +22,18 @@ func shell(launchPath: String, arguments: [String]) -> String {
 
     return output_from_command
 }
+
+
+func listAllFiles(dir: URL) {
+    /* try to list all files in directory */
+    let fileManager = FileManager.default
+    print("currently in dir: " + dir.path)
+
+    do {
+        let fileURLs = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
+        print(fileURLs)
+    } catch {
+        print("Error while enumerating files \(dir.path): \(error.localizedDescription)")
+    }
+    
+}

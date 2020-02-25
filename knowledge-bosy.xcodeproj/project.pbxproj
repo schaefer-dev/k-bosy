@@ -17,7 +17,7 @@
 		6578E5D623FD72FF00A46D35 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "";
+			dstPath = Samples;
 			dstSubfolderSpec = 16;
 			files = (
 				65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */,
