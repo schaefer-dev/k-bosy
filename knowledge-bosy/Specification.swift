@@ -134,12 +134,13 @@ public struct SynthesisSpecification: Codable {
         return ""
     }
     
-    public func writeJsonToDesktop() {
+    public func writeJsonToDesktop(inputFileName: String) {
         let jsonString = self.jsonString()
-        let filename = getDesktopDirectory().appendingPathComponent("output.bosy")
+        let filename = inputFileName.split(separator: ".")[0].description + "_transformed.bosy"
+        let output_file = getDesktopDirectory().appendingPathComponent(filename)
         
         do {
-            try jsonString.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+            try jsonString.write(to: output_file, atomically: true, encoding: String.Encoding.utf8)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
             print("ERROR: writing json file to Desktop failed!")
