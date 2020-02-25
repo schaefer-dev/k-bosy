@@ -21,10 +21,14 @@ do {
     // jsonData can be used
     let decoder = JSONDecoder()
     do {
-        let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+        var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+        
+        spec.applyTransformationRules()
         
         /* handle spec here */
         spec.writeToShell()
+        
+        spec.writeJsonToDesktop()
         
     } catch {
         print(error.localizedDescription)

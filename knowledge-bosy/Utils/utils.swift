@@ -37,3 +37,8 @@ func listAllFiles(dir: URL) {
     }
     
 }
+
+func getDesktopDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)
+    return paths[0]
+}
