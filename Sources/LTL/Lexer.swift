@@ -22,6 +22,9 @@ public enum LTLToken: CustomStringConvertible, Equatable, Hashable {
     
     // Temporal Operators
     case Next, Until, WeakUntil, Release, Eventually, Globally
+    
+    // Knowledge Operator
+    case Know
 
     // Quantifier
     case exists, forall
@@ -69,6 +72,8 @@ public enum LTLToken: CustomStringConvertible, Equatable, Hashable {
             return "F"
         case .Globally:
             return "G"
+        case .Know:
+            return "K"
         case .exists:
             return "∃"
         case .forall:
@@ -108,6 +113,7 @@ public enum LTLToken: CustomStringConvertible, Equatable, Hashable {
         case (.Release, .Release): return true
         case (.Eventually, .Eventually): return true
         case (.Globally, .Globally): return true
+        case (.Know, .Know): return true
         case (.exists, .exists): return true
         case (.forall, .forall): return true
         case (.LParen, .LParen): return true
@@ -177,6 +183,8 @@ public enum LTLToken: CustomStringConvertible, Equatable, Hashable {
             return true
         case .Globally:
             return true
+        case .Know:
+            return true
         case .Not:
             return true
         default:
@@ -203,6 +211,8 @@ public enum LTLToken: CustomStringConvertible, Equatable, Hashable {
             return LTLFunction.finally
         case .Globally:
             return LTLFunction.globally
+        case .Know:
+            return LTLFunction.know
         case .Not:
             return LTLFunction.negation
         case .Until:
@@ -377,6 +387,11 @@ struct LTLLexer {
         case "W":
             scanner.next()
             return .WeakUntil
+            
+        // Knowledge Operator
+        case "K":
+            scanner.next()
+            return .Know
 
         // exists
         case "∃":

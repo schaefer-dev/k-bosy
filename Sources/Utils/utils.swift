@@ -50,5 +50,5 @@ public func getMasterSpecDirectory() -> URL {
 
 public func callBoSy(inputFilename: String) {
     //let command = "cd /Users/daniel/dev/master/bosy; swift run -c release BoSy --synthesize /Users/daniel/dev/master/bosy/Specs/kbosy_outputs/" + inputFilename
-    print(shell(launchPath: "/usr/bin/env", arguments: ["Samples/bosy_call.sh", inputFilename]))
+    print(shell(launchPath: "/usr/bin/env", arguments: ["/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/bosy_call.sh", inputFilename]))
 }
