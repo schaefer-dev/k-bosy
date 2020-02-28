@@ -44,10 +44,12 @@ do {
         /* try to read input JSON File */
         do {
             let jsonData =  try Data(contentsOf: jsonURL)
+            print("File data read.")
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
                 var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                print("Decoding completed.")
 
                 /* Apply transformation rules that are contained in the input file.*/
                 if !spec.applyTransformationRules(){
@@ -56,6 +58,7 @@ do {
                 }
               
             let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
+            print("Output file saved.")
               
             if let synt = parguments.get(synthesize), synt {
                 print("\n--------------------------------------------------")
@@ -65,7 +68,7 @@ do {
               
                 exit(EXIT_SUCCESS)
             } catch {
-                print(error.localizedDescription)
+                print("ERROR during Decoding: " + error.localizedDescription)
             }
         } catch {
             print("loading of jsonData error...")

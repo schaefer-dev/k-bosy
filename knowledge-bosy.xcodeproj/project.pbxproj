@@ -15,11 +15,14 @@
 		6530F8C224095A9F00B75837 /* LTL+ltl3ba.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BB24095A9F00B75837 /* LTL+ltl3ba.swift */; };
 		6530F8C324095A9F00B75837 /* LTL+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BC24095A9F00B75837 /* LTL+Hashable.swift */; };
 		6530F8C424095A9F00B75837 /* LTL+SMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BD24095A9F00B75837 /* LTL+SMV.swift */; };
+		6530F8D0240969F400B75837 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8CD240969F400B75837 /* Parser.swift */; };
+		6530F8D1240969F400B75837 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8CE240969F400B75837 /* Scanner.swift */; };
+		6530F8D2240969F400B75837 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8CF240969F400B75837 /* Lexer.swift */; };
+		6530F8D424096AF000B75837 /* ltl_simple_arbiter.kbosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6530F8D324096AC700B75837 /* ltl_simple_arbiter.kbosy */; };
+		6530F8D624096D5D00B75837 /* ltl_01.kbosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6530F8D524096B7C00B75837 /* ltl_01.kbosy */; };
 		6578E5DC23FD72FF00A46D35 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5DB23FD72FF00A46D35 /* main.swift */; };
 		6578E5E323FD741E00A46D35 /* Specification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5E223FD741E00A46D35 /* Specification.swift */; };
 		65A556BD24053DE800EAA07F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A556BC24053DE800EAA07F /* utils.swift */; };
-		65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556B924053C0200EAA07F /* simple_arbiter.bosy */; };
-		65A556C2240545BD00EAA07F /* load_balancer_3.json in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C12405456E00EAA07F /* load_balancer_3.json */; };
 		65A556C4240559DF00EAA07F /* knowledge_01.kbosy in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C3240559D800EAA07F /* knowledge_01.kbosy */; };
 		65A556C7240565A500EAA07F /* SPMUtility in Frameworks */ = {isa = PBXBuildFile; productRef = 65A556C6240565A500EAA07F /* SPMUtility */; };
 		65A556CA240573CC00EAA07F /* bosy_call.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A556C82405736100EAA07F /* bosy_call.sh */; };
@@ -32,10 +35,10 @@
 			dstPath = Samples;
 			dstSubfolderSpec = 16;
 			files = (
+				6530F8D624096D5D00B75837 /* ltl_01.kbosy in CopyFiles */,
+				6530F8D424096AF000B75837 /* ltl_simple_arbiter.kbosy in CopyFiles */,
 				65A556CA240573CC00EAA07F /* bosy_call.sh in CopyFiles */,
 				65A556C4240559DF00EAA07F /* knowledge_01.kbosy in CopyFiles */,
-				65A556C2240545BD00EAA07F /* load_balancer_3.json in CopyFiles */,
-				65A556C02405410100EAA07F /* simple_arbiter.bosy in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,12 +53,15 @@
 		6530F8BB24095A9F00B75837 /* LTL+ltl3ba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+ltl3ba.swift"; sourceTree = "<group>"; };
 		6530F8BC24095A9F00B75837 /* LTL+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+Hashable.swift"; sourceTree = "<group>"; };
 		6530F8BD24095A9F00B75837 /* LTL+SMV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+SMV.swift"; sourceTree = "<group>"; };
+		6530F8CD240969F400B75837 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = ../../../bosy/Sources/LTL/Parser.swift; sourceTree = "<group>"; };
+		6530F8CE240969F400B75837 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Scanner.swift; path = ../../../bosy/Sources/LTL/Scanner.swift; sourceTree = "<group>"; };
+		6530F8CF240969F400B75837 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Lexer.swift; path = ../../../bosy/Sources/LTL/Lexer.swift; sourceTree = "<group>"; };
+		6530F8D324096AC700B75837 /* ltl_simple_arbiter.kbosy */ = {isa = PBXFileReference; lastKnownFileType = text; path = ltl_simple_arbiter.kbosy; sourceTree = "<group>"; };
+		6530F8D524096B7C00B75837 /* ltl_01.kbosy */ = {isa = PBXFileReference; lastKnownFileType = text; path = ltl_01.kbosy; sourceTree = "<group>"; };
 		6578E5D823FD72FF00A46D35 /* knowledge-bosy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "knowledge-bosy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6578E5DB23FD72FF00A46D35 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6578E5E223FD741E00A46D35 /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
-		65A556B924053C0200EAA07F /* simple_arbiter.bosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple_arbiter.bosy; sourceTree = "<group>"; };
 		65A556BC24053DE800EAA07F /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
-		65A556C12405456E00EAA07F /* load_balancer_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = load_balancer_3.json; sourceTree = "<group>"; };
 		65A556C3240559D800EAA07F /* knowledge_01.kbosy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = knowledge_01.kbosy; sourceTree = "<group>"; };
 		65A556C82405736100EAA07F /* bosy_call.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bosy_call.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +81,9 @@
 		6530F8B4240959D100B75837 /* LTL */ = {
 			isa = PBXGroup;
 			children = (
+				6530F8CF240969F400B75837 /* Lexer.swift */,
+				6530F8CD240969F400B75837 /* Parser.swift */,
+				6530F8CE240969F400B75837 /* Scanner.swift */,
 				6530F8B5240959E600B75837 /* LTL.swift */,
 				6530F8B924095A9F00B75837 /* LTL+Codable.swift */,
 				6530F8B824095A9F00B75837 /* LTL+CustomStringConvertible.swift */,
@@ -119,9 +128,9 @@
 			isa = PBXGroup;
 			children = (
 				65A556C82405736100EAA07F /* bosy_call.sh */,
-				65A556C12405456E00EAA07F /* load_balancer_3.json */,
-				65A556B924053C0200EAA07F /* simple_arbiter.bosy */,
 				65A556C3240559D800EAA07F /* knowledge_01.kbosy */,
+				6530F8D524096B7C00B75837 /* ltl_01.kbosy */,
+				6530F8D324096AC700B75837 /* ltl_simple_arbiter.kbosy */,
 			);
 			path = Samples;
 			sourceTree = "<group>";
@@ -204,8 +213,11 @@
 				6530F8B6240959E600B75837 /* LTL.swift in Sources */,
 				65A556BD24053DE800EAA07F /* utils.swift in Sources */,
 				6578E5DC23FD72FF00A46D35 /* main.swift in Sources */,
+				6530F8D1240969F400B75837 /* Scanner.swift in Sources */,
 				6530F8C124095A9F00B75837 /* LTL+Operators.swift in Sources */,
+				6530F8D2240969F400B75837 /* Lexer.swift in Sources */,
 				6530F8BE24095A9F00B75837 /* LTL+spot.swift in Sources */,
+				6530F8D0240969F400B75837 /* Parser.swift in Sources */,
 				6530F8BF24095A9F00B75837 /* LTL+CustomStringConvertible.swift in Sources */,
 				6578E5E323FD741E00A46D35 /* Specification.swift in Sources */,
 				6530F8C224095A9F00B75837 /* LTL+ltl3ba.swift in Sources */,

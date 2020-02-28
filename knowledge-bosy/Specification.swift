@@ -31,10 +31,10 @@ public struct SynthesisSpecification: Codable {
     public let inputs: [String]
     public let outputs: [String]
     public var assumptions: [String]
-    public var guarantees: [String]
+    public var guarantees: [LTL]
     public let transformation_rules: [String]
     
-    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [String], guarantees: [String], transformation_rules: [String]) {
+    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [String], guarantees: [LTL], transformation_rules: [String]) {
         self.semantics = semantics
         self.inputs = inputs
         self.outputs = outputs
@@ -85,6 +85,9 @@ public struct SynthesisSpecification: Codable {
     
     
     public mutating func applyTransformationRules() -> Bool {
+        return true
+        
+        // TODO: fix again after LTL parsing
         let rules_max_index = self.transformation_rules.count
         if (rules_max_index == 0) {
             print("Warning: no transformation Rules given.")
@@ -110,7 +113,7 @@ public struct SynthesisSpecification: Codable {
             
             // Replace all occurances in guarantees
             for i in 0 ..< self.guarantees.count {
-                self.guarantees[i] = self.guarantees[i].replacingOccurrences(of: k_string, with: r_string)
+                // TODO: enable again self.guarantees[i] = self.guarantees[i].replacingOccurrences(of: k_string, with: r_string)
             }
             
             k_index += 1
