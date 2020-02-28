@@ -9,6 +9,7 @@
 //
 
 import Foundation
+import LTL
 
 
 public enum TransitionSystemType: String, Codable {

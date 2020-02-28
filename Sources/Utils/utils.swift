@@ -8,7 +8,7 @@
 
 import Foundation
 
-func shell(launchPath: String, arguments: [String]) -> String {
+public func shell(launchPath: String, arguments: [String]) -> String {
 
     let process = Process()
     process.launchPath = launchPath
@@ -24,7 +24,7 @@ func shell(launchPath: String, arguments: [String]) -> String {
 }
 
 
-func listAllFiles(dir: URL) {
+public func listAllFiles(dir: URL) {
     /* try to list all files in directory */
     let fileManager = FileManager.default
     print("currently in dir: " + dir.path)
@@ -38,17 +38,17 @@ func listAllFiles(dir: URL) {
     
 }
 
-func getDesktopDirectory() -> URL {
+public func getDesktopDirectory() -> URL {
     let paths = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask)
     return paths[0]
 }
 
-func getMasterSpecDirectory() -> URL {
+public func getMasterSpecDirectory() -> URL {
     let pathUrl = URL(fileURLWithPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/")
     return pathUrl
 }
 
-func callBoSy(inputFilename: String) {
+public func callBoSy(inputFilename: String) {
     //let command = "cd /Users/daniel/dev/master/bosy; swift run -c release BoSy --synthesize /Users/daniel/dev/master/bosy/Specs/kbosy_outputs/" + inputFilename
     print(shell(launchPath: "/usr/bin/env", arguments: ["Samples/bosy_call.sh", inputFilename]))
 }

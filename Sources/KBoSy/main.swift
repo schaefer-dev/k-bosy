@@ -7,8 +7,8 @@
 
 import Foundation
 import SPMUtility
-
-
+import Utils
+import Specification
 
 do {
     /* Create Argument Parser */
@@ -33,46 +33,61 @@ do {
     let parguments = try parser.parse(argsv)
     
     
+    
+    
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
         /* Input filename has been specified, Figure out URL of cwd and then path of input json file */
         let currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        let jsonURL = URL(fileURLWithPath: inputFilename, relativeTo: currentDirURL)
-        print("loading json from path: " + jsonURL.path)
+        listAllFiles(dir: currentDirURL)
+        
+        /* Verify System requirements */
+        if #available(OSX 10.11, *) {
+            /* System requirements passed */
+            let jsonURL = URL(fileURLWithPath: inputFilename, relativeTo: currentDirURL)
+            print("loading json from path: " + jsonURL.path)
 
 
-        /* try to read input JSON File */
-        do {
-            let jsonData =  try Data(contentsOf: jsonURL)
-            print("File data read.")
-            // jsonData can be used
-            let decoder = JSONDecoder()
+            /* try to read input JSON File */
             do {
-                var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
-                print("Decoding completed.")
+                let jsonData =  try Data(contentsOf: jsonURL)
+                print("File data read.")
+                // jsonData can be used
+                let decoder = JSONDecoder()
+                do {
+                    var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                    print("Decoding completed.")
 
-                /* Apply transformation rules that are contained in the input file.*/
-                if !spec.applyTransformationRules(){
-                    print("ERROR: Transformation Rules could not be applied.")
-                    exit(EXIT_FAILURE)
+                    /* Apply transformation rules that are contained in the input file.*/
+                    if !spec.applyTransformationRules(){
+                        print("ERROR: Transformation Rules could not be applied.")
+                        exit(EXIT_FAILURE)
+                    }
+                  
+                let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
+                print("Output file saved.")
+                  
+                if let synt = parguments.get(synthesize), synt {
+                    print("\n--------------------------------------------------")
+                    print("Calling Bosy now....\n")
+                    callBoSy(inputFilename: outputFilename)
                 }
-              
-            let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
-            print("Output file saved.")
-              
-            if let synt = parguments.get(synthesize), synt {
-                print("\n--------------------------------------------------")
-                print("Calling Bosy now....\n")
-                callBoSy(inputFilename: outputFilename)
-            }
-              
-                exit(EXIT_SUCCESS)
+                  
+                    exit(EXIT_SUCCESS)
+                } catch {
+                    /* failed to decode content of jsonData */
+                    print("ERROR during Decoding: " + error.localizedDescription)
+                }
             } catch {
-                print("ERROR during Decoding: " + error.localizedDescription)
+                /* failed to read data from jsonURL */
+                print("loading of jsonData error...")
             }
-        } catch {
-            print("loading of jsonData error...")
+        } else {
+            /* failed System Requirements */
+            print("ERROR: Requires at least macOS 10.11")
+            exit(EXIT_FAILURE)
         }
+        
         
         
         
