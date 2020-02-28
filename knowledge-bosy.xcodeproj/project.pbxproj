@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6530F8B6240959E600B75837 /* LTL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8B5240959E600B75837 /* LTL.swift */; };
+		6530F8BE24095A9F00B75837 /* LTL+spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8B724095A9E00B75837 /* LTL+spot.swift */; };
+		6530F8BF24095A9F00B75837 /* LTL+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8B824095A9F00B75837 /* LTL+CustomStringConvertible.swift */; };
+		6530F8C024095A9F00B75837 /* LTL+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8B924095A9F00B75837 /* LTL+Codable.swift */; };
+		6530F8C124095A9F00B75837 /* LTL+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BA24095A9F00B75837 /* LTL+Operators.swift */; };
+		6530F8C224095A9F00B75837 /* LTL+ltl3ba.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BB24095A9F00B75837 /* LTL+ltl3ba.swift */; };
+		6530F8C324095A9F00B75837 /* LTL+Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BC24095A9F00B75837 /* LTL+Hashable.swift */; };
+		6530F8C424095A9F00B75837 /* LTL+SMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530F8BD24095A9F00B75837 /* LTL+SMV.swift */; };
 		6578E5DC23FD72FF00A46D35 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5DB23FD72FF00A46D35 /* main.swift */; };
 		6578E5E323FD741E00A46D35 /* Specification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6578E5E223FD741E00A46D35 /* Specification.swift */; };
 		65A556BD24053DE800EAA07F /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A556BC24053DE800EAA07F /* utils.swift */; };
@@ -34,6 +42,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6530F8B5240959E600B75837 /* LTL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTL.swift; sourceTree = "<group>"; };
+		6530F8B724095A9E00B75837 /* LTL+spot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+spot.swift"; sourceTree = "<group>"; };
+		6530F8B824095A9F00B75837 /* LTL+CustomStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+CustomStringConvertible.swift"; sourceTree = "<group>"; };
+		6530F8B924095A9F00B75837 /* LTL+Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+Codable.swift"; sourceTree = "<group>"; };
+		6530F8BA24095A9F00B75837 /* LTL+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+Operators.swift"; sourceTree = "<group>"; };
+		6530F8BB24095A9F00B75837 /* LTL+ltl3ba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+ltl3ba.swift"; sourceTree = "<group>"; };
+		6530F8BC24095A9F00B75837 /* LTL+Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+Hashable.swift"; sourceTree = "<group>"; };
+		6530F8BD24095A9F00B75837 /* LTL+SMV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTL+SMV.swift"; sourceTree = "<group>"; };
 		6578E5D823FD72FF00A46D35 /* knowledge-bosy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "knowledge-bosy"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6578E5DB23FD72FF00A46D35 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6578E5E223FD741E00A46D35 /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
@@ -56,6 +72,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6530F8B4240959D100B75837 /* LTL */ = {
+			isa = PBXGroup;
+			children = (
+				6530F8B5240959E600B75837 /* LTL.swift */,
+				6530F8B924095A9F00B75837 /* LTL+Codable.swift */,
+				6530F8B824095A9F00B75837 /* LTL+CustomStringConvertible.swift */,
+				6530F8BC24095A9F00B75837 /* LTL+Hashable.swift */,
+				6530F8BB24095A9F00B75837 /* LTL+ltl3ba.swift */,
+				6530F8BA24095A9F00B75837 /* LTL+Operators.swift */,
+				6530F8BD24095A9F00B75837 /* LTL+SMV.swift */,
+				6530F8B724095A9E00B75837 /* LTL+spot.swift */,
+			);
+			path = LTL;
+			sourceTree = "<group>";
+		};
 		6578E5CF23FD72FF00A46D35 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +107,7 @@
 		6578E5DA23FD72FF00A46D35 /* knowledge-bosy */ = {
 			isa = PBXGroup;
 			children = (
+				6530F8B4240959D100B75837 /* LTL */,
 				65A556BB24053DD300EAA07F /* Utils */,
 				6578E5DB23FD72FF00A46D35 /* main.swift */,
 				6578E5E223FD741E00A46D35 /* Specification.swift */,
@@ -166,9 +198,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6530F8C424095A9F00B75837 /* LTL+SMV.swift in Sources */,
+				6530F8C324095A9F00B75837 /* LTL+Hashable.swift in Sources */,
+				6530F8C024095A9F00B75837 /* LTL+Codable.swift in Sources */,
+				6530F8B6240959E600B75837 /* LTL.swift in Sources */,
 				65A556BD24053DE800EAA07F /* utils.swift in Sources */,
 				6578E5DC23FD72FF00A46D35 /* main.swift in Sources */,
+				6530F8C124095A9F00B75837 /* LTL+Operators.swift in Sources */,
+				6530F8BE24095A9F00B75837 /* LTL+spot.swift in Sources */,
+				6530F8BF24095A9F00B75837 /* LTL+CustomStringConvertible.swift in Sources */,
 				6578E5E323FD741E00A46D35 /* Specification.swift in Sources */,
+				6530F8C224095A9F00B75837 /* LTL+ltl3ba.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
