@@ -30,11 +30,11 @@ public struct SynthesisSpecification: Codable {
     public var semantics: TransitionSystemType
     public let inputs: [String]
     public let outputs: [String]
-    public var assumptions: [String]
+    public var assumptions: [LTL]
     public var guarantees: [LTL]
-    public let transformation_rules: [String]
+    public let transformation_rules: [String]?
     
-    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [String], guarantees: [LTL], transformation_rules: [String]) {
+    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [LTL], guarantees: [LTL], transformation_rules: [String]) {
         self.semantics = semantics
         self.inputs = inputs
         self.outputs = outputs
@@ -79,7 +79,7 @@ public struct SynthesisSpecification: Codable {
         print("outputs: ", self.outputs)
         print("assumptions: ", self.assumptions)
         print("guarantees: ", self.guarantees)
-        print("transformation rules: ", self.transformation_rules)
+        //TODO: print("transformation rules: ", self.transformation_rules)
         print("----------------------------------------")
     }
     
@@ -87,7 +87,7 @@ public struct SynthesisSpecification: Codable {
     public mutating func applyTransformationRules() -> Bool {
         return true
         
-        // TODO: fix again after LTL parsing
+        /* TODO: fix again after LTL parsing
         let rules_max_index = self.transformation_rules.count
         if (rules_max_index == 0) {
             print("Warning: no transformation Rules given.")
@@ -108,7 +108,7 @@ public struct SynthesisSpecification: Codable {
             
             // Replace all occurances in assumptions
             for i in 0 ..< self.assumptions.count {
-                self.assumptions[i] = self.assumptions[i].replacingOccurrences(of: k_string, with: r_string)
+                // TODO: enable again self.assumptions[i] = self.assumptions[i].replacingOccurrences(of: k_string, with: r_string)
             }
             
             // Replace all occurances in guarantees
@@ -121,6 +121,7 @@ public struct SynthesisSpecification: Codable {
         }
         
         return true
+         */
     }
     
     
