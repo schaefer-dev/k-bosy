@@ -57,6 +57,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--input Samples/knowledge_01.kbosy -s"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--input Samples/ltl_01.kbosy -s"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
