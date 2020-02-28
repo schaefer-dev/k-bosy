@@ -25,6 +25,10 @@ public struct LTLFunction: Codable {
     public static let release = LTLFunction(symbol: "R", arity: 2)
     public static let finally = LTLFunction(symbol: "F", arity: 1)
     public static let globally = LTLFunction(symbol: "G", arity: 1)
+    
+    // knowledge
+    public static let know = LTLFunction(symbol: "K", arity: 1)
+    
 
     var negated: LTLFunction {
         switch self {

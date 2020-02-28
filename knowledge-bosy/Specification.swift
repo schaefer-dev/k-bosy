@@ -79,19 +79,16 @@ public struct SynthesisSpecification: Codable {
         print("outputs: ", self.outputs)
         print("assumptions: ", self.assumptions)
         print("guarantees: ", self.guarantees)
-        if (self.transformation_rules != nil) {
-            print("transformation rules: ", self.transformation_rules)
+        if let rules = self.transformation_rules {
+            print("transformation rules: ", rules)
         }
         print("----------------------------------------")
     }
     
     
     public mutating func applyTransformationRules() -> Bool {
-        if (self.transformation_rules == nil) {
-            print("Warning: no transformation rules given, skipping 'translation-phase'.")
-            return true
-        } else {
-            let rules_max_index = self.transformation_rules!.count
+        if let rules = self.transformation_rules {
+            let rules_max_index = rules.count
             if (rules_max_index == 0) {
                 print("Warning: no transformation Rules given.")
                 return true
@@ -102,27 +99,36 @@ public struct SynthesisSpecification: Codable {
                 return false
             }
             
+            
+            
             var k_index = 0
             var r_index = 1
             
             while r_index < rules_max_index {
-                let k_string = self.transformation_rules![k_index]
-                let r_string = "(" + self.transformation_rules![r_index] + ")"
-                
+                /* String replacements disabled, have to be replaced by LTL replacements later.
+                TODO: implement application of transformation rules for parsed LTL.
+                 
+                let k_string = rules[k_index]
+                let r_string = "(" + rules[r_index] + ")"
+                 
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    // TODO: enable again self.assumptions[i] = self.assumptions[i].replacingOccurrences(of: k_string, with: r_string)
+                    self.assumptions[i] = self.assumptions[i].replacingOccurrences(of: k_string, with: r_string)
                 }
                 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    // TODO: enable again self.guarantees[i] = self.guarantees[i].replacingOccurrences(of: k_string, with: r_string)
+                    self.guarantees[i] = self.guarantees[i].replacingOccurrences(of: k_string, with: r_string)
                 }
+                */
                 
                 k_index += 1
                 r_index += 1
             }
             
+            return true
+        } else {
+            print("Warning: no transformation rules given, skipping 'translation-phase'.")
             return true
         }
     }
