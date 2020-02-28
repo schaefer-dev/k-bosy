@@ -37,14 +37,11 @@ do {
     
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
-        /* Input filename has been specified, Figure out URL of cwd and then path of input json file */
-        let currentDirURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        listAllFiles(dir: currentDirURL)
         
         /* Verify System requirements */
         if #available(OSX 10.11, *) {
             /* System requirements passed */
-            let jsonURL = URL(fileURLWithPath: inputFilename, relativeTo: currentDirURL)
+            let jsonURL = URL(fileURLWithPath: inputFilename)
             print("loading json from path: " + jsonURL.path)
 
 
