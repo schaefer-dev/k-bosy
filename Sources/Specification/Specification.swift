@@ -109,22 +109,18 @@ public struct SynthesisSpecification: Codable {
                  
                 let k_ltl = rules[k_index]
                 let r_ltl = rules[r_index]
-                
-                var found_knowledge_term = false
                  
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    found_knowledge_term = found_knowledge_term || self.assumptions[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
                 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    found_knowledge_term = found_knowledge_term || self.guarantees[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
                 
-                if (!found_knowledge_term) {
-                    print("WARNING: Knowledge term with content " + k_ltl.description + " was not found in guarantees or assumptions and thus could not be replaced.")
-                }
+                // TODO: maybe add warning if replacement has not worked
                 
                 k_index += 1
                 r_index += 1
