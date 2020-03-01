@@ -119,6 +119,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_01.kbosy"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_test_3KTerms.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
