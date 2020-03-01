@@ -161,8 +161,15 @@ extension LTL {
         case .application(let function, var parameters):
             /* Test if it is case of knowledge operator application using knowledge_ltl argument */
             if function == LTLFunction.know {
-                print("DEBUG: found knowledge term with parameters " + parameters[0].description)
-                return replaced_ltl
+                if (self == knowledge_ltl) {
+                    print("DEBUG: found matching knowledge term " + self.description + " ... is being replaced.")
+                    return replaced_ltl
+                } else {
+                    print("DEBUG-WARNING: knowledge term " + self.description + " not matching " + knowledge_ltl.description + " ... skipping replacement.")
+                    // TODO: change this whenever knowledge operators can be nested
+                    // no changes required because knowledge operators can not be nested and this is not the one we would like to replace
+                    return self
+                }
             } else {
                 /* if not application of knowledge operator call down recursively */
                 for i in 0 ..< parameters.count {
