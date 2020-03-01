@@ -119,15 +119,15 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_01.kbosy"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--synthesize"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/ltl_01.kbosy"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

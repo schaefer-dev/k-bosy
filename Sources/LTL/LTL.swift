@@ -148,6 +148,36 @@ extension LTL {
     }
 
     /**
+    * TODO: implement ability to replace more than one knowledge Term by testing for the equality of the Term that is contained in the
+     * Knowledge operator and only replacing if it matches.
+    */
+    mutating public func replaceKnowledgeWith(knowledge_ltl: LTL, replaced_ltl: LTL) -> Bool {
+        
+        switch self {
+        case .atomicProposition(_):
+            return false
+        case .pathProposition(_, _):
+            return false
+        case .application(let function, var parameters):
+            /* Test if it is case of knowledge operator application using knowledge_ltl argument */
+            if function == LTLFunction.know {
+                print("DEBUG: found knowledge term with parameters " + parameters[0].description)
+                self = replaced_ltl
+                return true
+            } else {
+                /* if not application of knowledge operator call down recursively */
+                var recReturnValue = false
+                for var p in parameters {
+                    recReturnValue = recReturnValue || p.replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                }
+                return recReturnValue
+            }
+        case .pathQuantifier(_, parameters: _, var body):
+            return body.replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+        }
+    }
+
+    /**
      * Returns an equivalent LTL formula in negation normal form.
      */
     public var nnf: LTL {

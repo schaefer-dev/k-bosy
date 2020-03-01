@@ -106,22 +106,25 @@ public struct SynthesisSpecification: Codable {
             var r_index = 1
             
             while r_index < rules_max_index {
-                /* String replacements disabled, have to be replaced by LTL replacements later.
-                TODO: implement application of transformation rules for parsed LTL.
                  
-                let k_string = rules[k_index]
-                let r_string = "(" + rules[r_index] + ")"
+                let k_ltl = rules[k_index]
+                let r_ltl = rules[r_index]
+                
+                var found_knowledge_term = false
                  
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    self.assumptions[i] = self.assumptions[i].replacingOccurrences(of: k_string, with: r_string)
+                    found_knowledge_term = found_knowledge_term || self.assumptions[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
                 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replacingOccurrences(of: k_string, with: r_string)
+                    found_knowledge_term = found_knowledge_term || self.guarantees[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
-                */
+                
+                if (!found_knowledge_term) {
+                    print("WARNING: Knowledge term with content " + k_ltl.description + " was not found in guarantees or assumptions and thus could not be replaced.")
+                }
                 
                 k_index += 1
                 r_index += 1

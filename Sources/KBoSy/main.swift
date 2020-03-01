@@ -54,11 +54,21 @@ do {
                 do {
                     var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
                     print("Decoding completed.")
+                    
+                    print("Guarantees before transformation rules:")
+                    for g in spec.guarantees {
+                        print(g.description)
+                    }
 
                     /* Apply transformation rules that are contained in the input file.*/
                     if !spec.applyTransformationRules(){
                         print("ERROR: Transformation Rules could not be applied.")
                         exit(EXIT_FAILURE)
+                    }
+                    
+                    print("Guarantees after transformation rules:")
+                    for g in spec.guarantees {
+                        print(g.description)
                     }
                   
                 let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
