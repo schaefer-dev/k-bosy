@@ -151,7 +151,7 @@ extension LTL {
     * TODO: implement ability to replace more than one knowledge Term by testing for the equality of the Term that is contained in the
      * Knowledge operator and only replacing if it matches.
     */
-    mutating public func replaceKnowledgeWith(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
+    public func replaceKnowledgeWith(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
         
         switch self {
         case .atomicProposition(let ap):
@@ -170,7 +170,7 @@ extension LTL {
                 }
                 return .application(function, parameters: parameters)
             }
-        case .pathQuantifier(_, parameters: _, var body):
+        case .pathQuantifier(_, parameters: _, let body):
             return body.replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
         }
     }
