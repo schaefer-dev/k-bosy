@@ -148,10 +148,9 @@ extension LTL {
     }
 
     /**
-    * TODO: implement ability to replace more than one knowledge Term by testing for the equality of the Term that is contained in the
-     * Knowledge operator and only replacing if it matches.
+    * Replace occurance(s) of given knowledge term with another given LTL formula. Returns the updated LTL formula in which all replacements have been transformed.
     */
-    public func replaceKnowledgeWith(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
+    public func replaceKnowledgeWithLTL(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
         
         switch self {
         case .atomicProposition(let ap):
@@ -168,19 +167,19 @@ extension LTL {
                     print("DEBUG-WARNING: knowledge term " + self.description + " not matching " + knowledge_ltl.description + " ... skipping replacement.")
                     // also cover cases in which Knowledge Operators are nested
                     for i in 0 ..< parameters.count {
-                        parameters[i] = parameters[i].replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                        parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
                     }
                     return .application(function, parameters: parameters)
                 }
             } else {
                 /* if not application of knowledge operator call down recursively */
                 for i in 0 ..< parameters.count {
-                    parameters[i] = parameters[i].replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                    parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
                 }
                 return .application(function, parameters: parameters)
             }
         case .pathQuantifier(_, parameters: _, let body):
-            return body.replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+            return body.replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
         }
     }
 

@@ -112,12 +112,12 @@ public struct SynthesisSpecification: Codable {
                  
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWithLTL(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
                 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWith(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
                 }
                 
                 // TODO: maybe add warning if replacement has not worked
