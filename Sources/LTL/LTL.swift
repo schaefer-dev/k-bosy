@@ -166,9 +166,11 @@ extension LTL {
                     return replaced_ltl
                 } else {
                     print("DEBUG-WARNING: knowledge term " + self.description + " not matching " + knowledge_ltl.description + " ... skipping replacement.")
-                    // TODO: change this whenever knowledge operators can be nested
-                    // no changes required because knowledge operators can not be nested and this is not the one we would like to replace
-                    return self
+                    // also cover cases in which Knowledge Operators are nested
+                    for i in 0 ..< parameters.count {
+                        parameters[i] = parameters[i].replaceKnowledgeWith(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                    }
+                    return .application(function, parameters: parameters)
                 }
             } else {
                 /* if not application of knowledge operator call down recursively */
