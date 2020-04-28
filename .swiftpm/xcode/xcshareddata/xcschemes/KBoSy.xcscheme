@@ -122,12 +122,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_test_3KTerms.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/ltl_bin-tree.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--synthesize"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_test_3KTerms.kbosy"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--synthesize"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/ltl_01.kbosy"
