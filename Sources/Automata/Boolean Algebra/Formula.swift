@@ -25,3 +25,23 @@ public struct Conjunction {
         literals = literalsContainedInConjunction
     }
 }
+
+
+/* Formula represented as Distjunctive Normal Form (DNF) */
+public struct Formula {
+    var dnf: [Conjunction]
+    
+    public func eval(state: CurrentState) -> Bool {
+        for conj in dnf {
+            // whenever one conjunction is true, then DNF-Formula must be true
+            if (conj.eval(state: state)){
+                return true
+            }
+        }
+        return false
+    }
+    
+    public init(containedConjunctions: [Conjunction]) {
+        dnf = containedConjunctions
+    }
+}
