@@ -24,6 +24,11 @@ do {
                            usage: "A kbosy file which contains LTL spec, assumptions and set of transformation-rules",
                            completion: .filename)
     
+    let automataFile = parser.add(option: "--automata", shortName: "-a",
+                                kind: String.self,
+                                usage: "A Automata file which contains environment automata description",
+                                completion: .filename)
+    
     let synthesize = parser.add(option: "--synthesize",
                                 shortName: "-s",
                                 kind: Bool.self,
@@ -33,49 +38,49 @@ do {
     let argsv = Array(CommandLine.arguments.dropFirst())
     let parguments = try parser.parse(argsv)
     
-    // TODO: generate this APList from input that specifies observable and non-observable APs
-    let globalAPList = APList()
     
-    // Create Sample APs
-    let test_ap1 = AP(name: "test1", observable: true, list: globalAPList)
-    let test_ap2 = AP(name: "test2", observable: true, list: globalAPList)
-    let test_ap3 = AP(name: "test3", observable: false, list: globalAPList)
+    if let automataFilename = parguments.get(automataFile) {
+        
+        /* Verify System requirements */
+        if #available(OSX 10.11, *) {
+            /* System requirements passed */
+            let jsonURL = URL(fileURLWithPath: automataFilename)
+            print("loading json from path: " + jsonURL.path)
+
+
+            /* try to read input JSON File */
+            do {
+                let jsonData =  try Data(contentsOf: jsonURL)
+                print("File data read.")
+                // jsonData can be used
+                let decoder = JSONDecoder()
+                do {
+                    var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                    print("Decoding completed.")
+                    
+                    // TODO: continue to work with data read from json
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                } catch {
+                    /* failed to decode content of jsonData */
+                    print("ERROR during Decoding: " + error.localizedDescription)
+                }
+            } catch {
+                /* failed to read data from jsonURL */
+                print("loading of jsonData error...")
+            }
+        } else {
+            /* failed System Requirements */
+            print("ERROR: Requires at least macOS 10.11")
+            exit(EXIT_FAILURE)
+        }
+    }
     
-    
-    // Create Sample Variables that may occur in a formula, they are linked to APs
-    let lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
-    let lit2: Literal = Variable(negated: true, atomicProposition: globalAPList.lookupAP(apName: "test2")!)
-    let lit3: Literal = Variable(negated: false, atomicProposition: globalAPList.lookupAP(apName: "test3")!)
-    // Create Sample Constats that may occur in a formula
-    let lit4: Literal = Constant(negated: true, truthValue: true)
-    let lit5: Literal = Constant(negated: false, truthValue: false)
-    print(lit1.toString())
-    print(lit2.toString())
-    print(lit3.toString())
-    print(lit4.toString())
-    print(lit5.toString())
-    
-    
-    let currentState = CurrentState()
-    currentState.update_value(ap: test_ap1, value: true)
-    currentState.update_value(ap: test_ap2, value: false)
-    currentState.update_value(ap: test_ap3, value: true)
-    print("written with values: true, false, true")
-    
-    
-    print("resulted in eval result:")
-    print(lit1.eval(state: currentState))
-    print(lit2.eval(state: currentState))
-    print(lit3.eval(state: currentState))
-    print(lit4.eval(state: currentState))
-    print(lit5.eval(state: currentState))
-    
-    
-    
-    
-    
-    print("Early Termination during testing")
-    exit(EXIT_SUCCESS)
     
     
     /* --------------------------------------------------------------------------------------------- */
@@ -116,15 +121,15 @@ do {
                     for g in spec.guarantees {
                         print(g.description)
                     }
-                  
-                let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
-                print("Output file saved.")
-                  
-                if let synt = parguments.get(synthesize), synt {
-                    print("\n--------------------------------------------------")
-                    print("Calling Bosy now....\n")
-                    callBoSy(inputFilename: outputFilename)
-                }
+                      
+                    let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
+                    print("Output file saved.")
+                      
+                    if let synt = parguments.get(synthesize), synt {
+                        print("\n--------------------------------------------------")
+                        print("Calling Bosy now....\n")
+                        callBoSy(inputFilename: outputFilename)
+                    }
                   
                     exit(EXIT_SUCCESS)
                 } catch {

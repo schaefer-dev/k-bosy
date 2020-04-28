@@ -142,15 +142,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_01.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/ltl_bin-tree.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_bin-tree-2state.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/knowledge_test_3KTerms.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_test_3KTerms.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -158,7 +158,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/ltl_01.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
