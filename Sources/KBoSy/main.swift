@@ -19,18 +19,22 @@ do {
                                 seeAlso: "getopt(1)")
     
     /* Specify arguments that can be parsed */
-    let input = parser.add(option: "--input", shortName: "-i",
+    let input = parser.add(option: "--spec", shortName: "-s",
                            kind: String.self,
                            usage: "A kbosy file which contains LTL spec, assumptions and set of transformation-rules",
                            completion: .filename)
     
-    let automataFile = parser.add(option: "--automata", shortName: "-a",
+    let automataFile = parser.add(option: "--info", shortName: "-i",
                                 kind: String.self,
-                                usage: "A Automata file which contains environment automata description",
+                                usage: "A Automata file which contains environment automata information",
+                                completion: .filename)
+    
+    let dotFile = parser.add(option: "--dot", shortName: "-d",
+                                kind: String.self,
+                                usage: "A Dot Graph file which describes the behaviour of the environment",
                                 completion: .filename)
     
     let synthesize = parser.add(option: "--synthesize",
-                                shortName: "-s",
                                 kind: Bool.self,
                                 usage: "enables following bosy call to synthesize transformed spec.",
                                 completion: ShellCompletion.none)
@@ -55,10 +59,12 @@ do {
                 // jsonData can be used
                 let decoder = JSONDecoder()
                 do {
-                    var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                    var automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
                     print("Decoding completed.")
                     
-                    // TODO: continue to work with data read from json
+                    // TODO: continue to work with automata info read from json
+                    
+                    // TODO: read dot graph now
                     
                     
                     
@@ -151,7 +157,7 @@ do {
         
     /* --input argument has not been specified */
     } else {
-        print("ERROR: Input file has to be specified!")
+        print("No Specification file for following synthesis has been given!")
         exit(EXIT_FAILURE)
     }
 

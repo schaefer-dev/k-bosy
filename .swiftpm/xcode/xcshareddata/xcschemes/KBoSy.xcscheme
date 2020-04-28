@@ -118,6 +118,16 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "IOTests"
+               BuildableName = "IOTests"
+               BlueprintName = "IOTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -142,23 +152,27 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_01.kbosy"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_bin-tree-2state.kbosy"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_bin-tree-2state.kbosy"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/test_automata.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_test_3KTerms.kbosy"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_test_3KTerms.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--synthesize"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_01.kbosy"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

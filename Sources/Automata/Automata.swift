@@ -1,46 +1,42 @@
 import Foundation
 
-public struct AutomataInput: Codable {
+public struct AutomataInfo: Codable {
     public let observableAP: [String]
     public let hiddenAP: [String]
     public let outputs: [String]
     public let initialStates: [String]
-    public let dotGraph: String
 
-    public init(observableAP: [String], hiddenAP: [String], outputs: [String], initialStates: [String], dotGraph: String) {
+    public init(observableAP: [String], hiddenAP: [String], outputs: [String], initialStates: [String]) {
         self.observableAP = observableAP
         self.hiddenAP = hiddenAP
         self.outputs = outputs
         self.initialStates = initialStates
-        self.dotGraph = dotGraph
     }
     
-    
-    
-    public static func fromJson(string: String) -> AutomataInput? {
+    public static func fromJson(string: String) -> AutomataInfo? {
 
         let decoder = JSONDecoder()
         guard let data = string.data(using: .utf8) else {
             return nil
         }
         do {
-            return try decoder.decode(AutomataInput.self, from: data)
+            return try decoder.decode(AutomataInfo.self, from: data)
         } catch {
             return nil
         }
     }
     
 
-    public static func from(fileName: String) throws -> AutomataInput {
+    public static func from(fileName: String) throws -> AutomataInfo {
         // get file contents
         let data = try Data(contentsOf: URL(fileURLWithPath: fileName))
         return try from(data: data)
     }
 
     
-    public static func from(data: Data) throws -> AutomataInput {
+    public static func from(data: Data) throws -> AutomataInfo {
         // parse contents of `data`
-        return try JSONDecoder().decode(AutomataInput.self, from: data)
+        return try JSONDecoder().decode(AutomataInfo.self, from: data)
     }
     
     
