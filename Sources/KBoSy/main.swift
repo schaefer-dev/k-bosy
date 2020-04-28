@@ -43,12 +43,12 @@ do {
     
     
     // Create Sample Variables that may occur in a formula, they are linked to APs
-    var lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
-    var lit2: Literal = Variable(negated: true, atomicProposition: globalAPList.lookupAP(apName: "test2")!)
-    var lit3: Literal = Variable(negated: false, atomicProposition: globalAPList.lookupAP(apName: "test3")!)
+    let lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
+    let lit2: Literal = Variable(negated: true, atomicProposition: globalAPList.lookupAP(apName: "test2")!)
+    let lit3: Literal = Variable(negated: false, atomicProposition: globalAPList.lookupAP(apName: "test3")!)
     // Create Sample Constats that may occur in a formula
-    var lit4: Literal = Constant(negated: true, truthValue: true)
-    var lit5: Literal = Constant(negated: false, truthValue: false)
+    let lit4: Literal = Constant(negated: true, truthValue: true)
+    let lit5: Literal = Constant(negated: false, truthValue: false)
     print(lit1.toString())
     print(lit2.toString())
     print(lit3.toString())
@@ -56,7 +56,7 @@ do {
     print(lit5.toString())
     
     
-    var currentState = CurrentState()
+    let currentState = CurrentState()
     currentState.update_value(ap: test_ap1, value: true)
     currentState.update_value(ap: test_ap2, value: false)
     currentState.update_value(ap: test_ap3, value: true)

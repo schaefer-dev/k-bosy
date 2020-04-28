@@ -17,8 +17,8 @@ public class APList {
     }
     
     public func addAP(ap: AP) {
-        if let existingValue = mapping[ap.id] {
-                print("CRITICAL ERROR: tried to add already contained AP into APList")
+        if (mapping[ap.id] != nil) {
+            print("CRITICAL ERROR: tried to add already contained AP into APList")
             return
         }
         mapping[ap.id] = ap
