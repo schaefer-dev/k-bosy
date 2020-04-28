@@ -44,8 +44,8 @@ do {
     
     // Create Sample Variables that may occur in a formula, they are linked to APs
     var lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
-    var lit2: Literal = Variable(negated: true, atomicProposition: test_ap2)
-    var lit3: Literal = Variable(negated: false, atomicProposition: test_ap3)
+    var lit2: Literal = Variable(negated: true, atomicProposition: globalAPList.lookupAP(apName: "test2")!)
+    var lit3: Literal = Variable(negated: false, atomicProposition: globalAPList.lookupAP(apName: "test3")!)
     // Create Sample Constats that may occur in a formula
     var lit4: Literal = Constant(negated: true, truthValue: true)
     var lit5: Literal = Constant(negated: false, truthValue: false)

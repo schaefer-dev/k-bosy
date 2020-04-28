@@ -24,7 +24,7 @@ public class APList {
         mapping[ap.id] = ap
     }
     
-    public func getAP(apName: String) -> AP? {
+    public func lookupAP(apName: String) -> AP? {
         if let ap = mapping[apName] {
                 return ap
             } else {
