@@ -9,6 +9,7 @@ import Foundation
 import SPMUtility
 import Utils
 import Specification
+import Automata
 
 do {
     /* Create Argument Parser */
@@ -33,7 +34,40 @@ do {
     let parguments = try parser.parse(argsv)
     
     
+    let test_ap1 = AP(name: "test1", observable: true)
+    let test_ap2 = AP(name: "test2", observable: true)
+    let test_ap3 = AP(name: "test3", observable: true)
     
+    var lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
+    var lit2: Literal = Variable(negated: true, atomicProposition: test_ap2)
+    var lit3: Literal = Variable(negated: false, atomicProposition: test_ap3)
+    print(lit1.toString())
+    print(lit2.toString())
+    print(lit3.toString())
+    
+    
+    var currentState = CurrentState()
+    currentState.update_value(ap: test_ap1, value: true)
+    currentState.update_value(ap: test_ap2, value: false)
+    currentState.update_value(ap: test_ap3, value: true)
+    print("written with values: true, false, true")
+    
+    
+    print("resulted in eval result:")
+    print(lit1.eval(state: currentState))
+    print(lit2.eval(state: currentState))
+    print(lit3.eval(state: currentState))
+    
+    
+    
+    
+    
+    print("Early Termination during testing")
+    exit(EXIT_SUCCESS)
+    
+    
+    /* --------------------------------------------------------------------------------------------- */
+    /* Starting of reading kbosy spec file and performing translation into LTL followed by synthesis */
     
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
