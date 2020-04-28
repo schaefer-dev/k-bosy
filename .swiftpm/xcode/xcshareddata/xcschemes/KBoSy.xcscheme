@@ -76,6 +76,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Automata"
+               BuildableName = "Automata"
+               BlueprintName = "Automata"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -91,6 +105,16 @@
                BlueprintIdentifier = "KBoSyTests"
                BuildableName = "KBoSyTests"
                BlueprintName = "KBoSyTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BooleanAlgebraTests"
+               BuildableName = "BooleanAlgebraTests"
+               BlueprintName = "BooleanAlgebraTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
