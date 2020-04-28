@@ -63,8 +63,8 @@ do {
                     print("Decoding completed.")
                     
                     // TODO: continue to work with automata info read from json
-                    
-                    // TODO: read dot graph now
+                    // TODO: read dot graph here
+                    // TODO: using automataInfo and DotGraph construct automata class which contains all this information. Afterwards free the ressources used by the prior two.
                     
                     
                     
