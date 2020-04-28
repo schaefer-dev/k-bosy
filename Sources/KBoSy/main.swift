@@ -33,17 +33,27 @@ do {
     let argsv = Array(CommandLine.arguments.dropFirst())
     let parguments = try parser.parse(argsv)
     
+    // TODO: generate this APList from input that specifies observable and non-observable APs
+    let globalAPList = APList()
     
-    let test_ap1 = AP(name: "test1", observable: true)
-    let test_ap2 = AP(name: "test2", observable: true)
-    let test_ap3 = AP(name: "test3", observable: true)
+    // Create Sample APs
+    let test_ap1 = AP(name: "test1", observable: true, list: globalAPList)
+    let test_ap2 = AP(name: "test2", observable: true, list: globalAPList)
+    let test_ap3 = AP(name: "test3", observable: false, list: globalAPList)
     
+    
+    // Create Sample Variables that may occur in a formula, they are linked to APs
     var lit1: Literal = Variable(negated: true, atomicProposition: test_ap1)
     var lit2: Literal = Variable(negated: true, atomicProposition: test_ap2)
     var lit3: Literal = Variable(negated: false, atomicProposition: test_ap3)
+    // Create Sample Constats that may occur in a formula
+    var lit4: Literal = Constant(negated: true, truthValue: true)
+    var lit5: Literal = Constant(negated: false, truthValue: false)
     print(lit1.toString())
     print(lit2.toString())
     print(lit3.toString())
+    print(lit4.toString())
+    print(lit5.toString())
     
     
     var currentState = CurrentState()
@@ -57,6 +67,8 @@ do {
     print(lit1.eval(state: currentState))
     print(lit2.eval(state: currentState))
     print(lit3.eval(state: currentState))
+    print(lit4.eval(state: currentState))
+    print(lit5.eval(state: currentState))
     
     
     

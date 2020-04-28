@@ -8,14 +8,41 @@
 import Foundation
 
 
+public class APList {
+    private var mapping : [String : AP]
+    
+    
+    public init() {
+        mapping = [String : AP]()
+    }
+    
+    public func addAP(ap: AP) {
+        if let existingValue = mapping[ap.id] {
+                print("CRITICAL ERROR: tried to add already contained AP into APList")
+            return
+        }
+        mapping[ap.id] = ap
+    }
+    
+    public func getAP(apName: String) -> AP? {
+        if let ap = mapping[apName] {
+                return ap
+            } else {
+                print("CRITICAL ERROR: requested non-existant AP from APList")
+                return nil
+            }
+    }
+}
+
 // make id and obs non-changable!
 public class AP : Hashable {
     var id : String
     var obs : Bool
     
-    public init(name: String, observable: Bool) {
+    public init(name: String, observable: Bool, list: APList) {
         id = name
         obs = observable
+        list.addAP(ap: self)
     }
     
     public static func == (ap1: AP, ap2: AP) -> Bool {
