@@ -8,7 +8,7 @@ import Foundation
 class KnowledgeTransformationTest: XCTestCase {
     
     
-    func testKnowledge01() {
+    func testTransformationKnowledge01() {
         let specOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/knowledge_01.kbosy")
         XCTAssert(specOpt != nil)
         var spec = specOpt!
@@ -36,8 +36,6 @@ class KnowledgeTransformationTest: XCTestCase {
         
         XCTAssertEqual(spec.guarantees[0].description, "F (go)")
         XCTAssertEqual(spec.guarantees[1].description, "G ((go) -> ((indicatingRight) ∨ (pastCrossing)))")
-        
-        
         
     }
 

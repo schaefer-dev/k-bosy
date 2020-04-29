@@ -22,11 +22,11 @@ let package = Package(
         .target(name: "KBoSy", dependencies: ["SPMUtility", "Specification", "LTL", "Utils", "Automata"]),
         //.testTarget(name: "KBoSyTests", dependencies: ["KBoSy"]),
         .target(name: "LTL", dependencies: []),
-        .target(name: "Specification", dependencies: ["LTL"]),
+        .target(name: "Specification", dependencies: ["LTL", "Automata"]),
         .target(name: "Utils", dependencies: ["LTL"]),
         .target(name: "Automata", dependencies: []),
         .testTarget(name: "BooleanAlgebraTests", dependencies: ["Automata"]),
         .testTarget(name: "IOTests", dependencies: ["Automata", "Specification"]),
-        .testTarget(name: "KnowledgeTransformationTests", dependencies: ["Specification"])
+        .testTarget(name: "KnowledgeSpecificTests", dependencies: ["Specification"])
     ]
 )

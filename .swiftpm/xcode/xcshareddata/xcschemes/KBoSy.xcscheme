@@ -138,6 +138,26 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "KSynthesisTaskTests"
+               BuildableName = "KSynthesisTaskTests"
+               BlueprintName = "KSynthesisTaskTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "KnowledgeSpecificTests"
+               BuildableName = "KnowledgeSpecificTests"
+               BlueprintName = "KnowledgeSpecificTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

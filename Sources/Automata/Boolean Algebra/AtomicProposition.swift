@@ -38,10 +38,12 @@ public class APList {
 public class AP : Hashable {
     var id : String
     var obs : Bool
+    var output : Bool
     
-    public init(name: String, observable: Bool, list: APList) {
-        id = name
-        obs = observable
+    public init(name: String, observable: Bool, list: APList, output: Bool = false) {
+        self.id = name
+        self.obs = observable
+        self.output = output
         list.addAP(ap: self)
     }
     
