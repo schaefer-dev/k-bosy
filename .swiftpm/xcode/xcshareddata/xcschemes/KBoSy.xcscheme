@@ -182,8 +182,12 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_01.kbosy"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/knowledge_01.kbosy"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.gv"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_bin-tree-2state.kbosy"
@@ -202,7 +206,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/test_automata.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

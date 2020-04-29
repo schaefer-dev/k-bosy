@@ -94,4 +94,3 @@ public func readAutomataInfoFile(path: String) -> AutomataInfo? {
     }
     return nil
 }
-

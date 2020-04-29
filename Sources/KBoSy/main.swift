@@ -24,7 +24,7 @@ do {
                            usage: "A kbosy file which contains LTL spec, assumptions and set of transformation-rules",
                            completion: .filename)
     
-    let automataFile = parser.add(option: "--info", shortName: "-i",
+    let automataInfoFile = parser.add(option: "--info", shortName: "-i",
                                 kind: String.self,
                                 usage: "A Automata file which contains environment automata information",
                                 completion: .filename)
@@ -47,10 +47,9 @@ do {
     
     
     /* --------------------------------------------------------------------------------------------- */
-    /* Starting of reading Automata file(s) and performing minimization of automata with following
-        Generation of transformation rules  */
-    if let automataFilename = parguments.get(automataFile) {
-        var automataInfoOpt = readAutomataInfoFile(path: automataFilename)
+    /* Starting of reading Automata file(s) */
+    if let automataInfoFilename = parguments.get(automataInfoFile) {
+        var automataInfoOpt = readAutomataInfoFile(path: automataInfoFilename)
         if (automataInfoOpt == nil) {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
@@ -58,6 +57,22 @@ do {
         let automataInfo = automataInfoOpt!
         print(automataInfo.hiddenAP)
     }
+    
+    if let dotGraphFilename = parguments.get(dotFile) {
+        var automataOpt = readDotGraphFile(path: dotGraphFilename)
+        if (automataOpt == nil) {
+            print("ERROR: something went wrong while reading AutomataInfo File")
+            exit(EXIT_FAILURE)
+        }
+        let automata = automataOpt!
+    }
+    
+    
+    
+    /* performing minimization of automata with following Generation of transformation rules */
+    
+    // TODO: implement
+    
     
     
     
