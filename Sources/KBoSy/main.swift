@@ -43,6 +43,12 @@ do {
     let parguments = try parser.parse(argsv)
     
     
+    
+    
+    
+    /* --------------------------------------------------------------------------------------------- */
+    /* Starting of reading Automata file(s) and performing minimization of automata with following
+        Generation of transformation rules  */
     if let automataFilename = parguments.get(automataFile) {
         var automataInfoOpt = readAutomataInfoFile(path: automataFilename)
         if (automataInfoOpt == nil) {
@@ -84,8 +90,11 @@ do {
         for g in spec.guarantees {
             print(g.description)
         }
-          
-        let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
+        
+        let inputFilePath = inputFilename.split(separator: "/")
+        let inputFilePathLastComponent = String(inputFilePath[inputFilePath.count - 1])
+        
+        let outputFilename = spec.writeJsonToDir(inputFileName: inputFilePathLastComponent, dir: getMasterSpecDirectory())
         print("Output file saved.")
           
         if let synt = parguments.get(synthesize), synt {
@@ -94,7 +103,7 @@ do {
             callBoSy(inputFilename: outputFilename)
         }
       
-        exit(EXIT_SUCCESS)     
+        exit(EXIT_SUCCESS)
         
     /* --input argument has not been specified */
     } else {
@@ -112,7 +121,7 @@ do {
 }
 
 
-func readAutomataInfoFile(path: String) -> AutomataInfo? {
+func readSpecificationFile(path: String) -> SynthesisSpecification? {
     /* Verify System requirements */
     if #available(OSX 10.11, *) {
         /* System requirements passed */
@@ -127,7 +136,7 @@ func readAutomataInfoFile(path: String) -> AutomataInfo? {
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
-                var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
                 print("Decoding completed.")
                 return spec
                 
@@ -148,8 +157,7 @@ func readAutomataInfoFile(path: String) -> AutomataInfo? {
 }
 
 
-
-func readSpecificationFile(path: String) -> SynthesisSpecification? {
+func readAutomataInfoFile(path: String) -> AutomataInfo? {
     /* Verify System requirements */
     if #available(OSX 10.11, *) {
         /* System requirements passed */

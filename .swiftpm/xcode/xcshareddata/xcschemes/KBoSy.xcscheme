@@ -153,7 +153,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/knowledge_01.kbosy"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_bin-tree-2state.kbosy"
@@ -169,7 +169,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--synthesize"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_01.kbosy"
