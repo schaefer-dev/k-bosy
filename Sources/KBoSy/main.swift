@@ -44,47 +44,13 @@ do {
     
     
     if let automataFilename = parguments.get(automataFile) {
-        
-        /* Verify System requirements */
-        if #available(OSX 10.11, *) {
-            /* System requirements passed */
-            let jsonURL = URL(fileURLWithPath: automataFilename)
-            print("loading json from path: " + jsonURL.path)
-
-
-            /* try to read input JSON File */
-            do {
-                let jsonData =  try Data(contentsOf: jsonURL)
-                print("File data read.")
-                // jsonData can be used
-                let decoder = JSONDecoder()
-                do {
-                    var automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
-                    print("Decoding completed.")
-                    
-                    // TODO: continue to work with automata info read from json
-                    // TODO: read dot graph here
-                    // TODO: using automataInfo and DotGraph construct automata class which contains all this information. Afterwards free the ressources used by the prior two.
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                } catch {
-                    /* failed to decode content of jsonData */
-                    print("ERROR during Decoding: " + error.localizedDescription)
-                }
-            } catch {
-                /* failed to read data from jsonURL */
-                print("loading of jsonData error...")
-            }
-        } else {
-            /* failed System Requirements */
-            print("ERROR: Requires at least macOS 10.11")
+        var automataInfoOpt = readAutomataInfoFile(path: automataFilename)
+        if (automataInfoOpt == nil) {
+            print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
         }
+        let automataInfo = automataInfoOpt!
+        print(automataInfo.hiddenAP)
     }
     
     
@@ -95,65 +61,40 @@ do {
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
         
-        /* Verify System requirements */
-        if #available(OSX 10.11, *) {
-            /* System requirements passed */
-            let jsonURL = URL(fileURLWithPath: inputFilename)
-            print("loading json from path: " + jsonURL.path)
-
-
-            /* try to read input JSON File */
-            do {
-                let jsonData =  try Data(contentsOf: jsonURL)
-                print("File data read.")
-                // jsonData can be used
-                let decoder = JSONDecoder()
-                do {
-                    var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
-                    print("Decoding completed.")
+        var specOpt = readSpecificationFile(path: inputFilename)
+        if (specOpt == nil) {
+            print("ERROR: something went wrong while reading specifictaion File")
+            exit(EXIT_FAILURE)
+        }
+        var spec = specOpt!
+        
                     
-                    print("Guarantees before transformation rules:")
-                    for g in spec.guarantees {
-                        print(g.description)
-                    }
+        print("Guarantees before transformation rules:")
+        for g in spec.guarantees {
+            print(g.description)
+        }
 
-                    /* Apply transformation rules that are contained in the input file.*/
-                    if !spec.applyTransformationRules(){
-                        print("ERROR: Transformation Rules could not be applied.")
-                        exit(EXIT_FAILURE)
-                    }
-                    
-                    print("Guarantees after transformation rules:")
-                    for g in spec.guarantees {
-                        print(g.description)
-                    }
-                      
-                    let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
-                    print("Output file saved.")
-                      
-                    if let synt = parguments.get(synthesize), synt {
-                        print("\n--------------------------------------------------")
-                        print("Calling Bosy now....\n")
-                        callBoSy(inputFilename: outputFilename)
-                    }
-                  
-                    exit(EXIT_SUCCESS)
-                } catch {
-                    /* failed to decode content of jsonData */
-                    print("ERROR during Decoding: " + error.localizedDescription)
-                }
-            } catch {
-                /* failed to read data from jsonURL */
-                print("loading of jsonData error...")
-            }
-        } else {
-            /* failed System Requirements */
-            print("ERROR: Requires at least macOS 10.11")
+        /* Apply transformation rules that are contained in the input file.*/
+        if !spec.applyTransformationRules(){
+            print("ERROR: Transformation Rules could not be applied.")
             exit(EXIT_FAILURE)
         }
         
-        
-        
+        print("Guarantees after transformation rules:")
+        for g in spec.guarantees {
+            print(g.description)
+        }
+          
+        let outputFilename = spec.writeJsonToDir(inputFileName: jsonURL.lastPathComponent, dir: getMasterSpecDirectory())
+        print("Output file saved.")
+          
+        if let synt = parguments.get(synthesize), synt {
+            print("\n--------------------------------------------------")
+            print("Calling Bosy now....\n")
+            callBoSy(inputFilename: outputFilename)
+        }
+      
+        exit(EXIT_SUCCESS)     
         
     /* --input argument has not been specified */
     } else {
@@ -168,4 +109,77 @@ do {
     print("Parser: \(parser) Missing arguments: \(stringArray.joined()).")
 } catch {
     print(error.localizedDescription)
+}
+
+
+func readAutomataInfoFile(path: String) -> AutomataInfo? {
+    /* Verify System requirements */
+    if #available(OSX 10.11, *) {
+        /* System requirements passed */
+        let jsonURL = URL(fileURLWithPath: path)
+        print("loading json from path: " + jsonURL.path)
+
+
+        /* try to read input JSON File */
+        do {
+            let jsonData =  try Data(contentsOf: jsonURL)
+            print("File data read.")
+            // jsonData can be used
+            let decoder = JSONDecoder()
+            do {
+                var spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
+                print("Decoding completed.")
+                return spec
+                
+                
+            } catch {
+                /* failed to decode content of jsonData */
+                print("ERROR during Decoding: " + error.localizedDescription)
+            }
+        } catch {
+            /* failed to read data from jsonURL */
+            print("loading of jsonData error...")
+        }
+    } else {
+        /* failed System Requirements */
+        print("ERROR: Requires at least macOS 10.11")
+    }
+    return nil
+}
+
+
+
+func readSpecificationFile(path: String) -> SynthesisSpecification? {
+    /* Verify System requirements */
+    if #available(OSX 10.11, *) {
+        /* System requirements passed */
+        let jsonURL = URL(fileURLWithPath: path)
+        print("loading json from path: " + jsonURL.path)
+
+
+        /* try to read input JSON File */
+        do {
+            let jsonData =  try Data(contentsOf: jsonURL)
+            print("File data read.")
+            // jsonData can be used
+            let decoder = JSONDecoder()
+            do {
+                var automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
+                print("Decoding completed.")
+                return automataInfo
+                
+                
+            } catch {
+                /* failed to decode content of jsonData */
+                print("ERROR during Decoding: " + error.localizedDescription)
+            }
+        } catch {
+            /* failed to read data from jsonURL */
+            print("loading of jsonData error...")
+        }
+    } else {
+        /* failed System Requirements */
+        print("ERROR: Requires at least macOS 10.11")
+    }
+    return nil
 }
