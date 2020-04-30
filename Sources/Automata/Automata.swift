@@ -10,13 +10,25 @@ import Foundation
 
 // Represents dot Graph
 public class Automata {
-    public var info: AutomataInfo
+    public var apList: APList
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
     //public var transition_relation: [Transition]
     
     init(info: AutomataInfo) {
-        self.info = info
+        // TODO generate aplist from automataInfo
+        self.apList = APList()
+        
+        for ap in info.hiddenAP {
+            let ap = AP(name: ap, observable: false, list: self.apList)
+        }
+        for ap in info.observableAP {
+            let ap = AP(name: ap, observable: true, list: self.apList)
+        }
+        for ap in info.outputs {
+            let ap = AP(name: ap, observable: true, list: self.apList, output: true)
+        }
+        
         initial_states = []
         //transition_relation = []
         all_states = [String: AutomataState]()
@@ -70,16 +82,30 @@ public class Automata {
         let startState = self.get_state(name: start_str)!
         let endState = self.get_state(name: end_str)!
 
+        let cond_trimmed = condition.trimmingCharacters(in: .whitespacesAndNewlines)
+        let first_split = cond_trimmed.components(separatedBy: "/")
         
-        let first_split = condition.components(separatedBy: "/")
-        // TODO: parse action first
-        
+        var action: Formula? = nil
+        if (first_split.count == 2) {
+            // parse action
+            let action_string = first_split[1].trimmingCharacters(in: .whitespacesAndNewlines)
+            if (action_string != "") {
+                // TODO: add handling for cases in which more than one actions happens
+                let apOpt = self.apList.lookupAP(apName: action_string)
+                if (apOpt == nil) {
+                } else {
+                    let variable = Variable(negated: false, atomicProposition: apOpt!)
+                    let conj = Conjunction(literalsContainedInConjunction: [variable])
+                    action = Formula(containedConjunctions: [conj])
+                }
+            }
+        } else if (first_split.count > 2) {
+            print("ERROR: two '/' encounted in one transition, parsing error!")
+        }
         
         
         let condition = Formula(containedConjunctions: [])
-        let action = Formula(containedConjunctions: [])
         
-        // Create transition and add to start state
         let new_transition = Transition(start: startState, condition: condition, end: endState, action: action)
         startState.addTransition(trans: new_transition)
     }
@@ -128,14 +154,20 @@ public class Transition {
     public let start: AutomataState
     public let condition: Formula
     public let end: AutomataState
-    public let action: Formula
+    public let action: Formula?
     
     // Creates Transition and adds itself to Automata and correct states
-    public init (start: AutomataState, condition: Formula, end: AutomataState, action: Formula) {
+    public init (start: AutomataState, condition: Formula, end: AutomataState, action: Formula?) {
         self.start = start
         self.condition = condition
         self.end = end
         self.action = action
+        if (action != nil) {
+            let action_str = action!.dnf[0].literals[0].toString()
+            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + "' with action contained being " + action_str)
+        } else {
+            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with no action contained")
+        }
     }
 }
 
@@ -178,7 +210,7 @@ public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
                 } else {
                     // Condition to find transition description line
                     if (wildcard(content_lines[index], pattern: "?* -> ?*")) {
-                        print("DEBUG: Transition found in Statement " + String(index + 1))
+                        //print("DEBUG: Transition found in Statement " + String(index + 1))
                         let substrings = content_lines[index].components(separatedBy: " -> ")
                         let start_state = substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                         let right_substrings = substrings[1].components(separatedBy: "[")

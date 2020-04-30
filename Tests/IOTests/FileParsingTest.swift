@@ -31,9 +31,6 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(automataInfo.outputs[1], "o2")
         XCTAssertEqual(automataInfo.outputs.count, 2)
         
-        XCTAssertEqual(automataInfo.initialStates[0], "s1")
-        XCTAssertEqual(automataInfo.initialStates[1], "s2")
-        XCTAssertEqual(automataInfo.initialStates.count, 2)
     }
     
     
@@ -54,7 +51,7 @@ class FileParsingTest: XCTestCase {
     }
     
     func testDotGraphParsing() {
-        let automataInfoOpt = readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy")
+        let automataInfoOpt = readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -78,6 +75,12 @@ class FileParsingTest: XCTestCase {
         
         
         // TODO: test if conditions and actions of transitions are parsed correctly
+        
+        let action: Formula = dotGraph.get_state(name: "s0")!.transitions[0].action!
+        XCTAssertTrue(dotGraph.get_state(name: "s0")!.transitions[0].action != nil)
+        XCTAssertTrue(dotGraph.get_state(name: "s0")!.transitions[0].action! != nil)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].action!.dnf[0].literals[0].toString(), "go")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].end.name, "s0")
     }
 
 }

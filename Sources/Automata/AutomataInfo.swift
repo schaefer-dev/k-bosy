@@ -4,13 +4,11 @@ public struct AutomataInfo: Codable {
     public let observableAP: [String]
     public let hiddenAP: [String]
     public let outputs: [String]
-    public let initialStates: [String]
 
-    public init(observableAP: [String], hiddenAP: [String], outputs: [String], initialStates: [String]) {
+    public init(observableAP: [String], hiddenAP: [String], outputs: [String]) {
         self.observableAP = observableAP
         self.hiddenAP = hiddenAP
         self.outputs = outputs
-        self.initialStates = initialStates
     }
     
     public static func fromJson(string: String) -> AutomataInfo? {
