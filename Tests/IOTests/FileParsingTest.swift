@@ -54,7 +54,12 @@ class FileParsingTest: XCTestCase {
     }
     
     func testDotGraphParsing() {
-        let dotGraphOpt = readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv")
+        let automataInfoOpt = readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        
+        let dotGraphOpt = readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let dotGraph = dotGraphOpt!
         

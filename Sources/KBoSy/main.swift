@@ -31,7 +31,7 @@ do {
     
     let dotFile = parser.add(option: "--dot", shortName: "-d",
                                 kind: String.self,
-                                usage: "A Dot Graph file which describes the behaviour of the environment",
+                                usage: "A Dot Graph file which describes the behaviour of the environment. Requires automataInfo to be also given.",
                                 completion: .filename)
     
     let synthesize = parser.add(option: "--synthesize",
@@ -55,17 +55,18 @@ do {
             exit(EXIT_FAILURE)
         }
         let automataInfo = automataInfoOpt!
-        print(automataInfo.hiddenAP)
+        
+        if let dotGraphFilename = parguments.get(dotFile) {
+            var automataOpt = readDotGraphFile(path: dotGraphFilename, info: automataInfo)
+            if (automataOpt == nil) {
+                print("ERROR: something went wrong while reading AutomataInfo File")
+                exit(EXIT_FAILURE)
+            }
+            let automata = automataOpt!
+        }
     }
     
-    if let dotGraphFilename = parguments.get(dotFile) {
-        var automataOpt = readDotGraphFile(path: dotGraphFilename)
-        if (automataOpt == nil) {
-            print("ERROR: something went wrong while reading AutomataInfo File")
-            exit(EXIT_FAILURE)
-        }
-        let automata = automataOpt!
-    }
+    
     
     
     

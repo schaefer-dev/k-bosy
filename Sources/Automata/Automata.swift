@@ -10,11 +10,13 @@ import Foundation
 
 // Represents dot Graph
 public class Automata {
+    public var info: AutomataInfo
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
     //public var transition_relation: [Transition]
     
-    init() {
+    init(info: AutomataInfo) {
+        self.info = info
         initial_states = []
         //transition_relation = []
         all_states = [String: AutomataState]()
@@ -68,9 +70,12 @@ public class Automata {
         let startState = self.get_state(name: start_str)!
         let endState = self.get_state(name: end_str)!
 
-
-        // TODO: parse condition into Transition Class
-        print("TODO: parse " + condition)
+        
+        let first_split = condition.components(separatedBy: "/")
+        // TODO: parse action first
+        
+        
+        
         let condition = Formula(containedConjunctions: [])
         let action = Formula(containedConjunctions: [])
         
@@ -136,7 +141,7 @@ public class Transition {
 
 
 
-public func readDotGraphFile(path: String) -> Automata? {
+public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
     /* Verify System requirements */
     if #available(OSX 10.11, *) {
         /* System requirements passed */
@@ -157,7 +162,7 @@ public func readDotGraphFile(path: String) -> Automata? {
             }
             
             // Parsing of dot graph File starts now
-            var automata = Automata()
+            var automata = Automata(info: info)
             
             // cleanup loop to remove irrelevant lines
             var index = 0
