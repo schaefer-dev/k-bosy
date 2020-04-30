@@ -54,13 +54,21 @@ class FileParsingTest: XCTestCase {
     }
     
     func testDotGraphParsing() {
-        let dotGraphOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.gv")
+        let dotGraphOpt = readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv")
         XCTAssert(dotGraphOpt != nil)
         let dotGraph = dotGraphOpt!
         
+        XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[0].start.name, "s0")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[0].end.name, "s1")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[1].start.name, "s0")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[1].end.name, "s0")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[2].start.name, "s1")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions[2].end.name, "s1")
+        XCTAssertEqual(dotGraph.initial_states[0].transitions.count, 3)
+        
         
         // Testing if JSON has been read correctly
-        
     }
 
 }
