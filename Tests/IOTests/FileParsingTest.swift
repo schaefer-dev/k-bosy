@@ -52,5 +52,15 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(spec.outputs[0], "go")
         XCTAssertEqual(spec.outputs.count, 1)
     }
+    
+    func testDotGraphParsing() {
+        let dotGraphOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.gv")
+        XCTAssert(dotGraphOpt != nil)
+        let dotGraph = dotGraphOpt!
+        
+        
+        // Testing if JSON has been read correctly
+        
+    }
 
 }
