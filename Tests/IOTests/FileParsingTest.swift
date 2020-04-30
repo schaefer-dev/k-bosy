@@ -31,9 +31,6 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(automataInfo.outputs[1], "o2")
         XCTAssertEqual(automataInfo.outputs.count, 2)
         
-        XCTAssertEqual(automataInfo.initialStates[0], "s1")
-        XCTAssertEqual(automataInfo.initialStates[1], "s2")
-        XCTAssertEqual(automataInfo.initialStates.count, 2)
     }
     
     
@@ -51,6 +48,40 @@ class FileParsingTest: XCTestCase {
         
         XCTAssertEqual(spec.outputs[0], "go")
         XCTAssertEqual(spec.outputs.count, 1)
+    }
+    
+    func testDotGraphParsingSingleAction() {
+        let automataInfoOpt = readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        
+        let dotGraphOpt = readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let dotGraph = dotGraphOpt!
+        
+        // s0 is only initial state
+        XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
+        XCTAssertEqual(dotGraph.initial_states.count, 1)
+        
+        // s0 has outgoing transitions to s1 and s0
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].end.name, "s1")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].end.name, "s0")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions.count, 2)
+        
+        // s1 has only one outgoing transition to s1
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].end.name, "s1")
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions.count, 1)
+        
+        
+        // test if SINGLE actions of transitions are parsed correctly
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].action!.dnf[0].literals[0].toString(), "go")
+        let action2: Formula? = dotGraph.get_state(name: "s0")!.transitions[1].action
+        XCTAssertEqual(action2, nil)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].action!.dnf[0].literals[0].toString(), "go")
+        
+        
+        // TODO: test if conditions are parsed correctly
     }
 
 }

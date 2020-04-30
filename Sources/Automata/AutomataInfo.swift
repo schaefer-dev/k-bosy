@@ -4,13 +4,11 @@ public struct AutomataInfo: Codable {
     public let observableAP: [String]
     public let hiddenAP: [String]
     public let outputs: [String]
-    public let initialStates: [String]
 
-    public init(observableAP: [String], hiddenAP: [String], outputs: [String], initialStates: [String]) {
+    public init(observableAP: [String], hiddenAP: [String], outputs: [String]) {
         self.observableAP = observableAP
         self.hiddenAP = hiddenAP
         self.outputs = outputs
-        self.initialStates = initialStates
     }
     
     public static func fromJson(string: String) -> AutomataInfo? {
@@ -65,18 +63,18 @@ public func readAutomataInfoFile(path: String) -> AutomataInfo? {
     if #available(OSX 10.11, *) {
         /* System requirements passed */
         let jsonURL = URL(fileURLWithPath: path)
-        print("loading json from path: " + jsonURL.path)
+        //print("loading json from path: " + jsonURL.path)
 
 
         /* try to read input JSON File */
         do {
             let jsonData =  try Data(contentsOf: jsonURL)
-            print("File data read.")
+            //print("File data read.")
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
                 var automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
-                print("Decoding completed.")
+                //print("AutomataInfoDecoding completed.")
                 return automataInfo
                 
                 
@@ -94,4 +92,3 @@ public func readAutomataInfoFile(path: String) -> AutomataInfo? {
     }
     return nil
 }
-

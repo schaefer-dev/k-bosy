@@ -178,18 +178,16 @@ public func readSpecificationFile(path: String) -> SynthesisSpecification? {
     if #available(OSX 10.11, *) {
         /* System requirements passed */
         let jsonURL = URL(fileURLWithPath: path)
-        print("loading json from path: " + jsonURL.path)
+        //print("loading json from path: " + jsonURL.path)
 
 
         /* try to read input JSON File */
         do {
             let jsonData =  try Data(contentsOf: jsonURL)
-            print("File data read.")
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
                 let spec = try decoder.decode(SynthesisSpecification.self, from: jsonData)
-                print("Decoding completed.")
                 return spec
                 
                 
