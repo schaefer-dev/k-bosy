@@ -76,7 +76,7 @@ public class Automata {
         
         // Create transition and add to start state
         let new_transition = Transition(start: startState, condition: condition, end: endState, action: action)
-        
+        startState.addTransition(trans: new_transition)
     }
 }
 

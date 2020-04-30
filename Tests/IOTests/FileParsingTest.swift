@@ -58,17 +58,21 @@ class FileParsingTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         let dotGraph = dotGraphOpt!
         
+        // s0 is only initial state
         XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[0].start.name, "s0")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[0].end.name, "s1")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[1].start.name, "s0")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[1].end.name, "s0")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[2].start.name, "s1")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions[2].end.name, "s1")
-        XCTAssertEqual(dotGraph.initial_states[0].transitions.count, 3)
+        XCTAssertEqual(dotGraph.initial_states.count, 1)
+        
+        // s0 has outgoing transitions to s1 and s0
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].end.name, "s1")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].end.name, "s0")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions.count, 2)
+        
+        // s1 has only one outgoing transition to s1
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].end.name, "s1")
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions.count, 1)
         
         
-        // Testing if JSON has been read correctly
+        // TODO: test if conditions and actions of transitions are parsed correctly
     }
 
 }
