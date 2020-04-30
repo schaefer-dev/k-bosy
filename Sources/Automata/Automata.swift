@@ -61,7 +61,8 @@ public class Automata {
     
     
     
-    
+    /* main function that is used to parse transition from string to the automata structure which
+        adds it to the initial state this transtion starts at. */
     public func addTransition(start_str: String, end_str: String, condition: String) {
         let startStateOpt = self.get_state(name: start_str)
         let endStateOpt = self.get_state(name: end_str)
@@ -102,6 +103,11 @@ public class Automata {
         } else if (first_split.count > 2) {
             print("ERROR: two '/' encounted in one transition, parsing error!")
         }
+        
+        
+        // parse condition
+        let condition_string = first_split[0].trimmingCharacters(in: .whitespacesAndNewlines)
+        print("DEBUG: condition of transition is " + condition_string)
         
         
         let condition = Formula(containedConjunctions: [])
