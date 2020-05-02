@@ -81,7 +81,28 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].action!.dnf[0].literals[0].toString(), "go")
         
         
-        // TODO: test if conditions are parsed correctly
+        // test if conditions are parsed correctly
+        // Test condition of s0->s1
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals[0].toString(), "a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals[0].toString(), "b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals[0].toString(), "h")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 3)
+        
+        // Test condition of s0->s0
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[0].toString(), "!a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[1].toString(), "!b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[2].toString(), "!h")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 3)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf.count, 1)
+        
+        
+        // Test condition of s1->s1
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf[0].literals[0].toString(), "true")
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf[0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf.count, 1)
     }
 
 }
