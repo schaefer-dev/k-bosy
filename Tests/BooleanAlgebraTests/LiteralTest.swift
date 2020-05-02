@@ -12,9 +12,9 @@ class LiteralTest: XCTestCase {
         let globalAPList = APList()
         
         // Create Sample APs
-        let test_ap1 = AP(name: "test1", observable: true, list: globalAPList)
-        let test_ap2 = AP(name: "test2", observable: true, list: globalAPList)
-        let test_ap3 = AP(name: "test3", observable: false, list: globalAPList)
+        let _ = AP(name: "test1", observable: true, list: globalAPList)
+        let _ = AP(name: "test2", observable: true, list: globalAPList)
+        let _ = AP(name: "test3", observable: false, list: globalAPList)
         
         
         // Create Sample Variables that may occur in a formula, they are linked to APs

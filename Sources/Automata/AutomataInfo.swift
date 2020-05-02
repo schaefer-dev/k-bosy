@@ -73,7 +73,7 @@ public func readAutomataInfoFile(path: String) -> AutomataInfo? {
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
-                var automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
+                let automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
                 //print("AutomataInfoDecoding completed.")
                 return automataInfo
                 

@@ -132,4 +132,121 @@ class FormulaTest: XCTestCase {
         XCTAssertEqual(dnf3.eval(state: currentState), false)
         XCTAssertEqual(dnf4.eval(state: currentState), true)
     }
+    
+    
+    func testBracketCorrectnessCheck() {
+        let str1 = "(a) ∧ (b)"
+        XCTAssertTrue(checkBracketCorrectness(input_str: str1))
+        
+        let str2 = "a∨((bcd) ∨ (d ∧ a))"
+        XCTAssertTrue(checkBracketCorrectness(input_str: str2))
+        
+        let str3 = "a∨((bcd)) ∨ (d ∧ a))"
+        XCTAssertFalse(checkBracketCorrectness(input_str: str3))
+        
+        let str4 = "((a∨((bcd)) ∨ (d ∧ a))"
+        XCTAssertFalse(checkBracketCorrectness(input_str: str4))
+    }
+    
+    
+    func testParseConjunctionLongerAps() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let _ = AP(name: "a1", observable: true, list: globalAPList)
+        let _ = AP(name: "b2", observable: true, list: globalAPList)
+        let _ = AP(name: "c3", observable: false, list: globalAPList)
+        let _ = AP(name: "d4", observable: false, list: globalAPList)
+        
+        
+        
+        let conj1 = parseConjunction(str_conj: "a1∧¬d4∧c3∧a1", apList: globalAPList)
+        if conj1 == nil {
+            XCTAssert(false, "Unexpected Conjunction Parsing Error")
+        } else {
+            XCTAssertEqual(conj1!.literals[0].toString(), "a1")
+            XCTAssertEqual(conj1!.literals[1].toString(), "!d4")
+            XCTAssertEqual(conj1!.literals[2].toString(), "c3")
+            XCTAssertEqual(conj1!.literals[3].toString(), "a1")
+        }
+        
+    }
+    
+    func testParseConjunction() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let _ = AP(name: "a", observable: true, list: globalAPList)
+        let _ = AP(name: "b", observable: true, list: globalAPList)
+        let _ = AP(name: "c", observable: false, list: globalAPList)
+        let _ = AP(name: "d", observable: false, list: globalAPList)
+        
+        
+        
+        let conj1 = parseConjunction(str_conj: "a∧¬d∧c∧a", apList: globalAPList)
+        if conj1 == nil {
+            XCTAssert(false, "Unexpected Conjunction Parsing Error")
+        } else {
+            XCTAssertEqual(conj1!.literals[0].toString(), "a")
+            XCTAssertEqual(conj1!.literals[1].toString(), "!d")
+            XCTAssertEqual(conj1!.literals[2].toString(), "c")
+            XCTAssertEqual(conj1!.literals[3].toString(), "a")
+        }
+        
+    }
+    
+    
+    func testParseDNFFormula() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let _ = AP(name: "a", observable: true, list: globalAPList)
+        let _ = AP(name: "b", observable: true, list: globalAPList)
+        let _ = AP(name: "c", observable: false, list: globalAPList)
+        let _ = AP(name: "d", observable: false, list: globalAPList)
+        
+        
+        
+        let formula1 = parseDNFFormula(input_str: "((a) ∨ (b) ∨ (¬d))", apList: globalAPList)
+        if formula1 == nil {
+            XCTAssert(false, "Unexpected Formula Parsing Error")
+        } else {
+            XCTAssertEqual(formula1!.dnf[0].literals[0].toString(), "a")
+            XCTAssertEqual(formula1!.dnf[0].literals.count, 1)
+            XCTAssertEqual(formula1!.dnf[1].literals[0].toString(), "b")
+            XCTAssertEqual(formula1!.dnf[1].literals.count, 1)
+            XCTAssertEqual(formula1!.dnf[2].literals[0].toString(), "!d")
+            XCTAssertEqual(formula1!.dnf[2].literals.count, 1)
+            XCTAssertEqual(formula1!.dnf.count, 3)
+        }
+        
+        let formula2 = parseDNFFormula(input_str: "((false) ∨ (b) ∨ (¬true))", apList: globalAPList)
+        if formula2 == nil {
+            XCTAssert(false, "Unexpected Formula Parsing Error")
+        } else {
+            XCTAssertEqual(formula2!.dnf[0].literals[0].toString(), "false")
+            XCTAssertEqual(formula2!.dnf[0].literals.count, 1)
+            XCTAssertEqual(formula2!.dnf[1].literals[0].toString(), "b")
+            XCTAssertEqual(formula2!.dnf[1].literals.count, 1)
+            XCTAssertEqual(formula2!.dnf[2].literals[0].toString(), "!true")
+            XCTAssertEqual(formula2!.dnf[2].literals.count, 1)
+            XCTAssertEqual(formula2!.dnf.count, 3)
+        }
+        
+        let formula3 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        if formula3 == nil {
+            XCTAssert(false, "Unexpected Formula Parsing Error")
+        } else {
+            XCTAssertEqual(formula3!.dnf[0].literals[0].toString(), "a")
+            XCTAssertEqual(formula3!.dnf[0].literals[1].toString(), "!c")
+            XCTAssertEqual(formula3!.dnf[0].literals[2].toString(), "!false")
+            XCTAssertEqual(formula3!.dnf[0].literals.count, 3)
+            XCTAssertEqual(formula3!.dnf[1].literals[0].toString(), "b")
+            XCTAssertEqual(formula3!.dnf[1].literals[1].toString(), "b")
+            XCTAssertEqual(formula3!.dnf[1].literals.count, 2)
+            XCTAssertEqual(formula3!.dnf[2].literals[0].toString(), "!d")
+            XCTAssertEqual(formula3!.dnf[2].literals.count, 1)
+            XCTAssertEqual(formula3!.dnf.count, 3)
+        }
+    }
 }
