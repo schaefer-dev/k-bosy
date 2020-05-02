@@ -12,7 +12,7 @@ class LiteralTest: XCTestCase {
         let globalAPList = APList()
         
         // Create Sample APs
-        let _ = AP(name: "test1", observable: true, list: globalAPList)
+        let test_ap1 = AP(name: "test1", observable: true, list: globalAPList)
         let _ = AP(name: "test2", observable: true, list: globalAPList)
         let _ = AP(name: "test3", observable: false, list: globalAPList)
         
@@ -65,6 +65,52 @@ class LiteralTest: XCTestCase {
         XCTAssertEqual(lit3.eval(state: currentState), true)
         XCTAssertEqual(lit4.eval(state: currentState), false)
         XCTAssertEqual(lit5.eval(state: currentState), false)
+    }
+    
+    
+    func testParseLiteral() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let _ = AP(name: "a", observable: true, list: globalAPList)
+        let _ = AP(name: "b", observable: true, list: globalAPList)
+        let _ = AP(name: "c12", observable: false, list: globalAPList)
+        let _ = AP(name: "d", observable: false, list: globalAPList)
+        
+        
+        
+        let lit1 = parseLiteral(str_literal: "", apList: globalAPList)
+        if lit1 != nil {
+            XCTAssert(false, "Expected Literal parsing error because literal empty")
+        }
+        
+        let lit2 = parseLiteral(str_literal: "¬", apList: globalAPList)
+        if lit2 != nil {
+            XCTAssert(false, "Expected Literal parsing error because literal empty")
+        }
+        
+        let lit3 = parseLiteral(str_literal: "a", apList: globalAPList)
+        if lit3 == nil {
+            XCTAssert(false, "Unexpected Literal Parsing Error")
+        } else {
+            XCTAssertEqual(lit3!.toString(), "a")
+        }
+        
+        let lit4 = parseLiteral(str_literal: "c12", apList: globalAPList)
+        if lit4 == nil {
+            XCTAssert(false, "Unexpected Literal Parsing Error")
+        } else {
+            XCTAssertEqual(lit4!.toString(), "c12")
+        }
+        
+        let lit5 = parseLiteral(str_literal: "¬false", apList: globalAPList)
+        if lit5 == nil {
+            XCTAssert(false, "Unexpected Literal Parsing Error")
+        } else {
+            XCTAssertEqual(lit5!.toString(), "!false")
+        }
+        
+        
     }
     
 }

@@ -193,6 +193,36 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(conj1!.literals[3].toString(), "a")
         }
         
+        let conj2 = parseConjunction(str_conj: "a∧¬false∧c∧a", apList: globalAPList)
+        if conj2 == nil {
+            XCTAssert(false, "Unexpected Conjunction Parsing Error")
+        } else {
+            XCTAssertEqual(conj2!.literals[0].toString(), "a")
+            XCTAssertEqual(conj2!.literals[1].toString(), "!false")
+            XCTAssertEqual(conj2!.literals[2].toString(), "c")
+            XCTAssertEqual(conj2!.literals[3].toString(), "a")
+        }
+        
+        let conj3 = parseConjunction(str_conj: "a∧¬d1∧c∧a", apList: globalAPList)
+        if conj3 != nil {
+            XCTAssert(false, "Expected Conjunction Parsing Error")
+        }
+        
+        let conj4 = parseConjunction(str_conj: "a∧¬a∧c∧f", apList: globalAPList)
+        if conj4 != nil {
+            XCTAssert(false, "Expected Conjunction Parsing Error")
+        }
+        
+        let conj5 = parseConjunction(str_conj: "a∧¬a∧c∧∧a", apList: globalAPList)
+        if conj5 != nil {
+            XCTAssert(false, "Expected Conjunction Parsing Error")
+        }
+        
+        let conj6 = parseConjunction(str_conj: "a∧¬a∧c∧a∧", apList: globalAPList)
+        if conj6 != nil {
+            XCTAssert(false, "Expected Conjunction Parsing Error")
+        }
+        
     }
     
     
@@ -247,6 +277,26 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(formula3!.dnf[2].literals[0].toString(), "!d")
             XCTAssertEqual(formula3!.dnf[2].literals.count, 1)
             XCTAssertEqual(formula3!.dnf.count, 3)
+        }
+        
+        
+        let formula4 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ ∨  (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        if formula4 != nil {
+            XCTAssert(false, "Expected Formula Parsing Error")
+        }
+        
+        let formula5 = parseDNFFormula(input_str: "", apList: globalAPList)
+        if formula5 == nil {
+            XCTAssert(false, "Unexpected Formula Parsing Error")
+        } else {
+            XCTAssertEqual(formula5!.dnf[0].literals[0].toString(), "true")
+            XCTAssertEqual(formula5!.dnf[0].literals.count, 1)
+            XCTAssertEqual(formula5!.dnf.count, 1)
+        }
+        
+        let formula6 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d) ∨ )", apList: globalAPList)
+        if formula6 != nil {
+            XCTAssert(false, "Expected Formula Parsing Error")
         }
     }
 }
