@@ -20,13 +20,13 @@ public class Automata {
         self.apList = APList()
         
         for ap in info.hiddenAP {
-            let ap = AP(name: ap, observable: false, list: self.apList)
+            let _ = AP(name: ap, observable: false, list: self.apList)
         }
         for ap in info.observableAP {
-            let ap = AP(name: ap, observable: true, list: self.apList)
+            let _ = AP(name: ap, observable: true, list: self.apList)
         }
         for ap in info.outputs {
-            let ap = AP(name: ap, observable: true, list: self.apList, output: true)
+            let _ = AP(name: ap, observable: true, list: self.apList, output: true)
         }
         
         initial_states = []
@@ -112,7 +112,12 @@ public class Automata {
         
         let condition = parseDNFFormula(input_str: condition_string, apList: self.apList)
         
-        let new_transition = Transition(start: startState, condition: condition, end: endState, action: action)
+        if (condition==nil) {
+            print("ERROR: can not create transition for invalid DNF formula, exiting")
+            exit(EXIT_FAILURE)
+        }
+        
+        let new_transition = Transition(start: startState, condition: condition!, end: endState, action: action)
         startState.addTransition(trans: new_transition)
     }
 }
@@ -189,7 +194,7 @@ public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
 
         /* try to read input dot graph File */
         do {
-            var data = try NSString(contentsOfFile: fileURL.path,
+            let data = try NSString(contentsOfFile: fileURL.path,
                                     encoding: String.Encoding.utf8.rawValue)
 
             // If a value was returned, print it.
@@ -200,7 +205,7 @@ public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
             }
             
             // Parsing of dot graph File starts now
-            var automata = Automata(info: info)
+            let automata = Automata(info: info)
             
             // cleanup loop to remove irrelevant lines
             var index = 0
@@ -211,7 +216,7 @@ public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
                     let right_substrings = substrings[1].split(separator: "[")
                     let initial_state_name = right_substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                     
-                    var new_initial_state = AutomataState(name: initial_state_name)
+                    let new_initial_state = AutomataState(name: initial_state_name)
                     automata.add_initial_state(new_initial_state: new_initial_state)
                 } else {
                     // Condition to find transition description line

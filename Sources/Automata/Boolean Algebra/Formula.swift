@@ -89,16 +89,40 @@ public struct Formula : Equatable {
     }
 }
 
+public func checkBracketCorrectness(input_str: String) -> Bool {
+    var counter = 0
+    
+    for character in input_str {
+        if (character == "(") {
+            counter += 1
+        } else if (character == ")") {
+            counter -= 1
+        }
+        // if bracket closed before opened its invalid
+        if (counter < 0) {
+            return false
+        }
+    }
+    
+    // if not all brackets closed its invalid
+    if counter != 0 {
+        return false
+    }
+    
+    return true
+}
 
-public func parseDNFFormula(input_str: String, apList: APList) -> Formula {
-    let first_char_splits = NSCharacterSet(charactersIn: "|∨")
-    let second_char_splits = NSCharacterSet(charactersIn: "&∧")
+
+public func parseDNFFormula(input_str: String, apList: APList) -> Formula? {
     
     // Remove ALL whitespace from string
     var formula_string = input_str.components(separatedBy: .whitespacesAndNewlines).joined()
     
-    // TODO: check if brackets are set correctly!!
-    
+    // check if brackets are set correctly!!
+    if !checkBracketCorrectness(input_str: formula_string) {
+        print("ERROR: Invalid Brackets in formula: " + formula_string)
+        return nil
+    }
     
     // Remove all brackets
     formula_string = formula_string.replacingOccurrences(of: "(", with: "")
@@ -118,8 +142,12 @@ public func parseDNFFormula(input_str: String, apList: APList) -> Formula {
     var conj_list: [Conjunction] = []
     
     for str_conj in str_conjunctions {
-        var conj = parseConjunction(str_conj: str_conj, apList: apList)
-        conj_list.append(conj)
+        let conj = parseConjunction(str_conj: str_conj, apList: apList)
+        if (conj == nil) {
+            return nil
+        } else {
+            conj_list.append(conj!)
+        }
     }
     
     let dnf_formula = Formula(containedConjunctions: conj_list)
@@ -127,17 +155,17 @@ public func parseDNFFormula(input_str: String, apList: APList) -> Formula {
 }
 
 
-public func parseConjunction(str_conj: String, apList: APList) -> Conjunction {
+public func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {
     print("DEBUG: parsing conjunction " + str_conj)
     
     let str_literals = str_conj.components(separatedBy: "∧")
     var literal_array: [Literal] = []
     
     for str_literal in str_literals {
-        var litOpt = parseLiteral(str_literal: str_literal, apList: apList)
+        let litOpt = parseLiteral(str_literal: str_literal, apList: apList)
         if (litOpt == nil) {
             print("ERROR: critical parsing error, literal '" + str_literal + "' could not be parsed!")
-            exit(EXIT_FAILURE)
+            return nil
         } else {
             literal_array.append(litOpt!)
         }

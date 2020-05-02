@@ -49,7 +49,7 @@ do {
     /* --------------------------------------------------------------------------------------------- */
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(automataInfoFile) {
-        var automataInfoOpt = readAutomataInfoFile(path: automataInfoFilename)
+        let automataInfoOpt = readAutomataInfoFile(path: automataInfoFilename)
         if (automataInfoOpt == nil) {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
@@ -57,7 +57,7 @@ do {
         let automataInfo = automataInfoOpt!
         
         if let dotGraphFilename = parguments.get(dotFile) {
-            var automataOpt = readDotGraphFile(path: dotGraphFilename, info: automataInfo)
+            let automataOpt = readDotGraphFile(path: dotGraphFilename, info: automataInfo)
             if (automataOpt == nil) {
                 print("ERROR: something went wrong while reading AutomataInfo File")
                 exit(EXIT_FAILURE)
@@ -83,7 +83,7 @@ do {
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
         
-        var specOpt = readSpecificationFile(path: inputFilename)
+        let specOpt = readSpecificationFile(path: inputFilename)
         if (specOpt == nil) {
             print("ERROR: something went wrong while reading specifictaion File")
             exit(EXIT_FAILURE)
