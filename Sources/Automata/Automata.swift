@@ -110,7 +110,7 @@ public class Automata {
         print("DEBUG: condition of transition is " + condition_string)
         
         
-        let condition = Formula(containedConjunctions: [])
+        let condition = parseDNFFormula(input_str: condition_string, apList: self.apList)
         
         let new_transition = Transition(start: startState, condition: condition, end: endState, action: action)
         startState.addTransition(trans: new_transition)
