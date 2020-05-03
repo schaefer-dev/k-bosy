@@ -29,7 +29,7 @@ public struct Variable : Literal {
     
     public func toString() -> String {
         if (neg) {
-            return ("!" + ap.id)
+            return ("¬" + ap.id)
         } else {
             return (ap.id)
         }
@@ -61,9 +61,9 @@ public struct Constant : Literal {
     public func toString() -> String {
         if (neg) {
             if (value) {
-                return ("!true")
+                return ("¬true")
             } else {
-                return ("!false" )
+                return ("¬false" )
             }
         } else {
             if (value) {

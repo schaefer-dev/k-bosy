@@ -48,6 +48,28 @@ public struct Formula : Equatable {
     public init(containedConjunctions: [Conjunction]) {
         dnf = containedConjunctions
     }
+    
+    
+    
+    public func toString() -> String {
+        if dnf.count == 0 {
+            return ""
+        }
+        
+        var output_string = ""
+        
+        var conj_index = 0
+        while (true) {
+            output_string += self.dnf[conj_index].toString()
+            conj_index += 1
+            if (conj_index > (self.dnf.count - 1)) {
+                break
+            }
+            output_string += " ∨ "
+        }
+        
+        return output_string
+    }
 }
 
 
@@ -87,6 +109,29 @@ public struct Conjunction : Equatable {
     
     public init(literalsContainedInConjunction: [Literal]) {
         literals = literalsContainedInConjunction
+    }
+    
+    
+    public func toString() -> String {
+        if literals.count == 0 {
+            return ""
+        }
+        
+        var output_string = "("
+        var lit_index = 0
+        while (true) {
+            output_string += self.literals[lit_index].toString()
+            lit_index += 1
+            if (lit_index > (self.literals.count - 1)) {
+                break
+            }
+            output_string += " ∧ "
+        }
+        
+        
+        output_string += ")"
+        
+        return output_string
     }
 }
 
