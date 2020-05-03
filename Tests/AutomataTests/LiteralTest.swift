@@ -27,10 +27,10 @@ class LiteralTest: XCTestCase {
         let lit4: Literal = Constant(negated: true, truthValue: true)
         let lit5: Literal = Constant(negated: false, truthValue: false)
         
-        XCTAssertEqual(lit1.toString(), "!test1")
-        XCTAssertEqual(lit2.toString(), "!test2")
+        XCTAssertEqual(lit1.toString(), "¬test1")
+        XCTAssertEqual(lit2.toString(), "¬test2")
         XCTAssertEqual(lit3.toString(), "test3")
-        XCTAssertEqual(lit4.toString(), "!true")
+        XCTAssertEqual(lit4.toString(), "¬true")
         XCTAssertEqual(lit5.toString(), "false")
     }
     
@@ -107,7 +107,7 @@ class LiteralTest: XCTestCase {
         if lit5 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
-            XCTAssertEqual(lit5!.toString(), "!false")
+            XCTAssertEqual(lit5!.toString(), "¬false")
         }
         
         

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AutomataInfo: Codable {
+public struct InputAutomataInfo: Codable {
     public let observableAP: [String]
     public let hiddenAP: [String]
     public let outputs: [String]
@@ -11,30 +11,30 @@ public struct AutomataInfo: Codable {
         self.outputs = outputs
     }
     
-    public static func fromJson(string: String) -> AutomataInfo? {
+    public static func fromJson(string: String) -> InputAutomataInfo? {
 
         let decoder = JSONDecoder()
         guard let data = string.data(using: .utf8) else {
             return nil
         }
         do {
-            return try decoder.decode(AutomataInfo.self, from: data)
+            return try decoder.decode(InputAutomataInfo.self, from: data)
         } catch {
             return nil
         }
     }
     
 
-    public static func from(fileName: String) throws -> AutomataInfo {
+    public static func from(fileName: String) throws -> InputAutomataInfo {
         // get file contents
         let data = try Data(contentsOf: URL(fileURLWithPath: fileName))
         return try from(data: data)
     }
 
     
-    public static func from(data: Data) throws -> AutomataInfo {
+    public static func from(data: Data) throws -> InputAutomataInfo {
         // parse contents of `data`
-        return try JSONDecoder().decode(AutomataInfo.self, from: data)
+        return try JSONDecoder().decode(InputAutomataInfo.self, from: data)
     }
     
     
@@ -58,7 +58,7 @@ public struct AutomataInfo: Codable {
 }
 
 
-public func readAutomataInfoFile(path: String) -> AutomataInfo? {
+public func readAutomataInfoFile(path: String) -> InputAutomataInfo? {
     /* Verify System requirements */
     if #available(OSX 10.11, *) {
         /* System requirements passed */
@@ -73,7 +73,7 @@ public func readAutomataInfoFile(path: String) -> AutomataInfo? {
             // jsonData can be used
             let decoder = JSONDecoder()
             do {
-                let automataInfo = try decoder.decode(AutomataInfo.self, from: jsonData)
+                let automataInfo = try decoder.decode(InputAutomataInfo.self, from: jsonData)
                 //print("AutomataInfoDecoding completed.")
                 return automataInfo
                 
