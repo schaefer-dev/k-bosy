@@ -155,8 +155,6 @@ class FormulaTest: XCTestCase {
         
         let str7 = "(a∨bcd ∨ (d ∧ a))"
         XCTAssertTrue(checkBracketCorrectness(input_str: str7))
-        
-        
     }
     
     

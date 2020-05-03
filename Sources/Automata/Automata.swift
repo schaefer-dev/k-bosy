@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Daniel Schäfer on 29.04.20.
-//
-
 import Foundation
 
 
@@ -13,12 +6,14 @@ public class Automata {
     public var apList: APList
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
-    //public var transition_relation: [Transition]
+    // Transition contained in states currently: public var transition_relation: [Transition]
     
-    init(info: AutomataInfo) {
-        // TODO generate aplist from automataInfo
+    
+    // Constructor only called via readDotgraphFile!!
+    init(info: InputAutomataInfo) {
         self.apList = APList()
         
+        // fill APList with elements from InputAutomataInfo
         for ap in info.hiddenAP {
             let _ = AP(name: ap, observable: false, list: self.apList)
         }
@@ -30,7 +25,6 @@ public class Automata {
         }
         
         initial_states = []
-        //transition_relation = []
         all_states = [String: AutomataState]()
     }
     
@@ -54,6 +48,7 @@ public class Automata {
         self.all_states[new_state.name] = new_state
         print("DEBUG: added state " + new_state.name + " to Automata")
     }
+    
     
     public func get_state(name: String) -> AutomataState? {
         return self.all_states[name]
@@ -117,74 +112,13 @@ public class Automata {
             exit(EXIT_FAILURE)
         }
         
-        let new_transition = Transition(start: startState, condition: condition!, end: endState, action: action)
+        let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState, action: action)
         startState.addTransition(trans: new_transition)
     }
 }
 
 
-
-public class AutomataState : Hashable {
-    public var name: String
-    public var propositions: [AP]
-    public var transitions: [Transition]
-    
-    public init(name: String) {
-        self.name = name
-        self.propositions = []
-        self.transitions = []
-    }
-    
-    public func getApplicableTransitions(state: CurrentState) -> [Transition]{
-        // TODO: returns the set of applicable transitions given the currentState
-        return []
-    }
-    
-    public func addTransition(trans: Transition) {
-        // TODO: maybe check first if this exact transition is already contained
-        if (trans.start.name != self.name) {
-            print("Critical Error: Transition does not belong into this state")
-            exit(EXIT_FAILURE)
-        }
-        self.transitions.append(trans)
-    }
-    
-    
-    // Equality of states defined over their name which has to be unique
-    public static func == (state1: AutomataState, state2: AutomataState) -> Bool {
-        return state1.name == state2.name
-    }
-    
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
-    }
-}
-
-
-public class Transition {
-    public let start: AutomataState
-    public let condition: Formula
-    public let end: AutomataState
-    public let action: Formula?
-    
-    // Creates Transition and adds itself to Automata and correct states
-    public init (start: AutomataState, condition: Formula, end: AutomataState, action: Formula?) {
-        self.start = start
-        self.condition = condition
-        self.end = end
-        self.action = action
-        if (action != nil) {
-            let action_str = action!.dnf[0].literals[0].toString()
-            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + "' with action contained being " + action_str)
-        } else {
-            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with no action contained")
-        }
-    }
-}
-
-
-
-public func readDotGraphFile(path: String, info: AutomataInfo) -> Automata? {
+public func readDotGraphFile(path: String, info: InputAutomataInfo) -> Automata? {
     /* Verify System requirements */
     if #available(OSX 10.11, *) {
         /* System requirements passed */
