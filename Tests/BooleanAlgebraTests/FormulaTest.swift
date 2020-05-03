@@ -138,7 +138,7 @@ class FormulaTest: XCTestCase {
         let str1 = "(a) ∧ (b)"
         XCTAssertTrue(checkBracketCorrectness(input_str: str1))
         
-        let str2 = "a∨((bcd) ∨ (d ∧ a))"
+        let str2 = "((a)∨((bcd)) ∨ ((d) ∧ (a)))"
         XCTAssertTrue(checkBracketCorrectness(input_str: str2))
         
         let str3 = "a∨((bcd)) ∨ (d ∧ a))"
@@ -146,6 +146,17 @@ class FormulaTest: XCTestCase {
         
         let str4 = "((a∨((bcd)) ∨ (d ∧ a))"
         XCTAssertFalse(checkBracketCorrectness(input_str: str4))
+        
+        let str5 = "(a∨((bcd) ∨ d) ∧ a)"
+        XCTAssertFalse(checkBracketCorrectness(input_str: str5))
+        
+        let str6 = "a∨(bcd ∨ (d ∧ a))"
+        XCTAssertFalse(checkBracketCorrectness(input_str: str6))
+        
+        let str7 = "(a∨bcd ∨ (d ∧ a))"
+        XCTAssertTrue(checkBracketCorrectness(input_str: str7))
+        
+        
     }
     
     

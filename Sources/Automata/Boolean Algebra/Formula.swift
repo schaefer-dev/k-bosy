@@ -91,17 +91,47 @@ public struct Formula : Equatable {
 
 public func checkBracketCorrectness(input_str: String) -> Bool {
     var counter = 0
+    var parsingList: [String] = []
+    var stringIndex = 0
     
     for character in input_str {
         if (character == "(") {
             counter += 1
+            if stringIndex == 0 {
+                parsingList.append("0")
+            } else {
+                parsingList.append("")
+            }
         } else if (character == ")") {
             counter -= 1
+            // check if enclosed formula is fine
+            let checkString = parsingList.popLast()
+            // check if enclosed formula in brackets contained ∨, if yet it may be invalid
+            if checkString != nil && (checkString!.contains("∨")) {
+                // check if it is not a surrounding bracket (start at index 0 end at last index), which allows for ∨ being contained
+                if !(stringIndex == (input_str.count - 1)) || !(checkString!.contains("0")) {
+                    print("DEBUG: bracketing not valid because it contained ∨")
+                    return false
+                }
+            }
+        } else if (character == "∨") {
+            if parsingList.count > 0 {
+                for i in 0...(parsingList.count - 1) {
+                    parsingList[i] += "∨"
+                }
+            }
+        } else if (character == "∧") {
+            if parsingList.count > 0 {
+                for i in 0...(parsingList.count - 1) {
+                    parsingList[i] += "∧"
+                }
+            }
         }
         // if bracket closed before opened its invalid
         if (counter < 0) {
             return false
         }
+        stringIndex += 1
     }
     
     // if not all brackets closed its invalid
