@@ -166,30 +166,23 @@ class FormulaTest: XCTestCase {
         let _ = AP(name: "b", observable: true, list: globalAPList)
         let _ = AP(name: "c", observable: false, list: globalAPList)
         let _ = AP(name: "d", observable: false, list: globalAPList)
+        let _ = AP(name: "test", observable: false, list: globalAPList)
         
-        let str1 = "(a) ∧ (¬a)"
+        let str1 = "(a) ∧ (¬b)"
         let formula1 = parseDNFFormula(input_str: str1, apList: globalAPList)
         XCTAssertEqual(formula1!.dnf.count, 1)
         XCTAssertEqual(formula1!.dnf[0].literals.count, 2)
-        XCTAssertEqual(formula1!.toString(), "(a ∧ b)")
+        XCTAssertEqual(formula1!.toString(), "(a ∧ ¬b)")
         
-        let str2 = "((a)∨((bcd)) ∨ ((d) ∧ (a)))"
+        let str2 = "((a)∨((¬test)) ∨ ((d) ∧ (a)))"
         XCTAssertTrue(checkBracketCorrectness(input_str: str2))
+        let formula2 = parseDNFFormula(input_str: str2, apList: globalAPList)
+        XCTAssertEqual(formula2!.toString(), "(a) ∨ (¬test) ∨ (d ∧ a)")
         
-        let str3 = "a∨((bcd)) ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str3))
-        
-        let str4 = "((a∨((bcd)) ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str4))
-        
-        let str5 = "(a∨((bcd) ∨ d) ∧ a)"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str5))
-        
-        let str6 = "a∨(bcd ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str6))
-        
-        let str7 = "(a∨bcd ∨ (d ∧ a))"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str7))
+        let str3 = "(test ∨ (¬d ∧ ¬a))"
+        XCTAssertTrue(checkBracketCorrectness(input_str: str3))
+        let formula3 = parseDNFFormula(input_str: str3, apList: globalAPList)
+        XCTAssertEqual(formula3!.toString(), "(test) ∨ (¬d ∧ ¬a)")
     }
     
     
