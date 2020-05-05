@@ -49,20 +49,22 @@ do {
     /* --------------------------------------------------------------------------------------------- */
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(automataInfoFile) {
-        let automataInfoOpt = readAutomataInfoFile(path: automataInfoFilename)
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: automataInfoFilename)
         if (automataInfoOpt == nil) {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
         }
         let automataInfo = automataInfoOpt!
+        print("LOADING: Automata Info read successfully")
         
         if let dotGraphFilename = parguments.get(dotFile) {
-            let automataOpt = readDotGraphFile(path: dotGraphFilename, info: automataInfo)
+            let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
             if (automataOpt == nil) {
                 print("ERROR: something went wrong while reading AutomataInfo File")
                 exit(EXIT_FAILURE)
             }
             let automata = automataOpt!
+            print("LOADING: Dot graph read successfully")
         }
     }
     

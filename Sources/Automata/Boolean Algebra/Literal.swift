@@ -7,32 +7,32 @@
 
 import Foundation
 
-public protocol Literal {
+public protocol Literal: CustomStringConvertible {
     var neg : Bool { get }
     
-    func toString() -> String
+    var description: String {get}
     
     // TODO: make sure references to state are always passed so we don't copy the state over and over while calling this method repeatedly
     func eval(state: CurrentState) -> Bool
 }
 
-public struct Variable : Literal {
+public struct Variable : Literal, CustomStringConvertible {
     public var neg: Bool
     
     private var ap: AP
     
-    
-    public init(negated: Bool, atomicProposition: AP) {
-        ap = atomicProposition
-        neg = negated
-    }
-    
-    public func toString() -> String {
+    public var description: String {
         if (neg) {
             return ("¬" + ap.id)
         } else {
             return (ap.id)
         }
+    }
+    
+    
+    public init(negated: Bool, atomicProposition: AP) {
+        ap = atomicProposition
+        neg = negated
     }
     
     
@@ -48,17 +48,12 @@ public struct Variable : Literal {
     
 }
 
-public struct Constant : Literal {
+public struct Constant : Literal, CustomStringConvertible {
     public var neg: Bool
     
     public var value: Bool
     
-    public init(negated: Bool, truthValue: Bool) {
-        value = truthValue
-        neg = negated
-    }
-    
-    public func toString() -> String {
+    public var description: String {
         if (neg) {
             if (value) {
                 return ("¬true")
@@ -74,6 +69,12 @@ public struct Constant : Literal {
         }
     }
     
+    public init(negated: Bool, truthValue: Bool) {
+        value = truthValue
+        neg = negated
+    }
+    
+    
     public func eval(state: CurrentState) -> Bool {
         if (neg) {
             if (value) {
@@ -88,50 +89,6 @@ public struct Constant : Literal {
                 return false
             }
         }
-    }
-}
-
-
-public func parseLiteral(str_literal: String, apList: APList) -> Literal? {
-    var negated = false
-    // check if negated
-    var literal_str = str_literal
-    
-    if (literal_str.count == 0) {
-        print("Tried to parse empty literal")
-        return nil
-    }
-    
-    if (literal_str.character(at: 0) == "!") || (literal_str.character(at: 0) == "¬") {
-        negated = true
-        // remove negation character, such that only AP remains
-        literal_str.remove(at: str_literal.startIndex)
-    }
-    
-    if (literal_str.count == 0) {
-        print("Tried to parse empty literal with only negation")
-        return nil
-    }
-    
-    
-    // parse string of Literal, which can be either AP (Variable) or Constant
-    if literal_str == "true" {
-        let constant = Constant(negated: negated, truthValue: true)
-        return constant
-        
-    } else if literal_str == "false" {
-        let constant = Constant(negated: negated, truthValue: false)
-        return constant
-        
-    } else {
-        let apOpt = apList.lookupAP(apName: literal_str)
-        
-        if (apOpt == nil) {
-            return nil
-        }
-        
-        let literal = Variable(negated: negated, atomicProposition: apOpt!)
-        return literal
     }
 }
 
