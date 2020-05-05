@@ -91,7 +91,7 @@ public class FileParser {
                             let right_sub_substrings = right_substrings[1].components(separatedBy: "\"")
                             let equation = right_sub_substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
                             
-                            automata.addTransition(start_str: start_state, end_str: goal_state, condition: equation)
+                            automata.parseAndAddTransition(start_str: start_state, end_str: goal_state, condition: equation)
                         }
                     }
                     index += 1

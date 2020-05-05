@@ -55,10 +55,9 @@ public class Automata {
     }
     
     
-    
     /* main function that is used to parse transition from string to the automata structure which
         adds it to the initial state this transtion starts at. */
-    public func addTransition(start_str: String, end_str: String, condition: String) {
+    public func parseAndAddTransition(start_str: String, end_str: String, condition: String) {
         let startStateOpt = self.get_state(name: start_str)
         let endStateOpt = self.get_state(name: end_str)
 
