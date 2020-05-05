@@ -55,6 +55,7 @@ do {
             exit(EXIT_FAILURE)
         }
         let automataInfo = automataInfoOpt!
+        print("LOADING: Automata Info read successfully")
         
         if let dotGraphFilename = parguments.get(dotFile) {
             let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
@@ -63,6 +64,7 @@ do {
                 exit(EXIT_FAILURE)
             }
             let automata = automataOpt!
+            print("LOADING: Dot graph read successfully")
         }
     }
     

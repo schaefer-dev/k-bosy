@@ -75,10 +75,10 @@ class FileParsingTest: XCTestCase {
         
         
         // test if SINGLE actions of transitions are parsed correctly
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].action!.dnf[0].literals[0].description, "go")
-        let action2: Formula? = dotGraph.get_state(name: "s0")!.transitions[1].action
-        XCTAssertEqual(action2, nil)
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].action!.dnf[0].literals[0].description, "go")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].action[0].description, "go")
+        let action2: [AP] = dotGraph.get_state(name: "s0")!.transitions[1].action
+        XCTAssertEqual(action2.count, 0)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].action[0].description, "go")
         
         
         // test if conditions are parsed correctly

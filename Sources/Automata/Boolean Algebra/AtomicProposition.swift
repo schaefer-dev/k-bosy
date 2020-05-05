@@ -35,10 +35,14 @@ public class APList {
 }
 
 // make id and obs non-changable!
-public class AP : Hashable {
+public class AP : Hashable, CustomStringConvertible {
     var id : String
     var obs : Bool
     var output : Bool
+    
+    public var description: String {
+         return id
+     }
     
     public init(name: String, observable: Bool, list: APList, output: Bool = false) {
         self.id = name

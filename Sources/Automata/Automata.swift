@@ -80,7 +80,7 @@ public class Automata {
         let cond_trimmed = condition.trimmingCharacters(in: .whitespacesAndNewlines)
         let first_split = cond_trimmed.components(separatedBy: "/")
         
-        var action: Formula? = nil
+        var action: [AP] = []
         if (first_split.count == 2) {
             // parse action
             let action_string = first_split[1].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -89,9 +89,7 @@ public class Automata {
                 let apOpt = self.apList.lookupAP(apName: action_string)
                 if (apOpt == nil) {
                 } else {
-                    let variable = Variable(negated: false, atomicProposition: apOpt!)
-                    let conj = Conjunction(literalsContainedInConjunction: [variable])
-                    action = Formula(containedConjunctions: [conj])
+                    action.append(apOpt!)
                 }
             }
         } else if (first_split.count > 2) {
