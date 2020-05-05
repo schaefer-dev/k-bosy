@@ -93,50 +93,6 @@ public struct Constant : Literal, CustomStringConvertible {
 }
 
 
-public func parseLiteral(str_literal: String, apList: APList) -> Literal? {
-    var negated = false
-    // check if negated
-    var literal_str = str_literal
-    
-    if (literal_str.count == 0) {
-        print("Tried to parse empty literal")
-        return nil
-    }
-    
-    if (literal_str.character(at: 0) == "!") || (literal_str.character(at: 0) == "¬") {
-        negated = true
-        // remove negation character, such that only AP remains
-        literal_str.remove(at: str_literal.startIndex)
-    }
-    
-    if (literal_str.count == 0) {
-        print("Tried to parse empty literal with only negation")
-        return nil
-    }
-    
-    
-    // parse string of Literal, which can be either AP (Variable) or Constant
-    if literal_str == "true" {
-        let constant = Constant(negated: negated, truthValue: true)
-        return constant
-        
-    } else if literal_str == "false" {
-        let constant = Constant(negated: negated, truthValue: false)
-        return constant
-        
-    } else {
-        let apOpt = apList.lookupAP(apName: literal_str)
-        
-        if (apOpt == nil) {
-            return nil
-        }
-        
-        let literal = Variable(negated: negated, atomicProposition: apOpt!)
-        return literal
-    }
-}
-
-
 // String Extension to get a character at a specific position given as int
 extension String {
  

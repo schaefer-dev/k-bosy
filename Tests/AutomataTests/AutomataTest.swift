@@ -8,12 +8,12 @@ import Foundation
 class AutomataTest: XCTestCase {
     
     func testAutomataRun() {
-        let automataInfoOpt = readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
         
-        let dotGraphOpt = readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         

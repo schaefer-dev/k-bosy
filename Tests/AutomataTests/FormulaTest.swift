@@ -136,25 +136,25 @@ class FormulaTest: XCTestCase {
     
     func testBracketCorrectnessCheck() {
         let str1 = "(a) ∧ (b)"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str1))
+        XCTAssertTrue(FormulaParser.checkBracketCorrectness(input_str: str1))
         
         let str2 = "((a)∨((bcd)) ∨ ((d) ∧ (a)))"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str2))
+        XCTAssertTrue(FormulaParser.checkBracketCorrectness(input_str: str2))
         
         let str3 = "a∨((bcd)) ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str3))
+        XCTAssertFalse(FormulaParser.checkBracketCorrectness(input_str: str3))
         
         let str4 = "((a∨((bcd)) ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str4))
+        XCTAssertFalse(FormulaParser.checkBracketCorrectness(input_str: str4))
         
         let str5 = "(a∨((bcd) ∨ d) ∧ a)"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str5))
+        XCTAssertFalse(FormulaParser.checkBracketCorrectness(input_str: str5))
         
         let str6 = "a∨(bcd ∨ (d ∧ a))"
-        XCTAssertFalse(checkBracketCorrectness(input_str: str6))
+        XCTAssertFalse(FormulaParser.checkBracketCorrectness(input_str: str6))
         
         let str7 = "(a∨bcd ∨ (d ∧ a))"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str7))
+        XCTAssertTrue(FormulaParser.checkBracketCorrectness(input_str: str7))
     }
     
     
@@ -169,19 +169,19 @@ class FormulaTest: XCTestCase {
         let _ = AP(name: "test", observable: false, list: globalAPList)
         
         let str1 = "(a) ∧ (¬b)"
-        let formula1 = parseDNFFormula(input_str: str1, apList: globalAPList)
+        let formula1 = FormulaParser.parseDNFFormula(input_str: str1, apList: globalAPList)
         XCTAssertEqual(formula1!.dnf.count, 1)
         XCTAssertEqual(formula1!.dnf[0].literals.count, 2)
         XCTAssertEqual(formula1!.description, "(a ∧ ¬b)")
         
         let str2 = "((a)∨((¬test)) ∨ ((d) ∧ (a)))"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str2))
-        let formula2 = parseDNFFormula(input_str: str2, apList: globalAPList)
+        XCTAssertTrue(FormulaParser.checkBracketCorrectness(input_str: str2))
+        let formula2 = FormulaParser.parseDNFFormula(input_str: str2, apList: globalAPList)
         XCTAssertEqual(formula2!.description, "(a) ∨ (¬test) ∨ (d ∧ a)")
         
         let str3 = "(test ∨ (¬d ∧ ¬a))"
-        XCTAssertTrue(checkBracketCorrectness(input_str: str3))
-        let formula3 = parseDNFFormula(input_str: str3, apList: globalAPList)
+        XCTAssertTrue(FormulaParser.checkBracketCorrectness(input_str: str3))
+        let formula3 = FormulaParser.parseDNFFormula(input_str: str3, apList: globalAPList)
         XCTAssertEqual(formula3!.description, "(test) ∨ (¬d ∧ ¬a)")
     }
     
@@ -197,7 +197,7 @@ class FormulaTest: XCTestCase {
         
         
         
-        let conj1 = parseConjunction(str_conj: "a1∧¬d4∧c3∧a1", apList: globalAPList)
+        let conj1 = FormulaParser.parseConjunction(str_conj: "a1∧¬d4∧c3∧a1", apList: globalAPList)
         if conj1 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
@@ -220,7 +220,7 @@ class FormulaTest: XCTestCase {
         
         
         
-        let conj1 = parseConjunction(str_conj: "a∧¬d∧c∧a", apList: globalAPList)
+        let conj1 = FormulaParser.parseConjunction(str_conj: "a∧¬d∧c∧a", apList: globalAPList)
         if conj1 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
@@ -230,7 +230,7 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(conj1!.literals[3].description, "a")
         }
         
-        let conj2 = parseConjunction(str_conj: "a∧¬false∧c∧a", apList: globalAPList)
+        let conj2 = FormulaParser.parseConjunction(str_conj: "a∧¬false∧c∧a", apList: globalAPList)
         if conj2 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
@@ -240,22 +240,22 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(conj2!.literals[3].description, "a")
         }
         
-        let conj3 = parseConjunction(str_conj: "a∧¬d1∧c∧a", apList: globalAPList)
+        let conj3 = FormulaParser.parseConjunction(str_conj: "a∧¬d1∧c∧a", apList: globalAPList)
         if conj3 != nil {
             XCTAssert(false, "Expected Conjunction Parsing Error")
         }
         
-        let conj4 = parseConjunction(str_conj: "a∧¬a∧c∧f", apList: globalAPList)
+        let conj4 = FormulaParser.parseConjunction(str_conj: "a∧¬a∧c∧f", apList: globalAPList)
         if conj4 != nil {
             XCTAssert(false, "Expected Conjunction Parsing Error")
         }
         
-        let conj5 = parseConjunction(str_conj: "a∧¬a∧c∧∧a", apList: globalAPList)
+        let conj5 = FormulaParser.parseConjunction(str_conj: "a∧¬a∧c∧∧a", apList: globalAPList)
         if conj5 != nil {
             XCTAssert(false, "Expected Conjunction Parsing Error")
         }
         
-        let conj6 = parseConjunction(str_conj: "a∧¬a∧c∧a∧", apList: globalAPList)
+        let conj6 = FormulaParser.parseConjunction(str_conj: "a∧¬a∧c∧a∧", apList: globalAPList)
         if conj6 != nil {
             XCTAssert(false, "Expected Conjunction Parsing Error")
         }
@@ -274,7 +274,7 @@ class FormulaTest: XCTestCase {
         
         
         
-        let formula1 = parseDNFFormula(input_str: "((a) ∨ (b) ∨ (¬d))", apList: globalAPList)
+        let formula1 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (b) ∨ (¬d))", apList: globalAPList)
         if formula1 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
@@ -287,7 +287,7 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(formula1!.dnf.count, 3)
         }
         
-        let formula2 = parseDNFFormula(input_str: "((false) ∨ (b) ∨ (¬true))", apList: globalAPList)
+        let formula2 = FormulaParser.parseDNFFormula(input_str: "((false) ∨ (b) ∨ (¬true))", apList: globalAPList)
         if formula2 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
@@ -300,7 +300,7 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(formula2!.dnf.count, 3)
         }
         
-        let formula3 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        let formula3 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
         if formula3 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
@@ -317,12 +317,12 @@ class FormulaTest: XCTestCase {
         }
         
         
-        let formula4 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ ∨  (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        let formula4 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ ∨  (b ∧ b) ∨ (¬d))", apList: globalAPList)
         if formula4 != nil {
             XCTAssert(false, "Expected Formula Parsing Error")
         }
         
-        let formula5 = parseDNFFormula(input_str: "", apList: globalAPList)
+        let formula5 = FormulaParser.parseDNFFormula(input_str: "", apList: globalAPList)
         if formula5 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
@@ -331,7 +331,7 @@ class FormulaTest: XCTestCase {
             XCTAssertEqual(formula5!.dnf.count, 1)
         }
         
-        let formula6 = parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d) ∨ )", apList: globalAPList)
+        let formula6 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d) ∨ )", apList: globalAPList)
         if formula6 != nil {
             XCTAssert(false, "Expected Formula Parsing Error")
         }

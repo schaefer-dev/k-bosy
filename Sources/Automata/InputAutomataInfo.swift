@@ -56,39 +56,3 @@ public struct InputAutomataInfo: Codable {
     }
 
 }
-
-
-public func readAutomataInfoFile(path: String) -> InputAutomataInfo? {
-    /* Verify System requirements */
-    if #available(OSX 10.11, *) {
-        /* System requirements passed */
-        let jsonURL = URL(fileURLWithPath: path)
-        //print("loading json from path: " + jsonURL.path)
-
-
-        /* try to read input JSON File */
-        do {
-            let jsonData =  try Data(contentsOf: jsonURL)
-            //print("File data read.")
-            // jsonData can be used
-            let decoder = JSONDecoder()
-            do {
-                let automataInfo = try decoder.decode(InputAutomataInfo.self, from: jsonData)
-                //print("AutomataInfoDecoding completed.")
-                return automataInfo
-                
-                
-            } catch {
-                /* failed to decode content of jsonData */
-                print("ERROR during Decoding: " + error.localizedDescription)
-            }
-        } catch {
-            /* failed to read data from jsonURL */
-            print("loading of jsonData error...")
-        }
-    } else {
-        /* failed System Requirements */
-        print("ERROR: Requires at least macOS 10.11")
-    }
-    return nil
-}
