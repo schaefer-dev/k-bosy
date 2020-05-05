@@ -14,7 +14,7 @@ public class AutomataTransition {
         self.end = end
         self.action = action
         if (action != nil) {
-            let action_str = action!.dnf[0].literals[0].toString()
+            let action_str = action!.dnf[0].literals[0].description
             print("DEBUG: created transition from '" + start.name + "' to '" + end.name + "' with action contained being " + action_str)
         } else {
             print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with no action contained")

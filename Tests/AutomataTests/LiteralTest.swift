@@ -8,7 +8,7 @@ import Foundation
 class LiteralTest: XCTestCase {
     
     
-    func testLiteralToString() {
+    func testLiteraldescription() {
         let globalAPList = APList()
         
         // Create Sample APs
@@ -27,11 +27,11 @@ class LiteralTest: XCTestCase {
         let lit4: Literal = Constant(negated: true, truthValue: true)
         let lit5: Literal = Constant(negated: false, truthValue: false)
         
-        XCTAssertEqual(lit1.toString(), "¬test1")
-        XCTAssertEqual(lit2.toString(), "¬test2")
-        XCTAssertEqual(lit3.toString(), "test3")
-        XCTAssertEqual(lit4.toString(), "¬true")
-        XCTAssertEqual(lit5.toString(), "false")
+        XCTAssertEqual(lit1.description, "¬test1")
+        XCTAssertEqual(lit2.description, "¬test2")
+        XCTAssertEqual(lit3.description, "test3")
+        XCTAssertEqual(lit4.description, "¬true")
+        XCTAssertEqual(lit5.description, "false")
     }
     
     
@@ -93,21 +93,21 @@ class LiteralTest: XCTestCase {
         if lit3 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
-            XCTAssertEqual(lit3!.toString(), "a")
+            XCTAssertEqual(lit3!.description, "a")
         }
         
         let lit4 = parseLiteral(str_literal: "c12", apList: globalAPList)
         if lit4 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
-            XCTAssertEqual(lit4!.toString(), "c12")
+            XCTAssertEqual(lit4!.description, "c12")
         }
         
         let lit5 = parseLiteral(str_literal: "¬false", apList: globalAPList)
         if lit5 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
-            XCTAssertEqual(lit5!.toString(), "¬false")
+            XCTAssertEqual(lit5!.description, "¬false")
         }
         
         

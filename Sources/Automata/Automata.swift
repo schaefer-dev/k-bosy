@@ -168,12 +168,8 @@ public func readDotGraphFile(path: String, info: InputAutomataInfo) -> Automata?
                 }
                 index += 1
             }
-            
-
-            
             return automata
-            
-            
+        
         } catch {
             /* failed to read data from given path */
             print("loading of dotGraphFile error. UTF-8 encoding expected.")

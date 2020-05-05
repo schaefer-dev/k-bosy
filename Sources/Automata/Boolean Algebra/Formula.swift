@@ -10,8 +10,28 @@ import Foundation
 
 
 /* Formula represented as Distjunctive Normal Form (DNF) */
-public struct Formula : Equatable {
+public struct Formula : Equatable, CustomStringConvertible {
     var dnf: [Conjunction]
+    
+    public var description: String {
+         if dnf.count == 0 {
+             return ""
+         }
+         
+         var output_string = ""
+         
+         var conj_index = 0
+         while (true) {
+             output_string += self.dnf[conj_index].description
+             conj_index += 1
+             if (conj_index > (self.dnf.count - 1)) {
+                 break
+             }
+             output_string += " ∨ "
+         }
+         
+         return output_string
+     }
     
     public func eval(state: CurrentState) -> Bool {
         // empty formula is true
@@ -29,6 +49,7 @@ public struct Formula : Equatable {
         return false
     }
     
+    // Equality definition on formulas, if all subformulas are equal
     public static func == (f1: Formula, f2: Formula) -> Bool {
         // if not same length of dnf can not be equal
         if f1.dnf.count != f2.dnf.count {
@@ -48,33 +69,33 @@ public struct Formula : Equatable {
     public init(containedConjunctions: [Conjunction]) {
         dnf = containedConjunctions
     }
-    
-    
-    
-    public func toString() -> String {
-        if dnf.count == 0 {
-            return ""
-        }
-        
-        var output_string = ""
-        
-        var conj_index = 0
-        while (true) {
-            output_string += self.dnf[conj_index].toString()
-            conj_index += 1
-            if (conj_index > (self.dnf.count - 1)) {
-                break
-            }
-            output_string += " ∨ "
-        }
-        
-        return output_string
-    }
 }
 
 
-public struct Conjunction : Equatable {
+public struct Conjunction : Equatable, CustomStringConvertible {
     var literals : [Literal]
+    
+    public var description: String {
+         if literals.count == 0 {
+             return ""
+         }
+         
+         var output_string = "("
+         var lit_index = 0
+         while (true) {
+             output_string += self.literals[lit_index].description
+             lit_index += 1
+             if (lit_index > (self.literals.count - 1)) {
+                 break
+             }
+             output_string += " ∧ "
+         }
+         
+         
+         output_string += ")"
+         
+         return output_string
+     }
     
     public func eval(state: CurrentState) -> Bool {
         if (self.literals.count == 0) {
@@ -99,7 +120,7 @@ public struct Conjunction : Equatable {
         
         for i in 0...(c1.literals.count - 1) {
             // if any pair in dnf not equal return false
-            if (c1.literals[i].toString() != c2.literals[i].toString()) {
+            if (c1.literals[i].description != c2.literals[i].description) {
                 return false
             }
         }
@@ -110,29 +131,7 @@ public struct Conjunction : Equatable {
     public init(literalsContainedInConjunction: [Literal]) {
         literals = literalsContainedInConjunction
     }
-    
-    
-    public func toString() -> String {
-        if literals.count == 0 {
-            return ""
-        }
-        
-        var output_string = "("
-        var lit_index = 0
-        while (true) {
-            output_string += self.literals[lit_index].toString()
-            lit_index += 1
-            if (lit_index > (self.literals.count - 1)) {
-                break
-            }
-            output_string += " ∧ "
-        }
-        
-        
-        output_string += ")"
-        
-        return output_string
-    }
+ 
 }
 
 public func checkBracketCorrectness(input_str: String) -> Bool {

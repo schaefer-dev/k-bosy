@@ -50,7 +50,7 @@ class AutomataTest: XCTestCase {
             XCTAssertEqual(applicable_transitions.count, 1)
             XCTAssertEqual(applicable_transitions[0].end.name, "s1")
             XCTAssertEqual(applicable_transitions[0].end, automata.get_state(name: "s1"))
-            XCTAssertEqual(applicable_transitions[0].action!.dnf[0].literals[0].toString(), "go")
+            XCTAssertEqual(applicable_transitions[0].action!.dnf[0].literals[0].description, "go")
             
             
             // change to state s1
@@ -64,7 +64,7 @@ class AutomataTest: XCTestCase {
             XCTAssertEqual(applicable_transitions.count, 1)
             XCTAssertEqual(applicable_transitions[0].end.name, "s1")
             XCTAssertEqual(applicable_transitions[0].end, automata.get_state(name: "s1"))
-            XCTAssertEqual(applicable_transitions[0].action!.dnf[0].literals[0].toString(), "go")
+            XCTAssertEqual(applicable_transitions[0].action!.dnf[0].literals[0].description, "go")
             
             
             

@@ -158,7 +158,7 @@ class FormulaTest: XCTestCase {
     }
     
     
-    func testToString() {
+    func testdescription() {
         let globalAPList = APList()
         
         // Create Sample APs
@@ -172,17 +172,17 @@ class FormulaTest: XCTestCase {
         let formula1 = parseDNFFormula(input_str: str1, apList: globalAPList)
         XCTAssertEqual(formula1!.dnf.count, 1)
         XCTAssertEqual(formula1!.dnf[0].literals.count, 2)
-        XCTAssertEqual(formula1!.toString(), "(a ∧ ¬b)")
+        XCTAssertEqual(formula1!.description, "(a ∧ ¬b)")
         
         let str2 = "((a)∨((¬test)) ∨ ((d) ∧ (a)))"
         XCTAssertTrue(checkBracketCorrectness(input_str: str2))
         let formula2 = parseDNFFormula(input_str: str2, apList: globalAPList)
-        XCTAssertEqual(formula2!.toString(), "(a) ∨ (¬test) ∨ (d ∧ a)")
+        XCTAssertEqual(formula2!.description, "(a) ∨ (¬test) ∨ (d ∧ a)")
         
         let str3 = "(test ∨ (¬d ∧ ¬a))"
         XCTAssertTrue(checkBracketCorrectness(input_str: str3))
         let formula3 = parseDNFFormula(input_str: str3, apList: globalAPList)
-        XCTAssertEqual(formula3!.toString(), "(test) ∨ (¬d ∧ ¬a)")
+        XCTAssertEqual(formula3!.description, "(test) ∨ (¬d ∧ ¬a)")
     }
     
     
@@ -201,10 +201,10 @@ class FormulaTest: XCTestCase {
         if conj1 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
-            XCTAssertEqual(conj1!.literals[0].toString(), "a1")
-            XCTAssertEqual(conj1!.literals[1].toString(), "¬d4")
-            XCTAssertEqual(conj1!.literals[2].toString(), "c3")
-            XCTAssertEqual(conj1!.literals[3].toString(), "a1")
+            XCTAssertEqual(conj1!.literals[0].description, "a1")
+            XCTAssertEqual(conj1!.literals[1].description, "¬d4")
+            XCTAssertEqual(conj1!.literals[2].description, "c3")
+            XCTAssertEqual(conj1!.literals[3].description, "a1")
         }
         
     }
@@ -224,20 +224,20 @@ class FormulaTest: XCTestCase {
         if conj1 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
-            XCTAssertEqual(conj1!.literals[0].toString(), "a")
-            XCTAssertEqual(conj1!.literals[1].toString(), "¬d")
-            XCTAssertEqual(conj1!.literals[2].toString(), "c")
-            XCTAssertEqual(conj1!.literals[3].toString(), "a")
+            XCTAssertEqual(conj1!.literals[0].description, "a")
+            XCTAssertEqual(conj1!.literals[1].description, "¬d")
+            XCTAssertEqual(conj1!.literals[2].description, "c")
+            XCTAssertEqual(conj1!.literals[3].description, "a")
         }
         
         let conj2 = parseConjunction(str_conj: "a∧¬false∧c∧a", apList: globalAPList)
         if conj2 == nil {
             XCTAssert(false, "Unexpected Conjunction Parsing Error")
         } else {
-            XCTAssertEqual(conj2!.literals[0].toString(), "a")
-            XCTAssertEqual(conj2!.literals[1].toString(), "¬false")
-            XCTAssertEqual(conj2!.literals[2].toString(), "c")
-            XCTAssertEqual(conj2!.literals[3].toString(), "a")
+            XCTAssertEqual(conj2!.literals[0].description, "a")
+            XCTAssertEqual(conj2!.literals[1].description, "¬false")
+            XCTAssertEqual(conj2!.literals[2].description, "c")
+            XCTAssertEqual(conj2!.literals[3].description, "a")
         }
         
         let conj3 = parseConjunction(str_conj: "a∧¬d1∧c∧a", apList: globalAPList)
@@ -278,11 +278,11 @@ class FormulaTest: XCTestCase {
         if formula1 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
-            XCTAssertEqual(formula1!.dnf[0].literals[0].toString(), "a")
+            XCTAssertEqual(formula1!.dnf[0].literals[0].description, "a")
             XCTAssertEqual(formula1!.dnf[0].literals.count, 1)
-            XCTAssertEqual(formula1!.dnf[1].literals[0].toString(), "b")
+            XCTAssertEqual(formula1!.dnf[1].literals[0].description, "b")
             XCTAssertEqual(formula1!.dnf[1].literals.count, 1)
-            XCTAssertEqual(formula1!.dnf[2].literals[0].toString(), "¬d")
+            XCTAssertEqual(formula1!.dnf[2].literals[0].description, "¬d")
             XCTAssertEqual(formula1!.dnf[2].literals.count, 1)
             XCTAssertEqual(formula1!.dnf.count, 3)
         }
@@ -291,11 +291,11 @@ class FormulaTest: XCTestCase {
         if formula2 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
-            XCTAssertEqual(formula2!.dnf[0].literals[0].toString(), "false")
+            XCTAssertEqual(formula2!.dnf[0].literals[0].description, "false")
             XCTAssertEqual(formula2!.dnf[0].literals.count, 1)
-            XCTAssertEqual(formula2!.dnf[1].literals[0].toString(), "b")
+            XCTAssertEqual(formula2!.dnf[1].literals[0].description, "b")
             XCTAssertEqual(formula2!.dnf[1].literals.count, 1)
-            XCTAssertEqual(formula2!.dnf[2].literals[0].toString(), "¬true")
+            XCTAssertEqual(formula2!.dnf[2].literals[0].description, "¬true")
             XCTAssertEqual(formula2!.dnf[2].literals.count, 1)
             XCTAssertEqual(formula2!.dnf.count, 3)
         }
@@ -304,14 +304,14 @@ class FormulaTest: XCTestCase {
         if formula3 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
-            XCTAssertEqual(formula3!.dnf[0].literals[0].toString(), "a")
-            XCTAssertEqual(formula3!.dnf[0].literals[1].toString(), "¬c")
-            XCTAssertEqual(formula3!.dnf[0].literals[2].toString(), "¬false")
+            XCTAssertEqual(formula3!.dnf[0].literals[0].description, "a")
+            XCTAssertEqual(formula3!.dnf[0].literals[1].description, "¬c")
+            XCTAssertEqual(formula3!.dnf[0].literals[2].description, "¬false")
             XCTAssertEqual(formula3!.dnf[0].literals.count, 3)
-            XCTAssertEqual(formula3!.dnf[1].literals[0].toString(), "b")
-            XCTAssertEqual(formula3!.dnf[1].literals[1].toString(), "b")
+            XCTAssertEqual(formula3!.dnf[1].literals[0].description, "b")
+            XCTAssertEqual(formula3!.dnf[1].literals[1].description, "b")
             XCTAssertEqual(formula3!.dnf[1].literals.count, 2)
-            XCTAssertEqual(formula3!.dnf[2].literals[0].toString(), "¬d")
+            XCTAssertEqual(formula3!.dnf[2].literals[0].description, "¬d")
             XCTAssertEqual(formula3!.dnf[2].literals.count, 1)
             XCTAssertEqual(formula3!.dnf.count, 3)
         }
@@ -326,7 +326,7 @@ class FormulaTest: XCTestCase {
         if formula5 == nil {
             XCTAssert(false, "Unexpected Formula Parsing Error")
         } else {
-            XCTAssertEqual(formula5!.dnf[0].literals[0].toString(), "true")
+            XCTAssertEqual(formula5!.dnf[0].literals[0].description, "true")
             XCTAssertEqual(formula5!.dnf[0].literals.count, 1)
             XCTAssertEqual(formula5!.dnf.count, 1)
         }
