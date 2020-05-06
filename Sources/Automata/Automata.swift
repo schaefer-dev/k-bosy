@@ -9,7 +9,11 @@ public class Automata {
     // Transition contained in states currently: public var transition_relation: [Transition]
     
     
-    // Constructor only called via readDotgraphFile!!
+    /**
+     This constructor may only be called in the `parseDotGraphFile` method.
+    
+     - Parameter info: InputAutomataInfo which provides additional information that is required to construct Automata structure.
+    */
     init(info: InputAutomataInfo) {
         self.apList = APList()
         
@@ -28,7 +32,12 @@ public class Automata {
         all_states = [String: AutomataState]()
     }
     
-    // Adds initial state if not contained already, otherwise just skips and gives warning
+    /**
+     Adds an initial state to the automata strucure. The addition is skipped whenever the state is already contained, however a warning is printed whenever this case happens.
+     The Addition of the state is also skipped if it was previously contained as a non-initial state and is afterwards attempted to be added as an initial state. The same warning is output in this special-case.
+    
+     - Parameter new_state: State which should be added to the Automata Structure
+    */
     public func add_initial_state(new_initial_state: AutomataState) {
         if (self.all_states[new_initial_state.name] != nil) {
             print("WARNING: tried to add new initial State " + new_initial_state.name + " which was already contained in Automata")
@@ -39,7 +48,12 @@ public class Automata {
         print("DEBUG: added initial state " + new_initial_state.name + " to Automata")
     }
     
-    // Adds non-initial state if not contained already, otherwise just skips and gives warning
+
+    /**
+     Adds a non-initial state to the automata strucure. The addition is skipped whenever the state is already contained, however a warning is printed whenever this case happens.
+     
+     - Parameter new_state: State which should be added to the Automata Structure
+     */
     public func add_state(new_state: AutomataState) {
         if (self.all_states[new_state.name] != nil) {
             print("WARNING: tried to add State " + new_state.name + " which was already contained in Automata")
@@ -55,8 +69,13 @@ public class Automata {
     }
     
     
-    /* main function that is used to parse transition from string to the automata structure which
-        adds it to the initial state this transtion starts at. */
+    /**
+     Used to parse transition from a string representation that occurs in the dot  graph file and add it to the Automata strucutre this method is called with. Sideffects from this addition may be the creation of states that are part of the transtion but not yet part of the Automata structure.
+     
+     - Parameter start_str: string which represents the starting state of this transition
+     - Parameter end_str: string which represents the ending state of this transition
+     - Parameter condition: string which represents the condition under which this transition is taken. May also contain actions that are preformed by the environment whenever this transition is taken, these actions are listed after the character '/' terminates the conditon.
+     */
     public func parseAndAddTransition(start_str: String, end_str: String, condition: String) {
         let startStateOpt = self.get_state(name: start_str)
         let endStateOpt = self.get_state(name: end_str)

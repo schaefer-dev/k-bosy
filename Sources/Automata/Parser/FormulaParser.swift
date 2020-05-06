@@ -14,7 +14,7 @@ public class FormulaParser {
     /**
     Attempts to parse a single Literal . This Literal is given as a string.
     
-    - Parameter str_conj: the String that contains only the Literal (may contain negation character)
+    - Parameter str_literal: the String that contains only the Literal (may contain negation character)
     - Parameter apList: a List of Atomic Propositions which has to contain all Atomic Propositions which occur in the given string
     
     - Returns: An optional new class of Type Literal which is the internal representation of the given Literal. This may either represent a constant or an atomic proposition. Both cases may occur in negated forms.
@@ -65,7 +65,7 @@ public class FormulaParser {
     /**
     Attempts to parse a supposed Formla in DNF Form. This formula is given as a string.
     
-    - Parameter str_conj: the String that contains only the DNF Formula
+    - Parameter input_str: the String that contains only the DNF Formula
     - Parameter apList: a List of Atomic Propositions which has to contain all Atomic Propositions which occur in the given string
     
     - Returns: An optional new class of Type Formula which is the internal representation of the given DNF Formula.
