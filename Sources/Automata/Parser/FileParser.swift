@@ -10,6 +10,14 @@ import Foundation
 
 public class FileParser {
 
+    
+    /**
+    Attempts to parse a AutomataInfo File which corresponds to the structure specified in the 'InputAutomataInfo' class. This file adheres to the JSON standart.
+    
+    - Parameter path: the String that describes the path to the AutomataInfo File given in json form.
+    
+    - Returns: Optional Representation of InfoAutomataInfo file.
+    */
     public static func readAutomataInfoFile(path: String) -> InputAutomataInfo? {
         /* Verify System requirements */
         if #available(OSX 10.11, *) {
@@ -46,6 +54,14 @@ public class FileParser {
     }
     
     
+    /**
+     Attempts to parse a Text file describing a dot graph. This dot graph describes the Automata which describes the possible behaviour of the environment.
+   
+     - Parameter path: the String that describes the path to the AutomataInfo File given in json form.
+     - Parameter info: the InputAutomataInfo which was previously read using the 'readAutomataInfoFile' method. This Structure contains additional information that is required to generate the returned Automata structure.
+     
+     - Returns: Optional Automata class, which contains all relevant information, rendering the InputAutomataInfo now redundant.
+    */
     public static func readDotGraphFile(path: String, info: InputAutomataInfo) -> Automata? {
         /* Verify System requirements */
         if #available(OSX 10.11, *) {
