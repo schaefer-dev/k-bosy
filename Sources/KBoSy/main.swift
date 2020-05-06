@@ -63,7 +63,7 @@ do {
                 print("ERROR: something went wrong while reading AutomataInfo File")
                 exit(EXIT_FAILURE)
             }
-            let automata = automataOpt!
+            let _ = automataOpt!
             print("LOADING: Dot graph read successfully")
         }
     }

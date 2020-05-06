@@ -15,9 +15,9 @@ public class AutomataTransition {
         self.action = action
         if (action.count > 0) {
             let action_str = action[0].id
-            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + "' with action contained being " + action_str)
+            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + "' with condition " + self.condition.description + " and action contained being " + action_str)
         } else {
-            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with no action contained")
+            print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with condition " + self.condition.description + " and no action contained")
         }
     }
 }
