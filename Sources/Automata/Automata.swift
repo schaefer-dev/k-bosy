@@ -96,11 +96,8 @@ public class Automata {
             print("ERROR: two '/' encounted in one transition, parsing error!")
         }
         
-        
         // parse condition
         let condition_string = first_split[0].trimmingCharacters(in: .whitespacesAndNewlines)
-        print("DEBUG: condition of transition is " + condition_string)
-        
         
         let condition = FormulaParser.parseDNFFormula(input_str: condition_string, apList: self.apList)
         

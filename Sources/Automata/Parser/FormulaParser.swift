@@ -96,9 +96,7 @@ public class FormulaParser {
     }
 
 
-    public static func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {
-        print("DEBUG: parsing conjunction " + str_conj)
-        
+    public static func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {        
         let str_literals = str_conj.components(separatedBy: "∧")
         var literal_array: [Literal] = []
         
