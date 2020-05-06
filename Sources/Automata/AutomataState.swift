@@ -21,7 +21,6 @@ public class AutomataState : Hashable {
     
     
     public func getApplicableTransitions(state: CurrentState) -> [AutomataTransition]{
-        // TODO: returns the set of applicable transitions given the currentState
         var applicableTransitions: [AutomataTransition] = []
         
         // check for every transition if it can be applied

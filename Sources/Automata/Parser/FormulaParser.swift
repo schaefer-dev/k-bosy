@@ -10,6 +10,15 @@ import Foundation
 
 public class FormulaParser {
     
+    
+    /**
+    Attempts to parse a single Literal . This Literal is given as a string.
+    
+    - Parameter str_literal: the String that contains only the Literal (may contain negation character)
+    - Parameter apList: a List of Atomic Propositions which has to contain all Atomic Propositions which occur in the given string
+    
+    - Returns: An optional new class of Type Literal which is the internal representation of the given Literal. This may either represent a constant or an atomic proposition. Both cases may occur in negated forms.
+    */
     public static func parseLiteral(str_literal: String, apList: APList) -> Literal? {
         var negated = false
         // check if negated
@@ -53,7 +62,14 @@ public class FormulaParser {
         }
     }
 
+    /**
+    Attempts to parse a supposed Formla in DNF Form. This formula is given as a string.
     
+    - Parameter input_str: the String that contains only the DNF Formula
+    - Parameter apList: a List of Atomic Propositions which has to contain all Atomic Propositions which occur in the given string
+    
+    - Returns: An optional new class of Type Formula which is the internal representation of the given DNF Formula.
+    */
     public static func parseDNFFormula(input_str: String, apList: APList) -> Formula? {
         
         // Remove ALL whitespace from string
@@ -95,8 +111,15 @@ public class FormulaParser {
         return dnf_formula
     }
 
-
-    public static func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {        
+    /**
+     Attempts to parse a supposed conjunction, given as a string and returns the resulting Conjunction Class
+     
+     - Parameter str_conj: the String that contains the conjunction that is supposed to be parsed in String form
+     - Parameter apList: a List of Atomic Propositions which has to contain all Atomic Propositions which occur in the given string
+     
+     - Returns: An optional new class of Type Conjunction which is the internal representation of the given Formula.
+     */
+    public static func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {
         let str_literals = str_conj.components(separatedBy: "∧")
         var literal_array: [Literal] = []
         
@@ -114,7 +137,13 @@ public class FormulaParser {
         return conj
     }
     
+    /**
+    Checks the correctness of the brackets in the given String. The Brackets are correct if and only if they encapsulate only Conjunctions. The only exception to this rulse is one optional set of brackets that surrounds the entire Formula. All other brackets are forbidden.
     
+    - Parameter input_str: the String containing brackets which is being checked. Does NOT contain any whitespace
+    
+    - Returns: True if the Bracket Check was passed, false otherwise.
+    */
     public static func checkBracketCorrectness(input_str: String) -> Bool {
         var counter = 0
         var parsingList: [String] = []

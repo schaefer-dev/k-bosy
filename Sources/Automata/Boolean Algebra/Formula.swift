@@ -38,8 +38,6 @@ public struct Formula : Equatable, CustomStringConvertible {
         if (self.dnf.count == 0) {
             return true
         }
-        
-        
         for conj in dnf {
             // whenever one conjunction is true, then DNF-Formula must be true
             if (conj.eval(state: state)){
@@ -55,7 +53,6 @@ public struct Formula : Equatable, CustomStringConvertible {
         if f1.dnf.count != f2.dnf.count {
             return false
         }
-        
         for i in 0...(f1.dnf.count - 1) {
             // if any pair in dnf not equal return false
             if (f1.dnf[i] != f2.dnf[i]) {
@@ -79,7 +76,6 @@ public struct Conjunction : Equatable, CustomStringConvertible {
          if literals.count == 0 {
              return ""
          }
-         
          var output_string = "("
          var lit_index = 0
          while (true) {
@@ -90,8 +86,6 @@ public struct Conjunction : Equatable, CustomStringConvertible {
              }
              output_string += " ∧ "
          }
-         
-         
          output_string += ")"
          
          return output_string
@@ -102,7 +96,6 @@ public struct Conjunction : Equatable, CustomStringConvertible {
             print("WARNING: empty Conjunction evaluated, this should never happen!")
             return true
         }
-        
         for literal in literals {
             // whenever one literal not true, conjunction can no longer be true
             if !(literal.eval(state: state)){
@@ -117,7 +110,6 @@ public struct Conjunction : Equatable, CustomStringConvertible {
         if c1.literals.count != c2.literals.count {
             return false
         }
-        
         for i in 0...(c1.literals.count - 1) {
             // if any pair in dnf not equal return false
             if (c1.literals[i].description != c2.literals[i].description) {
