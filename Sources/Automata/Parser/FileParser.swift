@@ -122,7 +122,7 @@ public class FileParser {
                                 // Remove brackets
                                 formula_substring.removeLast()
                                 formula_substring.removeFirst()
-                                formula_substring.trimmingCharacters(in: .whitespacesAndNewlines)
+                                formula_substring = formula_substring.trimmingCharacters(in: .whitespacesAndNewlines)
                                 
                                 let formula_elementList = formula_substring.components(separatedBy: ",")
                                 
