@@ -94,7 +94,7 @@ public class FileParser {
                         let right_substrings = substrings[1].split(separator: "[")
                         let initial_state_name = right_substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                         
-                        let new_initial_state = AutomataState(name: initial_state_name)
+                        let new_initial_state = AutomataState(name: initial_state_name, propositions: [])
                         automata.add_initial_state(new_initial_state: new_initial_state)
                     } else {
                         // Condition to find transition description line
@@ -108,6 +108,53 @@ public class FileParser {
                             let equation = right_sub_substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
                             
                             automata.parseAndAddTransition(start_str: start_state, end_str: goal_state, condition: equation)
+                        } else {
+                            // if wildcard does not match we may be looking at a state description
+                            if (wildcard(content_lines[index], pattern: "*[*label=\"{*}\"*]*")) {
+                                // matches state description line according to wildcard
+                                let substrings = content_lines[index].components(separatedBy: "\"")
+                                var formula_substring = substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                                let left_substring = substrings[0].components(separatedBy: "[")
+                                let statename_substring = left_substring[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                                
+                                print("DEBUG: Parser found APs " + formula_substring + " in state " + statename_substring)
+                                
+                                // Remove brackets
+                                formula_substring.removeLast()
+                                formula_substring.removeFirst()
+                                formula_substring = formula_substring.trimmingCharacters(in: .whitespacesAndNewlines)
+                                
+                                let formula_elementList = formula_substring.components(separatedBy: ",")
+                                
+                                var apList: [AP] = []
+                                for ap_string in formula_elementList {
+                                    // do not handle empty string
+                                    if ap_string == "" {
+                                        continue
+                                    }
+                                    let apOpt = automata.apList.lookupAP(apName: ap_string.trimmingCharacters(in: .whitespacesAndNewlines))
+                                    if apOpt == nil {
+                                        print("Parsing Error: State contained AP '" + ap_string + "' which was not previously defined.")
+                                    } else {
+                                        apList.append(apOpt!)
+                                    }
+                                }
+                                
+                                
+                                // If state already created (e.g. is initial state, add the missing APs to it
+                                let stateAlreadyThereOpt = automata.get_state(name: statename_substring)
+                                if stateAlreadyThereOpt == nil {
+                                    // create state because does not exist yet
+                                    let new_state = AutomataState(name: statename_substring, propositions: apList)
+                                    automata.add_state(new_state: new_state)
+                                } else {
+                                    // State already exists in automata, so we only add the APs to it
+                                    let state = stateAlreadyThereOpt!
+                                    state.addAPs(aps: apList)
+                                }
+   
+                                
+                            }
                         }
                     }
                     index += 1
