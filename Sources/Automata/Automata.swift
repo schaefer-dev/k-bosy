@@ -45,7 +45,7 @@ public class Automata {
         }
         self.all_states[new_initial_state.name] = new_initial_state
         self.initial_states.append(new_initial_state)
-        print("DEBUG: added initial state " + new_initial_state.name + " to Automata")
+        print("DEBUG: added initial state " + new_initial_state.description + " to Automata")
     }
     
 
@@ -60,7 +60,7 @@ public class Automata {
             return
         }
         self.all_states[new_state.name] = new_state
-        print("DEBUG: added state " + new_state.name + " to Automata")
+        print("DEBUG: added state " + new_state.description + " to Automata")
     }
     
     
@@ -82,13 +82,13 @@ public class Automata {
 
         // Create startState if non existant
         if (startStateOpt == nil) {
-            let startState = AutomataState(name: start_str)
+            let startState = AutomataState(name: start_str, propositions: [])
             self.add_state(new_state: startState)
         }
 
         // Create endState if non existant
         if (endStateOpt == nil) {
-           let endState = AutomataState(name: end_str)
+           let endState = AutomataState(name: end_str, propositions: [])
            self.add_state(new_state: endState)
         }
         
@@ -99,18 +99,8 @@ public class Automata {
         let cond_trimmed = condition.trimmingCharacters(in: .whitespacesAndNewlines)
         let first_split = cond_trimmed.components(separatedBy: "/")
         
-        var action: [AP] = []
         if (first_split.count == 2) {
-            // parse action
-            let action_string = first_split[1].trimmingCharacters(in: .whitespacesAndNewlines)
-            if (action_string != "") {
-                // TODO: add handling for cases in which more than one actions happens
-                let apOpt = self.apList.lookupAP(apName: action_string)
-                if (apOpt == nil) {
-                } else {
-                    action.append(apOpt!)
-                }
-            }
+            print("WARNING: detected '/', which is not expected in kripke representation")
         } else if (first_split.count > 2) {
             print("ERROR: two '/' encounted in one transition, parsing error!")
         }
@@ -125,7 +115,7 @@ public class Automata {
             exit(EXIT_FAILURE)
         }
         
-        let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState, action: action)
+        let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState)
         startState.addTransition(trans: new_transition)
     }
 }
