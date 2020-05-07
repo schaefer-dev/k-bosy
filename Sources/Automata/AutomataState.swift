@@ -8,14 +8,31 @@
 import Foundation
 
 
-public class AutomataState : Hashable {
+public class AutomataState : Hashable, CustomStringConvertible {
     public var name: String
     public var propositions: [AP]
     public var transitions: [AutomataTransition]
     
-    public init(name: String) {
+    public var description: String {
+        var returnString = self.name + " {"
+        
+        var index = 0
+        while index < self.propositions.count {
+            returnString += self.propositions[index].description
+            
+            if (index < self.propositions.count - 1) {
+                // more elements follow, thus add commata
+                returnString += ", "
+            }
+            index += 1
+        }
+        returnString += "}"
+        return returnString
+     }
+    
+    public init(name: String, propositions: [AP]) {
         self.name = name
-        self.propositions = []
+        self.propositions = propositions
         self.transitions = []
     }
     
@@ -41,6 +58,16 @@ public class AutomataState : Hashable {
             exit(EXIT_FAILURE)
         }
         self.transitions.append(trans)
+    }
+    
+    public func addAPs(aps: [AP]) {
+        for ap in aps {
+            if (self.propositions.contains(ap)) {
+                print("WARNING: tried to add AP to state, which was already contained, skipping!")
+            }
+            self.propositions.append(ap)
+            print("DEBUG: added " + ap.description + " to state " + self.name)
+        }
     }
     
     
