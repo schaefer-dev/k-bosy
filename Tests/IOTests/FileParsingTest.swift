@@ -56,13 +56,16 @@ class FileParsingTest: XCTestCase {
         let automataInfo = automataInfoOpt!
         
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let dotGraph = dotGraphOpt!
         
         // s0 is only initial state
         XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
         XCTAssertEqual(dotGraph.initial_states.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions.count, 0)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions[0]., "go")
         
         // s0 has outgoing transitions to s1 and s0
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].end.name, "s1")
@@ -72,13 +75,6 @@ class FileParsingTest: XCTestCase {
         // s1 has only one outgoing transition to s1
         XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].end.name, "s1")
         XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions.count, 1)
-        
-        
-        // test if SINGLE actions of transitions are parsed correctly
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].action[0].description, "go")
-        let action2: [AP] = dotGraph.get_state(name: "s0")!.transitions[1].action
-        XCTAssertEqual(action2.count, 0)
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].action[0].description, "go")
         
         
         // test if conditions are parsed correctly
