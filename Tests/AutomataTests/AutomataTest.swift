@@ -28,7 +28,7 @@ class AutomataTest: XCTestCase {
             let ap_h = ap_hOpt!
             
             // current State test values
-            let currentState = CurrentState()
+            let currentState = CurrentTruthValues()
             currentState.update_value(ap: ap_a, value: false)
             currentState.update_value(ap: ap_b, value: false)
             currentState.update_value(ap: ap_h, value: false)
@@ -38,7 +38,7 @@ class AutomataTest: XCTestCase {
             
             XCTAssertEqual(initial_state.propositions.count, 0)
             
-            var applicable_transitions = initial_state.getApplicableTransitions(state: currentState)
+            var applicable_transitions = initial_state.getApplicableTransitions(truthValues: currentState)
             XCTAssertEqual(applicable_transitions.count, 1)
             XCTAssertEqual(applicable_transitions[0].end.name, "s0")
             XCTAssertEqual(applicable_transitions[0].end, initial_state)
@@ -47,7 +47,7 @@ class AutomataTest: XCTestCase {
             currentState.update_value(ap: ap_b, value: false)
             currentState.update_value(ap: ap_h, value: false)
             
-            applicable_transitions = initial_state.getApplicableTransitions(state: currentState)
+            applicable_transitions = initial_state.getApplicableTransitions(truthValues: currentState)
             XCTAssertEqual(applicable_transitions.count, 1)
             XCTAssertEqual(applicable_transitions[0].end.name, "s1")
             XCTAssertEqual(applicable_transitions[0].end, automata.get_state(name: "s1"))
@@ -62,7 +62,7 @@ class AutomataTest: XCTestCase {
             currentState.update_value(ap: ap_b, value: false)
             currentState.update_value(ap: ap_h, value: false)
             
-            applicable_transitions = initial_state.getApplicableTransitions(state: currentState)
+            applicable_transitions = initial_state.getApplicableTransitions(truthValues: currentState)
             XCTAssertEqual(applicable_transitions.count, 1)
             XCTAssertEqual(applicable_transitions[0].end.name, "s1")
             XCTAssertEqual(applicable_transitions[0].end, automata.get_state(name: "s1"))

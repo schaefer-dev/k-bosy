@@ -33,14 +33,14 @@ public struct Formula : Equatable, CustomStringConvertible {
          return output_string
      }
     
-    public func eval(state: CurrentState) -> Bool {
+    public func eval(truthValues: CurrentTruthValues) -> Bool {
         // empty formula is true
         if (self.dnf.count == 0) {
             return true
         }
         for conj in dnf {
             // whenever one conjunction is true, then DNF-Formula must be true
-            if (conj.eval(state: state)){
+            if (conj.eval(truthValues: truthValues)){
                 return true
             }
         }
@@ -91,14 +91,14 @@ public struct Conjunction : Equatable, CustomStringConvertible {
          return output_string
      }
     
-    public func eval(state: CurrentState) -> Bool {
+    public func eval(truthValues: CurrentTruthValues) -> Bool {
         if (self.literals.count == 0) {
             print("WARNING: empty Conjunction evaluated, this should never happen!")
             return true
         }
         for literal in literals {
             // whenever one literal not true, conjunction can no longer be true
-            if !(literal.eval(state: state)){
+            if !(literal.eval(truthValues: truthValues)){
                 return false
             }
         }

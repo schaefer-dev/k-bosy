@@ -27,17 +27,17 @@ class FormulaTest: XCTestCase {
         let lit5: Literal = Constant(negated: false, truthValue: false)
         
         // current State test values
-        let currentState = CurrentState()
+        let currentState = CurrentTruthValues()
         currentState.update_value(ap: test_ap1, value: true)
         currentState.update_value(ap: test_ap2, value: false)
         currentState.update_value(ap: test_ap3, value: true)
 
         // make sure values of single literals are what is expected by this test
-        XCTAssertEqual(lit1.eval(state: currentState), false)
-        XCTAssertEqual(lit2.eval(state: currentState), true)
-        XCTAssertEqual(lit3.eval(state: currentState), true)
-        XCTAssertEqual(lit4.eval(state: currentState), false)
-        XCTAssertEqual(lit5.eval(state: currentState), false)
+        XCTAssertEqual(lit1.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit2.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit3.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit4.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit5.eval(truthValues: currentState), false)
         
         
         // Create conjunctions
@@ -53,10 +53,10 @@ class FormulaTest: XCTestCase {
         let conj4Content = [lit2, lit3, lit2, lit3, lit5, lit3]
         let conj4 = Conjunction(literalsContainedInConjunction: conj4Content)
         
-        XCTAssertEqual(conj1.eval(state: currentState), true)
-        XCTAssertEqual(conj2.eval(state: currentState), true)
-        XCTAssertEqual(conj3.eval(state: currentState), false)
-        XCTAssertEqual(conj4.eval(state: currentState), false)
+        XCTAssertEqual(conj1.eval(truthValues: currentState), true)
+        XCTAssertEqual(conj2.eval(truthValues: currentState), true)
+        XCTAssertEqual(conj3.eval(truthValues: currentState), false)
+        XCTAssertEqual(conj4.eval(truthValues: currentState), false)
     }
     
     
@@ -80,17 +80,17 @@ class FormulaTest: XCTestCase {
         let lit5: Literal = Constant(negated: false, truthValue: false)
         
         // current State test values
-        let currentState = CurrentState()
+        let currentState = CurrentTruthValues()
         currentState.update_value(ap: test_ap1, value: true)
         currentState.update_value(ap: test_ap2, value: false)
         currentState.update_value(ap: test_ap3, value: true)
 
         // make sure values of single literals are what is expected by this test
-        XCTAssertEqual(lit1.eval(state: currentState), false)
-        XCTAssertEqual(lit2.eval(state: currentState), true)
-        XCTAssertEqual(lit3.eval(state: currentState), true)
-        XCTAssertEqual(lit4.eval(state: currentState), false)
-        XCTAssertEqual(lit5.eval(state: currentState), false)
+        XCTAssertEqual(lit1.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit2.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit3.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit4.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit5.eval(truthValues: currentState), false)
         
         
         // Create conjunctions
@@ -107,10 +107,10 @@ class FormulaTest: XCTestCase {
         let conj4 = Conjunction(literalsContainedInConjunction: conj4Content)
         
         // make sure values of conjunctions are what is expected by this test
-        XCTAssertEqual(conj1.eval(state: currentState), true)
-        XCTAssertEqual(conj2.eval(state: currentState), true)
-        XCTAssertEqual(conj3.eval(state: currentState), false)
-        XCTAssertEqual(conj4.eval(state: currentState), false)
+        XCTAssertEqual(conj1.eval(truthValues: currentState), true)
+        XCTAssertEqual(conj2.eval(truthValues: currentState), true)
+        XCTAssertEqual(conj3.eval(truthValues: currentState), false)
+        XCTAssertEqual(conj4.eval(truthValues: currentState), false)
         
         
         let dnf1Content = [conj1, conj3, conj4]
@@ -127,10 +127,10 @@ class FormulaTest: XCTestCase {
         let dnf4 = Formula(containedConjunctions: dnf4Content)
         
         
-        XCTAssertEqual(dnf1.eval(state: currentState), true)
-        XCTAssertEqual(dnf2.eval(state: currentState), false)
-        XCTAssertEqual(dnf3.eval(state: currentState), false)
-        XCTAssertEqual(dnf4.eval(state: currentState), true)
+        XCTAssertEqual(dnf1.eval(truthValues: currentState), true)
+        XCTAssertEqual(dnf2.eval(truthValues: currentState), false)
+        XCTAssertEqual(dnf3.eval(truthValues: currentState), false)
+        XCTAssertEqual(dnf4.eval(truthValues: currentState), true)
     }
     
     
