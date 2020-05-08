@@ -37,12 +37,19 @@ public class AutomataState : Hashable, CustomStringConvertible {
     }
     
     
-    public func getApplicableTransitions(state: CurrentState) -> [AutomataTransition]{
+    /**
+     returns the set of Transitions that may be applied starting in the current state, given the truth values contained in the given CurrentState.
+     
+     - Parameter state: current State which contains the truth values that currently hold for all APs.
+     
+     - Returns: Set of AutomataTransition which start in this state and could be applied given the CurrentTruthValues.
+     */
+    public func getApplicableTransitions(truthValues: CurrentTruthValues) -> [AutomataTransition]{
         var applicableTransitions: [AutomataTransition] = []
         
         // check for every transition if it can be applied
         for trans in self.transitions {
-            if (trans.condition.eval(state: state)) {
+            if (trans.condition.eval(truthValues: truthValues)) {
                 // condition is true -> add to returned list
                 applicableTransitions.append(trans)
             }

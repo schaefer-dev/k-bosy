@@ -27,7 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>Automata</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AutomataTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BooleanAlgebraTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>IOTests</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -37,7 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>KBoSyLib</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>KBoSyTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>KnowledgeSpecificTests</key>
 		<dict>
 			<key>primary</key>
 			<true/>

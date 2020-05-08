@@ -13,7 +13,7 @@ public protocol Literal: CustomStringConvertible {
     var description: String {get}
     
     // TODO: make sure references to state are always passed so we don't copy the state over and over while calling this method repeatedly
-    func eval(state: CurrentState) -> Bool
+    func eval(truthValues: CurrentTruthValues) -> Bool
 }
 
 public struct Variable : Literal, CustomStringConvertible {
@@ -36,8 +36,8 @@ public struct Variable : Literal, CustomStringConvertible {
     }
     
     
-    public func eval(state: CurrentState) -> Bool {
-        let truthValue = state.give_value(ap: ap)
+    public func eval(truthValues: CurrentTruthValues) -> Bool {
+        let truthValue = truthValues.give_value(ap: ap)
         
         if (neg) {
             return !truthValue
@@ -75,7 +75,7 @@ public struct Constant : Literal, CustomStringConvertible {
     }
     
     
-    public func eval(state: CurrentState) -> Bool {
+    public func eval(truthValues: CurrentTruthValues) -> Bool {
         if (neg) {
             if (value) {
                 return false

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class CurrentState {
+public class CurrentTruthValues {
     private var map : [AP : Bool]
     
     // TODO: require to add all possible APs into this state on construction, afterwards keys are not allowed to be added!

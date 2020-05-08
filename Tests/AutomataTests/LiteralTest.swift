@@ -55,16 +55,16 @@ class LiteralTest: XCTestCase {
         let lit5: Literal = Constant(negated: false, truthValue: false)
         
         // current State test values
-        let currentState = CurrentState()
+        let currentState = CurrentTruthValues()
         currentState.update_value(ap: test_ap1, value: true)
         currentState.update_value(ap: test_ap2, value: false)
         currentState.update_value(ap: test_ap3, value: true)
         
-        XCTAssertEqual(lit1.eval(state: currentState), false)
-        XCTAssertEqual(lit2.eval(state: currentState), true)
-        XCTAssertEqual(lit3.eval(state: currentState), true)
-        XCTAssertEqual(lit4.eval(state: currentState), false)
-        XCTAssertEqual(lit5.eval(state: currentState), false)
+        XCTAssertEqual(lit1.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit2.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit3.eval(truthValues: currentState), true)
+        XCTAssertEqual(lit4.eval(truthValues: currentState), false)
+        XCTAssertEqual(lit5.eval(truthValues: currentState), false)
     }
     
     
