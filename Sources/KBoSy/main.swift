@@ -63,8 +63,30 @@ do {
                 print("ERROR: something went wrong while reading AutomataInfo File")
                 exit(EXIT_FAILURE)
             }
-            let _ = automataOpt!
-            print("LOADING: Dot graph read successfully")
+            let automata = automataOpt!
+            
+            let spec = SynthesisSpecification(automata: automata)
+            
+            print("Assumptions:")
+            for a in spec.assumptions {
+                print(a.description)
+            }
+            
+            print("Guarantees:")
+            for g in spec.guarantees {
+                print(g.description)
+            }
+            
+            let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
+            print("Output file saved.")
+            
+            if let synt = parguments.get(synthesize), synt {
+                  print("\n--------------------------------------------------")
+                  print("Calling Bosy now....\n")
+                  callBoSy(inputFilename: outputFilename)
+              }
+            
+            exit(EXIT_SUCCESS)
         }
     }
     

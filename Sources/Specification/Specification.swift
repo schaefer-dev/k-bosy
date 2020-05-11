@@ -10,6 +10,7 @@
 
 import Foundation
 import LTL
+import Automata
 
 
 public enum TransitionSystemType: String, Codable {
@@ -42,6 +43,17 @@ public struct SynthesisSpecification: Codable {
         self.assumptions = assumptions
         self.guarantees = guarantees
         self.transformation_rules = transformation_rules
+    }
+    
+    
+    public init(automata: Automata) {
+        // TODO maybe change to moore later
+        self.semantics = TransitionSystemType.mealy
+        self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata)
+        self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
+        self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        self.guarantees = automata.guarantees
+        self.transformation_rules = nil
     }
     
     
