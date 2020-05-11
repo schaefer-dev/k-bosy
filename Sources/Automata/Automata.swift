@@ -1,4 +1,5 @@
 import Foundation
+import LTL
 
 
 // Represents dot Graph
@@ -6,6 +7,7 @@ public class Automata {
     public var apList: APList
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
+    public var guarantees: [LTL]
     // Transition contained in states currently: public var transition_relation: [Transition]
     
     
@@ -27,9 +29,12 @@ public class Automata {
         for ap in info.outputs {
             let _ = AP(name: ap, observable: true, list: self.apList, output: true)
         }
+        self.guarantees = info.guarantees
         
         initial_states = []
         all_states = [String: AutomataState]()
+        
+        print(self.guarantees)
     }
     
     /**
@@ -66,6 +71,22 @@ public class Automata {
     
     public func get_state(name: String) -> AutomataState? {
         return self.all_states[name]
+    }
+    
+    /**
+     returns all States that are part of this Automata structure sorted by state name
+     */
+    public func get_allStates() -> [AutomataState] {
+        var state_list: [AutomataState] = []
+        
+        for state in self.all_states {
+            state_list.append(state.value)
+        }
+        
+        // sorting happens to guarantee deterministic behaviour of Assumptions-generation which improves ability to test in these cases
+        let state_list_sorted = state_list.sorted { $0.name < $1.name }
+        
+        return state_list_sorted
     }
     
     

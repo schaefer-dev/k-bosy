@@ -1,14 +1,17 @@
 import Foundation
+import LTL
 
 public struct InputAutomataInfo: Codable {
     public let observableAP: [String]
     public let hiddenAP: [String]
     public let outputs: [String]
+    public let guarantees: [LTL]
 
-    public init(observableAP: [String], hiddenAP: [String], outputs: [String]) {
+    public init(observableAP: [String], hiddenAP: [String], outputs: [String], guarantees: [LTL]) {
         self.observableAP = observableAP
         self.hiddenAP = hiddenAP
         self.outputs = outputs
+        self.guarantees = guarantees
     }
     
     public static func fromJson(string: String) -> InputAutomataInfo? {

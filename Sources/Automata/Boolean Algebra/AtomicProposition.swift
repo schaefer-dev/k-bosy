@@ -32,6 +32,61 @@ public class APList {
                 return nil
             }
     }
+    
+    
+    /**
+     returns all APs that are part of this Automata structure sorted by AP name
+     */
+    public func get_allAPs() -> [AP] {
+        var ap_list: [AP] = []
+        
+        for ap in self.mapping {
+            ap_list.append(ap.value)
+        }
+        
+        // sorting happens to guarantee deterministic behaviour of Assumptions-generation which improves ability to test in these cases
+        let ap_list_sorted = ap_list.sorted { $0.id < $1.id }
+        
+        return ap_list_sorted
+    }
+    
+    
+    /**
+     returns all obversable APs that are part of this Automata structure sorted by AP name
+     */
+    public func get_allObservableAPs() -> [AP] {
+        var ap_list: [AP] = []
+        
+        for ap in self.mapping {
+            if ap.value.obs {
+                ap_list.append(ap.value)
+            }
+        }
+        
+        // sorting happens to guarantee deterministic behaviour of Assumptions-generation which improves ability to test in these cases
+        let ap_list_sorted = ap_list.sorted { $0.id < $1.id }
+        
+        return ap_list_sorted
+    }
+    
+    
+    /**
+     returns all obversable APs that are part of this Automata structure sorted by AP name
+     */
+    public func get_allOutputAPs() -> [AP] {
+        var ap_list: [AP] = []
+        
+        for ap in self.mapping {
+            if ap.value.output {
+                ap_list.append(ap.value)
+            }
+        }
+        
+        // sorting happens to guarantee deterministic behaviour of Assumptions-generation which improves ability to test in these cases
+        let ap_list_sorted = ap_list.sorted { $0.id < $1.id }
+        
+        return ap_list_sorted
+    }
 }
 
 // make id and obs non-changable!
