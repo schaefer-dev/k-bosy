@@ -76,5 +76,47 @@ class AutomataTest: XCTestCase {
             XCTAssert(false, "AP was not found correctly")
         }
     }
+    
+    
+    func testGenerateInitialStateAssumptions() {
+        
+        var automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        var automataInfo = automataInfoOpt!
+        
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
+        
+        
+        var dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        var automata = dotGraphOpt!
+        
+        
+        var test_value = AssumptionsGenerator._generateInitialStateAssumptions(auto: automata)
+        
+        XCTAssertEqual(test_value.description, "s0")
+        
+        
+        
+        automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        automataInfo = automataInfoOpt!
+        
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
+        
+        
+        dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        automata = dotGraphOpt!
+        
+        
+        test_value = AssumptionsGenerator._generateInitialStateAssumptions(auto: automata)
+        
+        
+        XCTAssertEqual(test_value.description, "((s0) ∨ (s1)) ∨ (s2)")
+        
+    }
 
 }
