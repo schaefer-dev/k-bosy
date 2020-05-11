@@ -1,4 +1,5 @@
 import Foundation
+import LTL
 
 
 // Represents dot Graph
@@ -6,6 +7,7 @@ public class Automata {
     public var apList: APList
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
+    public var guarantees: [LTL]
     // Transition contained in states currently: public var transition_relation: [Transition]
     
     
@@ -27,9 +29,12 @@ public class Automata {
         for ap in info.outputs {
             let _ = AP(name: ap, observable: true, list: self.apList, output: true)
         }
+        self.guarantees = info.guarantees
         
         initial_states = []
         all_states = [String: AutomataState]()
+        
+        print(self.guarantees)
     }
     
     /**

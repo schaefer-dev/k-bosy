@@ -31,6 +31,9 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(automataInfo.outputs[1], "o2")
         XCTAssertEqual(automataInfo.outputs.count, 2)
         
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "G (o2)")
+        
     }
     
     
@@ -54,6 +57,9 @@ class FileParsingTest: XCTestCase {
         let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
+        
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)

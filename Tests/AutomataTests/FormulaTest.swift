@@ -209,6 +209,7 @@ class FormulaTest: XCTestCase {
         
     }
     
+    
     func testParseConjunction() {
         let globalAPList = APList()
         

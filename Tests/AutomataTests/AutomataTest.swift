@@ -12,6 +12,9 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
+        
         
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
