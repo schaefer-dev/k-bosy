@@ -19,33 +19,142 @@ public class AssumptionsGenerator {
         
         return_assumptions.append(initial_state_assumptions)
         
-        // TODO implement
+        // TODO use _generate* methods to compute this here once everything is finished
         
         return return_assumptions
     }
     
     /**
      adds all state-names as input APs and also all APs which are specified to be observable
+     
+     Returns all inputAPs of the Synthesis Task
      */
     public static func getAutomataInputAPs(auto: Automata) -> [String] {
-        // add all states as input APs + observable APs
         var return_array: [String] = []
+        
+        // add all states as input APs
+        let all_states = auto.get_allStates()
+        for state in all_states {
+            return_array.append(state.name)
+        }
+        
+        // add all observable APs as input APs
+        let all_aps = auto.apList.get_allAPs()
+        for ap in all_aps {
+            if ap.obs {
+                return_array.append(ap.id)
+            }
+        }
         
         return return_array
     }
     
     /**
-     returns all output APs of the Automata
+     returns all output APs of the Synthesis Task
      */
     public static func getAutomataOutputAPs(auto: Automata) -> [String] {
         // return all
         var return_array: [String] = []
         
+        // add all output APs
+        let all_aps = auto.apList.get_allAPs()
+        for ap in all_aps {
+            if ap.output {
+                return_array.append(ap.id)
+            }
+        }
+                
         return return_array
     }
     
+    
+    
     /**
-     generate Assumptions which specifiy the starting behaviour of the automaton
+     generates all Assumptions that are caused by transitions from state to state, make sure that non-observable APs are not contained here
+     */
+    public static func _generateTransitionAssumptions(auto: Automata) -> [LTL] {
+        var return_assumptions: [LTL] = []
+        // TODO
+        
+        return return_assumptions
+    }
+    
+    
+    /**
+     generates assumptions which assign each state their respective APs, make sure that non-observable APs are not contained here
+     */
+    public static func _generateStateAPsAssumptions(auto: Automata) -> [LTL] {
+        let all_states = auto.get_allStates()
+        let all_observable_aps = auto.apList.get_allObservableAPs()
+        var return_assumptions: [LTL] = []
+        
+        var current_state_index = 0
+        while (current_state_index < all_states.count) {
+            // get all observable APs that hold in this state
+            var obs_state_aps: [AP] = []
+            for ap in all_states[current_state_index].propositions {
+                if ap.obs {
+                    obs_state_aps.append(ap)
+                }
+            }
+            // generate string version of this array with all APs that hold in this state
+            var obs_state_aps_strings: [String] = []
+            for ap in obs_state_aps {
+                obs_state_aps_strings.append(ap.id)
+            }
+            
+            // get all observable AP names that do not hold in this state
+            var obs_not_state_aps_strings: [String] = []
+            for ap in all_observable_aps {
+                if obs_state_aps.contains(ap) || ap.output {
+                    // output APs of the synthesis task can not hold in environment states, so they are skipped
+                    continue
+                } else {
+                    // if AP is not contained it does not hold in this state
+                    obs_not_state_aps_strings.append(ap.id)
+                }
+            }
+            
+            var ltl_string = "G(" + all_states[current_state_index].name + " -> ("
+            
+            // build positive condition section for this string which contains all observable APs that hold in this state
+            if obs_state_aps_strings.count != 0 {
+                ltl_string += obs_state_aps_strings.joined(separator: " && ")
+            } else {
+                ltl_string += "true"
+            }
+            
+            // connect positive condition section with negative condition section
+            ltl_string += " && "
+            
+            // build negative condition section for this string which contains all observable APs that do not hold in this state
+            if obs_not_state_aps_strings.count != 0 {
+                // negation of first element has to be added manually
+                ltl_string += "!"
+                
+                ltl_string += obs_not_state_aps_strings.joined(separator: " && !")
+            } else {
+                ltl_string += "true"
+            }
+            
+            ltl_string += "))"
+            
+            do{
+                let ltl_condition = try LTL.parse(fromString: ltl_string)
+                return_assumptions.append(ltl_condition)
+            } catch {
+                print("Error when parsing LTL condition " + ltl_string)
+            }
+            
+            current_state_index += 1
+        }
+        
+        return return_assumptions
+    }
+    
+    
+    /**
+     generate Assumptions which specifiy the fact that we have to be in one (and only one!)  of the environment states at any point in time
      */
     public static func _generatePossibleStateAssumptions(auto: Automata) -> [LTL] {
         let all_states = auto.get_allStates()
