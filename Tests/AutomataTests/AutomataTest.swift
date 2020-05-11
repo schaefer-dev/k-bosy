@@ -118,5 +118,53 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(test_value.description, "((s0) ∨ (s1)) ∨ (s2)")
         
     }
+    
+    
+    
+    func testGenerateStateAssumptions2() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
+        
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator._generatePossibleStateAssumptions(auto: automata)
+        XCTAssertEqual(test_value.count, 3)
+        
+        XCTAssertEqual(test_value[0].description, "G ((s0) -> (¬ (s1)))")
+        XCTAssertEqual(test_value[1].description, "G ((s1) -> (¬ (s0)))")
+        XCTAssertEqual(test_value[2].description, "G ((s0) ∨ (s1))")
+    }
+    
+    func testGenerateStateAssumptions3() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        XCTAssertEqual(automataInfo.guarantees.count, 1)
+        XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
+        
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator._generatePossibleStateAssumptions(auto: automata)
+        XCTAssertEqual(test_value.count, 4)
+    
+        
+        XCTAssertEqual(test_value[0].description, "G ((s0) -> ((¬ (s1)) ∧ (¬ (s2))))")
+        XCTAssertEqual(test_value[1].description, "G ((s1) -> ((¬ (s0)) ∧ (¬ (s2))))")
+        XCTAssertEqual(test_value[2].description, "G ((s2) -> ((¬ (s0)) ∧ (¬ (s1))))")
+        XCTAssertEqual(test_value[3].description, "G (((s0) ∨ (s1)) ∨ (s2))")
+    }
 
 }

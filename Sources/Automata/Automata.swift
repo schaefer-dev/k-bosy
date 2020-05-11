@@ -73,6 +73,22 @@ public class Automata {
         return self.all_states[name]
     }
     
+    /**
+     returns all States that are part of this Automata structure sorted by state name
+     */
+    public func get_allStates() -> [AutomataState] {
+        var state_list: [AutomataState] = []
+        
+        for state in self.all_states {
+            state_list.append(state.value)
+        }
+        
+        // sorting happens to guarantee deterministic behaviour of Assumptions-generation which improves ability to test in these cases
+        let state_list_sorted = state_list.sorted { $0.name < $1.name }
+        
+        return state_list_sorted
+    }
+    
     
     /**
      Used to parse transition from a string representation that occurs in the dot  graph file and add it to the Automata strucutre this method is called with. Sideffects from this addition may be the creation of states that are part of the transtion but not yet part of the Automata structure.
