@@ -180,10 +180,10 @@ class AutomataTest: XCTestCase {
         
         let test_value = AssumptionsGenerator._generateStateAPsAssumptions(auto: automata)
         XCTAssertEqual(test_value.count, 4)
-        XCTAssertEqual(test_value[0].description, "G ((s0) -> (((o1) ∧ (o2)) ∧ (¬ (grant))))")
-        XCTAssertEqual(test_value[1].description, "G ((s1) -> (((grant) ∧ (o2)) ∧ (¬ (o1))))")
-        XCTAssertEqual(test_value[2].description, "G ((s2) -> ((((⊤) ∧ (¬ (grant))) ∧ (¬ (o1))) ∧ (¬ (o2))))")
-        XCTAssertEqual(test_value[3].description, "G ((s3) -> ((((grant) ∧ (o1)) ∧ (o2)) ∧ (⊤)))")
+        XCTAssertEqual(test_value[0].description, "G ((s0) -> (((i1) ∧ (i2)) ∧ (¬ (grant))))")
+        XCTAssertEqual(test_value[1].description, "G ((s1) -> (((grant) ∧ (i2)) ∧ (¬ (i1))))")
+        XCTAssertEqual(test_value[2].description, "G ((s2) -> ((((⊤) ∧ (¬ (grant))) ∧ (¬ (i1))) ∧ (¬ (i2))))")
+        XCTAssertEqual(test_value[3].description, "G ((s3) -> ((((grant) ∧ (i1)) ∧ (i2)) ∧ (⊤)))")
         
         
         // testing getObservableVersion
@@ -224,6 +224,48 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(test_value[1].description, "G ((¬ (s1)) ∨ ((⊤) ∧ (X (s1))))")
         XCTAssertEqual(test_value[2].description, "G ((¬ (s2)) ∨ (((⊤) ∧ (X (s2))) ∨ ((⊤) ∧ (X (s3)))))")
         XCTAssertEqual(test_value[3].description, "G ((¬ (s3)) ∨ ((⊤) ∧ (X (s3))))")
+    }
+    
+    
+    func testGetAutomataInputAPs() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator.getAutomataInputAPs(auto: automata)
+        
+        // 1 condition for each transition
+        XCTAssertEqual(test_value.count, 7)
+        XCTAssertEqual(test_value[0], "grant")
+        XCTAssertEqual(test_value[1], "i1")
+        XCTAssertEqual(test_value[2], "i2")
+        XCTAssertEqual(test_value[3], "s0")
+        XCTAssertEqual(test_value[4], "s1")
+        XCTAssertEqual(test_value[5], "s2")
+        XCTAssertEqual(test_value[6], "s3")
+    }
+    
+    func testGetAutomataOutputAPs() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
+        
+        // 1 condition for each transition
+        XCTAssertEqual(test_value.count, 2)
+        XCTAssertEqual(test_value[0], "go")
+        XCTAssertEqual(test_value[1], "request")
     }
     
     

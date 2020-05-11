@@ -37,15 +37,15 @@ public class AssumptionsGenerator {
             return_array.append(state.name)
         }
         
-        // add all observable APs as input APs
+        // add all observable, non-output APs as input APs
         let all_aps = auto.apList.get_allAPs()
         for ap in all_aps {
-            if ap.obs {
+            if ap.obs && !ap.output{
                 return_array.append(ap.id)
             }
         }
         
-        return return_array
+        return return_array.sorted()
     }
     
     /**
@@ -63,7 +63,7 @@ public class AssumptionsGenerator {
             }
         }
                 
-        return return_array
+        return return_array.sorted()
     }
     
     
