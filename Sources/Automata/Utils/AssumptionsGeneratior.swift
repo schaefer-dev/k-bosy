@@ -12,14 +12,13 @@ import LTL
 public class AssumptionsGenerator {
     
     
-    public static func getAutomataAssumptions(auto: Automata) -> [LTL] {
+    public static func generateAutomataAssumptions(auto: Automata) -> [LTL] {
         var return_assumptions: [LTL] = []
         
-        let initial_state_assumptions = self._generateInitialStateAssumptions(auto: auto)
-        
-        return_assumptions.append(initial_state_assumptions)
-        
-        // TODO use _generate* methods to compute this here once everything is finished
+        return_assumptions = return_assumptions + self._generatePossibleStateAssumptions(auto: auto)
+        return_assumptions.append(self._generateInitialStateAssumptions(auto: auto))
+        return_assumptions = return_assumptions + self._generateStateAPsAssumptions(auto: auto)
+        return_assumptions = return_assumptions + self._generateTransitionAssumptions(auto: auto)
         
         return return_assumptions
     }
@@ -73,8 +72,45 @@ public class AssumptionsGenerator {
      generates all Assumptions that are caused by transitions from state to state, make sure that non-observable APs are not contained here
      */
     public static func _generateTransitionAssumptions(auto: Automata) -> [LTL] {
+        let all_states = auto.get_allStates()
+        let all_observable_aps = auto.apList.get_allObservableAPs()
         var return_assumptions: [LTL] = []
-        // TODO
+        
+        
+        var current_state_index = 0
+        while (current_state_index < all_states.count) {
+            // handle transitions contained in state at index 'current_state_index'
+            var ltl_string = "G(!" + all_states[current_state_index].name + " || ("
+            
+            var transition_index = 0
+            let relevant_transitions = all_states[current_state_index].transitions
+            
+            // for all condition build string "(trans1_cond && trans1_end)" and disjunct these for all conditions in that state
+            while transition_index < relevant_transitions.count {
+                
+                // add condition that is being in the correct state and the transition condition holding
+                ltl_string += "((" + relevant_transitions[transition_index].condition.getObservableVersion().description + ")"
+                ltl_string += " && X(" + relevant_transitions[transition_index].end.name + "))"
+                
+                // if more transitions following add disjunction
+                if (transition_index < (relevant_transitions.count - 1)) {
+                    ltl_string += " || "
+                }
+                
+                transition_index += 1
+                
+            }
+            ltl_string += "))"
+            
+            do{
+                let ltl_condition = try LTL.parse(fromString: ltl_string)
+                return_assumptions.append(ltl_condition)
+            } catch {
+                print("Error in generatingTransitionAssumptions when parsing LTL condition " + ltl_string)
+            }
+            
+            current_state_index += 1
+        }
         
         return return_assumptions
     }

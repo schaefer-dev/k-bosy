@@ -184,6 +184,67 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(test_value[1].description, "G ((s1) -> (((grant) ∧ (o2)) ∧ (¬ (o1))))")
         XCTAssertEqual(test_value[2].description, "G ((s2) -> ((((⊤) ∧ (¬ (grant))) ∧ (¬ (o1))) ∧ (¬ (o2))))")
         XCTAssertEqual(test_value[3].description, "G ((s3) -> ((((grant) ∧ (o1)) ∧ (o2)) ∧ (⊤)))")
+        
+        
+        // testing getObservableVersion
+        let obs_formula_01 = automata.get_state(name: "s0")!.transitions[0].condition.getObservableVersion()
+        XCTAssertEqual(obs_formula_01.description, "(request)")
+        
+        let obs_formula_02 = automata.get_state(name: "s0")!.transitions[1].condition.getObservableVersion()
+        XCTAssertEqual(obs_formula_02.description, "(¬request)")
+        
+        let obs_formula_03 = automata.get_state(name: "s1")!.transitions[0].condition.getObservableVersion()
+        XCTAssertEqual(obs_formula_03.description, "(true)")
+        
+        let obs_formula_04 = automata.get_state(name: "s2")!.transitions[0].condition.getObservableVersion()
+        XCTAssertEqual(obs_formula_04.description, "(true)")
+        
+        let obs_formula_05 = automata.get_state(name: "s2")!.transitions[1].condition.getObservableVersion()
+        XCTAssertEqual(obs_formula_05.description, "(true)")
+        
     }
+    
+    
+    func testGenerateTransitionAssumptions() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator._generateTransitionAssumptions(auto: automata)
+        
+        // 1 condition for each transition
+        XCTAssertEqual(test_value.count, 4)
+        
+        XCTAssertEqual(test_value[0].description, "G ((¬ (s0)) ∨ (((request) ∧ (X (s1))) ∨ ((¬ (request)) ∧ (X (s0)))))")
+        XCTAssertEqual(test_value[1].description, "G ((¬ (s1)) ∨ ((⊤) ∧ (X (s1))))")
+        XCTAssertEqual(test_value[2].description, "G ((¬ (s2)) ∨ (((⊤) ∧ (X (s2))) ∨ ((⊤) ∧ (X (s3)))))")
+        XCTAssertEqual(test_value[3].description, "G ((¬ (s3)) ∨ ((⊤) ∧ (X (s3))))")
+    }
+    
+    
+    func testGenerateAllAssumptions() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        
+        // 1 condition for each transition
+        XCTAssertEqual(test_value.count, 14)
+        
+        // TODO maybe complete this test here with different input so its not redudant with previous tests of submethods
+    }
+    
+    
 
 }

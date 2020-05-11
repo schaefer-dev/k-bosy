@@ -14,6 +14,8 @@ public protocol Literal: CustomStringConvertible {
     
     // TODO: make sure references to state are always passed so we don't copy the state over and over while calling this method repeatedly
     func eval(truthValues: CurrentTruthValues) -> Bool
+    
+    func isObservable() -> Bool
 }
 
 public struct Variable : Literal, CustomStringConvertible {
@@ -33,6 +35,14 @@ public struct Variable : Literal, CustomStringConvertible {
     public init(negated: Bool, atomicProposition: AP) {
         ap = atomicProposition
         neg = negated
+    }
+    
+    
+    public func isObservable() -> Bool {
+        if ap.obs {
+            return true
+        }
+        return false
     }
     
     
@@ -67,6 +77,10 @@ public struct Constant : Literal, CustomStringConvertible {
                 return ("false" )
             }
         }
+    }
+    
+    public func isObservable() -> Bool {
+        return true
     }
     
     public init(negated: Bool, truthValue: Bool) {

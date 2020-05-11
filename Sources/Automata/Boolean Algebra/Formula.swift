@@ -47,6 +47,25 @@ public struct Formula : Equatable, CustomStringConvertible {
         return false
     }
     
+    /**
+     returns version of this formula which contains only observable APs
+     */
+    public func getObservableVersion() -> Formula {
+        var obs_conjunctions: [Conjunction] = []
+        
+        for conj in self.dnf {
+            let obs_conj = conj.getObservableVersion()
+            if obs_conj.literals.count > 0 {
+                obs_conjunctions.append(obs_conj)
+            }
+        }
+        // if formula is completely empty add true constant to it
+        if (obs_conjunctions.count == 0) {
+            obs_conjunctions.append(Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: true)]))
+        }
+        return Formula(containedConjunctions: obs_conjunctions)
+    }
+    
     // Equality definition on formulas, if all subformulas are equal
     public static func == (f1: Formula, f2: Formula) -> Bool {
         // if not same length of dnf can not be equal
@@ -104,6 +123,20 @@ public struct Conjunction : Equatable, CustomStringConvertible {
         }
         return true
     }
+    
+    /**
+      returns version of this conjunction which contains only observable APs
+    */
+     public func getObservableVersion() -> Conjunction {
+         var obs_literals: [Literal] = []
+         
+         for lit in self.literals {
+            if (lit.isObservable()) {
+                obs_literals.append(lit)
+            }
+         }
+        return Conjunction(literalsContainedInConjunction: obs_literals)
+     }
     
     public static func == (c1: Conjunction, c2: Conjunction) -> Bool {
         // if not same length of dnf can not be equal
