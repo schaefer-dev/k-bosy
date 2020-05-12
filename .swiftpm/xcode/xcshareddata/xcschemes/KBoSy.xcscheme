@@ -192,15 +192,35 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/knowledge_01.kbosy"
+            argument = "--synthesize"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_nas_01.kbosy"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_nas_01.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke_invalid.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/knowledge_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -214,18 +234,6 @@
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/specs/ltl_01.kbosy"
             isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--synthesize"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy"
-            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
