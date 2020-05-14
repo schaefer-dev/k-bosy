@@ -193,7 +193,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--synthesize"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata.kbosy"
@@ -205,6 +205,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_nas_01.kbosy"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/graph_arbiter_x2.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -213,6 +217,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_nas_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/graph_arbiter_x2_complete.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

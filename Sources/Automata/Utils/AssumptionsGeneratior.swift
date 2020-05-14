@@ -85,6 +85,10 @@ public class AssumptionsGenerator {
             var transition_index = 0
             let relevant_transitions = all_states[current_state_index].transitions
             
+            if (relevant_transitions.count == 0) {
+                assertionFailure("ERROR: State " + all_states[current_state_index].name + " has no outgoing transitions. This is not allowed")
+            }
+            
             // for all condition build string "(trans1_cond && trans1_end)" and disjunct these for all conditions in that state
             while transition_index < relevant_transitions.count {
                 
