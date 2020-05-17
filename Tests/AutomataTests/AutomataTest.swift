@@ -8,7 +8,7 @@ import Foundation
 class AutomataTest: XCTestCase {
     
     func testAutomataRun() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -16,7 +16,7 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_automata_small_kripke.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -80,7 +80,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateInitialStateAssumptions() {
         
-        var automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        var automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         var automataInfo = automataInfoOpt!
         
@@ -88,7 +88,7 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
-        var dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
+        var dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_automata_small_kripke.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         var automata = dotGraphOpt!
         
@@ -99,7 +99,7 @@ class AutomataTest: XCTestCase {
         
         
         
-        automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         automataInfo = automataInfoOpt!
         
@@ -107,7 +107,7 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
-        dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
+        dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         automata = dotGraphOpt!
         
@@ -123,7 +123,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAssumptions2() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -131,7 +131,7 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_automata_small_kripke.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -145,7 +145,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAssumptions3() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -153,7 +153,7 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(automataInfo.guarantees[0].description, "F (go)")
         
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_automata_small_kripke_multiple-initialStates.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -170,11 +170,11 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAPsAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -207,11 +207,11 @@ class AutomataTest: XCTestCase {
     
     func testGenerateTransitionAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -229,11 +229,11 @@ class AutomataTest: XCTestCase {
     
     func testGetAutomataInputAPs() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -252,11 +252,11 @@ class AutomataTest: XCTestCase {
     
     func testGetAutomataOutputAPs() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -271,11 +271,11 @@ class AutomataTest: XCTestCase {
     
     func testGenerateAllAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -283,6 +283,39 @@ class AutomataTest: XCTestCase {
         
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)
+        
+        // TODO maybe complete this test here with different input so its not redudant with previous tests of submethods
+    }
+    
+    func testGenerateAssumptionsNAS() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_nas_01.kbosy")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+        
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_nas_01.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        let automata = dotGraphOpt!
+        
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        
+        // 1 condition for each transition
+        XCTAssertEqual(test_value.count, 14)
+        XCTAssertEqual(test_value[0].description, "G ((s0) -> (((¬ (s1)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[1].description, "G ((s1) -> (((¬ (s0)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[2].description, "G ((s2) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[3].description, "G ((s3) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))))")
+        XCTAssertEqual(test_value[4].description, "G ((((s0) ∨ (s1)) ∨ (s2)) ∨ (s3))")
+        
+        XCTAssertEqual(test_value[5].description, "s0")
+        XCTAssertEqual(test_value[6].description, "G ((s0) -> ((⊤) ∧ (¬ (r1))))")
+        XCTAssertEqual(test_value[7].description, "G ((s1) -> ((r1) ∧ (⊤)))")
+        XCTAssertEqual(test_value[8].description, "G ((s2) -> ((r1) ∧ (⊤)))")
+        XCTAssertEqual(test_value[9].description, "G ((s3) -> ((⊤) ∧ (¬ (r1))))")
+        XCTAssertEqual(test_value[10].description, "G ((¬ (s0)) ∨ (((⊤) ∧ (X (s0))) ∨ ((⊤) ∧ (X (s1)))))")
+        XCTAssertEqual(test_value[11].description, "G ((¬ (s1)) ∨ (((¬ (g1)) ∧ (X (s1))) ∨ ((g1) ∧ (X (s2)))))")
+        XCTAssertEqual(test_value[12].description, "G ((¬ (s2)) ∨ (((¬ (g1)) ∧ (X (s2))) ∨ ((g1) ∧ (X (s3)))))")
+        XCTAssertEqual(test_value[13].description, "G ((¬ (s3)) ∨ ((⊤) ∧ (X (s1))))")
         
         // TODO maybe complete this test here with different input so its not redudant with previous tests of submethods
     }

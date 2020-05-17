@@ -209,7 +209,9 @@ class FormulaTest: XCTestCase {
         
     }
     
-    
+    /**
+     This Test may cause errors in print and warning output in general because it attempts illegal operations and tests if they are declined correctly
+     */
     func testParseConjunction() {
         let globalAPList = APList()
         

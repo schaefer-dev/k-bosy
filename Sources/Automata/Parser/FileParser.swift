@@ -98,9 +98,9 @@ public class FileParser {
                         automata.add_initial_state(new_initial_state: new_initial_state)
                     } else {
                         // Condition to find transition description line
-                        if (wildcard(content_lines[index], pattern: "?* -> ?*")) {
-                            //print("DEBUG: Transition found in Statement " + String(index + 1))
-                            let substrings = content_lines[index].components(separatedBy: " -> ")
+                        if (wildcard(content_lines[index], pattern: "??*->??*")) {
+                            print("DEBUG: Transition found in Statement " + String(index + 1))
+                            let substrings = content_lines[index].components(separatedBy: "->")
                             let start_state = substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                             let right_substrings = substrings[1].components(separatedBy: "[")
                             let goal_state = right_substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -117,7 +117,7 @@ public class FileParser {
                                 let left_substring = substrings[0].components(separatedBy: "[")
                                 let statename_substring = left_substring[0].trimmingCharacters(in: .whitespacesAndNewlines)
                                 
-                                print("DEBUG: Parser found APs " + formula_substring + " in state " + statename_substring)
+                                // print("DEBUG: Parser found APs " + formula_substring + " in state " + statename_substring)
                                 
                                 // Remove brackets
                                 formula_substring.removeLast()
