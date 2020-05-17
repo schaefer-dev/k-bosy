@@ -208,7 +208,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/graph_arbiter_x2.kbosy"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/graph_arbiter_x2.kbosy"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -220,7 +220,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/graph_arbiter_x2_complete.gv"
+            argument = "-d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/graph_arbiter_x2_complete.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
