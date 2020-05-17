@@ -85,8 +85,10 @@ public class AssumptionsGenerator {
             var transition_index = 0
             let relevant_transitions = all_states[current_state_index].transitions
             
+            // special case if no outgoing transitions in state
             if (relevant_transitions.count == 0) {
-                assertionFailure("ERROR: State " + all_states[current_state_index].name + " has no outgoing transitions. This is not allowed")
+                print("WARNING: State " + all_states[current_state_index].name + " has no outgoing transitions. This is not allowed")
+                ltl_string += "false"
             }
             
             // for all condition build string "(trans1_cond && trans1_end)" and disjunct these for all conditions in that state
@@ -110,7 +112,7 @@ public class AssumptionsGenerator {
                 let ltl_condition = try LTL.parse(fromString: ltl_string)
                 return_assumptions.append(ltl_condition)
             } catch {
-                print("Error in generatingTransitionAssumptions when parsing LTL condition " + ltl_string)
+                assertionFailure("Error in generatingTransitionAssumptions when parsing LTL condition " + ltl_string)
             }
             
             current_state_index += 1

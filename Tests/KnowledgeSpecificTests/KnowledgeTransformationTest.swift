@@ -9,7 +9,7 @@ class KnowledgeTransformationTest: XCTestCase {
     
     
     func testTransformationKnowledge01() {
-        let specOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/knowledge_01.kbosy")
+        let specOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kltl/knowledge_01.kbosy")
         XCTAssert(specOpt != nil)
         var spec = specOpt!
         
