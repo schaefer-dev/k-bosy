@@ -10,6 +10,7 @@ let package = Package(
         .library(
             name: "KBoSyLib",
             targets: ["KBoSy"]),
+        .executable(name: "KBoSyExec", targets: ["KBoSy"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
