@@ -125,7 +125,27 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/nas_01.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/nas_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv1.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv2.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv2.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv3.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv3.gv"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_01.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_02.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_02.gv"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--synthesize"
