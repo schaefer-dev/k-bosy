@@ -10,7 +10,7 @@ class FileParsingTest: XCTestCase {
     
     
     func testAutomataInfoParsing() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
                         
@@ -54,7 +54,7 @@ class FileParsingTest: XCTestCase {
     }
     
     func testDotGraphParsingSingleAction() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -109,7 +109,7 @@ class FileParsingTest: XCTestCase {
     
     
     func testDotGraphParsingComplexer() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_kripke.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_kripke.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         

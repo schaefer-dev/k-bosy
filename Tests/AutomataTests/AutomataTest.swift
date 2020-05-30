@@ -8,7 +8,7 @@ import Foundation
 class AutomataTest: XCTestCase {
     
     func testAutomataRun() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -80,7 +80,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateInitialStateAssumptions() {
         
-        var automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        var automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         var automataInfo = automataInfoOpt!
         
@@ -99,7 +99,7 @@ class AutomataTest: XCTestCase {
         
         
         
-        automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         automataInfo = automataInfoOpt!
         
@@ -123,7 +123,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAssumptions2() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -145,7 +145,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAssumptions3() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -170,7 +170,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateStateAPsAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -207,7 +207,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateTransitionAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -229,7 +229,7 @@ class AutomataTest: XCTestCase {
     
     func testGetAutomataInputAPs() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -252,7 +252,7 @@ class AutomataTest: XCTestCase {
     
     func testGetAutomataOutputAPs() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -271,7 +271,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateAllAssumptions() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -289,7 +289,7 @@ class AutomataTest: XCTestCase {
     
     func testGenerateAssumptionsNAS() {
         
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_nas_01.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_nas_01.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
