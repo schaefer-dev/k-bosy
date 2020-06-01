@@ -89,6 +89,15 @@ public class AutomataState : Hashable, CustomStringConvertible {
         
     }
     
+    /**
+     simplify transitions starting in this state, which means that all occurances of non-output APs are replaced with their respective values according to the state we are currently in. Only the value of output-APs is not known at this time which is why we keep those variable.
+     */
+    public func simplifyTransitions() {
+        for trans in self.transitions {
+            trans.simplify()
+        }
+    }
+    
     
     // Equality of states defined over their name which has to be unique
     public static func == (state1: AutomataState, state2: AutomataState) -> Bool {

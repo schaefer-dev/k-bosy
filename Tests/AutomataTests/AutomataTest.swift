@@ -59,7 +59,7 @@ class AutomataTest: XCTestCase {
             // change to state s1
             initial_state = applicable_transitions[0].end
             XCTAssertEqual(initial_state.propositions.count, 1)
-            XCTAssertEqual(initial_state.propositions[0].description, "go")
+            XCTAssertEqual(initial_state.propositions[0].description, "finished")
             
             currentState.update_value(ap: ap_a, value: false)
             currentState.update_value(ap: ap_b, value: false)

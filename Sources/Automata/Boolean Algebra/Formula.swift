@@ -33,6 +33,18 @@ public struct Formula : Equatable, CustomStringConvertible {
          return output_string
      }
     
+    /**
+    simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
+    */
+    public mutating func simplify(true_aps: [AP]) {
+        var conj_index = 0
+        
+        while conj_index < dnf.count {
+            self.dnf[conj_index].simplify(true_aps: true_aps)
+            conj_index += 1
+        }
+    }
+    
     public func eval(truthValues: CurrentTruthValues) -> Bool {
         // empty formula is true
         if (self.dnf.count == 0) {
@@ -91,6 +103,35 @@ public struct Conjunction : Equatable, CustomStringConvertible {
          
          return output_string
      }
+    
+    /**
+    simplify this conjunction, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
+    */
+    public mutating func simplify(true_aps: [AP]) {
+        var lit_index = 0
+        while lit_index < self.literals.count {
+            let current_lit = self.literals[lit_index]
+            
+            // do not touch output APs or constants at all
+            if current_lit.isOutput() || current_lit.isConstant {
+                lit_index += 1
+                continue
+            }
+            
+            let var_ap = current_lit.getAP()!
+            
+            if true_aps.contains(var_ap) {
+                // if AP is part of true apps replace with true and keep negation if it was previously negated
+                self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: true)
+                
+            } else {
+                // if AP is not part of true apps replace with false and keep negation if it was previously negated
+                self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: false)
+            }
+            
+            lit_index += 1
+        }
+    }
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
         if (self.literals.count == 0) {
