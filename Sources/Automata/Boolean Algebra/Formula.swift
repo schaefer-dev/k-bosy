@@ -36,13 +36,25 @@ public struct Formula : Equatable, CustomStringConvertible {
     /**
     simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
-    public mutating func simplify(true_aps: [AP]) {
+    public mutating func simplifyWithConstants(true_aps: [AP]) {
         var conj_index = 0
         
         while conj_index < dnf.count {
-            self.dnf[conj_index].simplify(true_aps: true_aps)
+            self.dnf[conj_index].simplifyWithConstants(true_aps: true_aps)
             conj_index += 1
         }
+    }
+    
+    public mutating func simplifyTautologies() {
+        var conj_index = 0
+        
+        // simplify the conjunctions
+        while conj_index < dnf.count {
+            self.dnf[conj_index].simplifyTautologies()
+            conj_index += 1
+        }
+        
+        // TODO: simplify the disjunctions further
     }
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
@@ -107,7 +119,7 @@ public struct Conjunction : Equatable, CustomStringConvertible {
     /**
     simplify this conjunction, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
-    public mutating func simplify(true_aps: [AP]) {
+    public mutating func simplifyWithConstants(true_aps: [AP]) {
         var lit_index = 0
         while lit_index < self.literals.count {
             let current_lit = self.literals[lit_index]
@@ -132,6 +144,29 @@ public struct Conjunction : Equatable, CustomStringConvertible {
             lit_index += 1
         }
     }
+    
+    public mutating func simplifyTautologies() {
+        var lit_index = 0
+        
+        while lit_index < self.literals.count {
+            // if false is contained somewhere the entire thing will always be false
+            if self.literals[lit_index].alwaysFalse {
+                self.literals = [Constant(negated: false, truthValue: false)]
+                break
+            } else if self.literals[lit_index].alwaysTrue {
+                // if true value is contained somewhere remove it and continue with rest of formula
+                self.literals.remove(at: lit_index)
+                continue
+            }
+            lit_index += 1
+        }
+        
+        // if entire conjunction has been removed replace it with constant true
+        if self.literals.isEmpty {
+            self.literals = [Constant(negated: false, truthValue: true)]
+        }
+    }
+    
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
         if (self.literals.count == 0) {
