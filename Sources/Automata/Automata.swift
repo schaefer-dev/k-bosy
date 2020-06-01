@@ -38,6 +38,17 @@ public class Automata {
     }
     
     /**
+     This constructor may only be called in the `getObservableAutomata` method.
+    */
+    init(apList: APList, initial_states: [AutomataState], all_states: [String: AutomataState], guarantees: [LTL]) {
+        self.apList = apList
+        self.initial_states = initial_states
+        self.all_states = all_states
+        self.guarantees = guarantees
+    }
+    
+    
+    /**
      Adds an initial state to the automata strucure. The addition is skipped whenever the state is already contained, however a warning is printed whenever this case happens.
      The Addition of the state is also skipped if it was previously contained as a non-initial state and is afterwards attempted to be added as an initial state. The same warning is output in this special-case.
     
@@ -138,6 +149,22 @@ public class Automata {
         
         let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState)
         startState.addTransition(trans: new_transition)
+    }
+    
+    
+    /**
+     Reduces the entire automata structure to only contain observable stuff. This removed all non-observable and non-output APs from the apList. It also removes all non-observable APs from the state structure.
+     - IMPORTANT: it does not remove any occurances of non-observable APs from the formulas that specify transition-conditions!
+     */
+    public func reduceToObservablePart() {
+        // Transform apList to only contain observable stuff
+        self.apList = AutomataKBSC.getObservableAPList(input_list: self.apList)
+        
+        
+        // Transform states to only contain observable propositions
+        for state in self.get_allStates() {
+            state.reduceToObservablePart()
+        }
     }
 }
 

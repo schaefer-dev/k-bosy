@@ -10,7 +10,7 @@ class FileParsingTest: XCTestCase {
     
     
     func testAutomataInfoParsing() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
                         
@@ -54,7 +54,7 @@ class FileParsingTest: XCTestCase {
     }
     
     func testDotGraphParsingSingleAction() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -69,9 +69,10 @@ class FileParsingTest: XCTestCase {
         // s0 is only initial state
         XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
         XCTAssertEqual(dotGraph.initial_states.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions.count, 0)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions[0].description, "h")
         XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions[0].description, "go")
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions[0].description, "finished")
         
         // s0 has outgoing transitions to s1 and s0
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].end.name, "s1")
@@ -89,15 +90,12 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals[0].description, "b")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals[0].description, "h")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 3)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 2)
         
         // Test condition of s0->s0
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[0].description, "¬a")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[1].description, "¬b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[2].description, "¬h")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 3)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 2)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf.count, 1)
         
         
@@ -109,7 +107,7 @@ class FileParsingTest: XCTestCase {
     
     
     func testDotGraphParsingComplexer() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_kripke.kbosy")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_kripke.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
@@ -149,20 +147,18 @@ class FileParsingTest: XCTestCase {
         
         // test if conditions are parsed correctly
         // Test condition of s0->s1
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 2)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals[0].description, "a")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals[0].description, "b")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals[0].description, "h")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[2].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 3)
+        
         
         
         // Test condition of s0->s0
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 2)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[0].description, "¬a")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[1].description, "¬b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[2].description, "¬h")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 3)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf.count, 1)
         
 
@@ -171,9 +167,9 @@ class FileParsingTest: XCTestCase {
         
         
         // Test condition of s2->s2
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[1].condition.dnf.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf[0].literals[0].description, "true")
         XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf[0].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[1].condition.dnf.count, 1)
     }
 
 }

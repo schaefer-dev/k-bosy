@@ -18,7 +18,7 @@ public class APList {
     
     public func addAP(ap: AP) {
         if (mapping[ap.id] != nil) {
-            print("CRITICAL ERROR: tried to add already contained AP into APList")
+            assert(false, "CRITICAL ERROR: tried to add already contained AP into APList")
             return
         }
         mapping[ap.id] = ap
@@ -28,7 +28,6 @@ public class APList {
         if let ap = mapping[apName] {
                 return ap
             } else {
-                print("CRITICAL ERROR: requested non-existant AP from APList")
                 return nil
             }
     }
@@ -103,6 +102,10 @@ public class AP : Hashable, CustomStringConvertible {
         self.id = name
         self.obs = observable
         self.output = output
+        
+        // ERROR if already contained
+        assert(list.lookupAP(apName: name) == nil, "ERROR: added AP " + name + " which was already contained in List.")
+        
         list.addAP(ap: self)
     }
     

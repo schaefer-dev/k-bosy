@@ -95,7 +95,7 @@ public class AssumptionsGenerator {
             while transition_index < relevant_transitions.count {
                 
                 // add condition that is being in the correct state and the transition condition holding
-                ltl_string += "((" + relevant_transitions[transition_index].condition.getObservableVersion().description + ")"
+                ltl_string += "((" + relevant_transitions[transition_index].condition.description + ")"
                 ltl_string += " && X(" + relevant_transitions[transition_index].end.name + "))"
                 
                 // if more transitions following add disjunction

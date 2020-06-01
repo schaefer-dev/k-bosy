@@ -124,32 +124,44 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/nas_01.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/nas_01.gv"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/nas_01.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/nas_01.gv"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv1.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv1.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv2.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv2.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv3.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv3.gv"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_01.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_01.gv"
+            argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/web/web_numberv1_fixed-leak?_1.json"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_02.kbosy -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_02.gv"
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv1.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv2.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv2.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/ampelv3.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/ampelv3.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/numberv1.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/numberv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_01.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_02.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_02.gv"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--synthesize"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

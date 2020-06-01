@@ -12,10 +12,18 @@ public protocol Literal: CustomStringConvertible {
     
     var description: String {get}
     
+    var isConstant: Bool {get}
+    
     // TODO: make sure references to state are always passed so we don't copy the state over and over while calling this method repeatedly
     func eval(truthValues: CurrentTruthValues) -> Bool
     
     func isObservable() -> Bool
+    func isOutput() -> Bool
+    
+    /**
+     returns nil in case of constant
+     */
+    func getAP() -> AP?
 }
 
 public struct Variable : Literal, CustomStringConvertible {
@@ -29,6 +37,10 @@ public struct Variable : Literal, CustomStringConvertible {
         } else {
             return (ap.id)
         }
+    }
+    
+    public var isConstant: Bool {
+        return false
     }
     
     
@@ -45,6 +57,13 @@ public struct Variable : Literal, CustomStringConvertible {
         return false
     }
     
+    public func isOutput() -> Bool {
+        if ap.output {
+            return true
+        }
+        return false
+    }
+    
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
         let truthValue = truthValues.give_value(ap: ap)
@@ -56,12 +75,20 @@ public struct Variable : Literal, CustomStringConvertible {
         }
     }
     
+    public func getAP() -> AP? {
+        return self.ap
+    }
+    
 }
 
 public struct Constant : Literal, CustomStringConvertible {
     public var neg: Bool
     
     public var value: Bool
+    
+    public var isConstant: Bool {
+        return true
+    }
     
     public var description: String {
         if (neg) {
@@ -83,9 +110,17 @@ public struct Constant : Literal, CustomStringConvertible {
         return true
     }
     
+    public func isOutput() -> Bool {
+        return false
+    }
+    
     public init(negated: Bool, truthValue: Bool) {
         value = truthValue
         neg = negated
+    }
+    
+    public func getAP() -> AP? {
+        return nil
     }
     
     
