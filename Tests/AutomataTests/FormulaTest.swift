@@ -355,42 +355,87 @@ class FormulaTest: XCTestCase {
         
         var formula1_0 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
         var true_aps = [ap_a]
-        formula1_0!.simplify(true_aps: true_aps)
+        formula1_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula1_0!.description, "(true) ∨ (o1) ∨ (¬false)")
         
         var formula1_1 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
         true_aps = [ap_a, ap_d, ap_b]
-        formula1_1!.simplify(true_aps: true_aps)
+        formula1_1!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula1_1!.description, "(true) ∨ (o1) ∨ (¬true)")
         
         
         var formula1_2 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
         true_aps = [ap_b]
-        formula1_2!.simplify(true_aps: true_aps)
+        formula1_2!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula1_2!.description, "(false) ∨ (o1) ∨ (¬false)")
         
         
         
         var formula2_0 = FormulaParser.parseDNFFormula(input_str: "((false) ∨ (b) ∨ (¬true))", apList: globalAPList)
         true_aps = [ap_a, ap_d, ap_b]
-        formula2_0!.simplify(true_aps: true_aps)
+        formula2_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula2_0!.description, "(false) ∨ (true) ∨ (¬true)")
         
         var formula2_1 = FormulaParser.parseDNFFormula(input_str: "((o1) ∨ (b) ∨ (¬true))", apList: globalAPList)
         true_aps = [ap_a, ap_d]
-        formula2_1!.simplify(true_aps: true_aps)
+        formula2_1!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula2_1!.description, "(o1) ∨ (false) ∨ (¬true)")
        
         
         var formula3_0 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
         true_aps = [ap_a, ap_b, ap_d]
-        formula3_0!.simplify(true_aps: true_aps)
+        formula3_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula3_0!.description, "(true ∧ ¬false ∧ ¬false) ∨ (true ∧ true) ∨ (¬true)")
         
         var formula4_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ ¬false) ∨ (d ∧ b) ∨ (¬a))", apList: globalAPList)
         true_aps = [ap_a, ap_c]
-        formula4_0!.simplify(true_aps: true_aps)
+        formula4_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1 ∧ ¬false) ∨ (false ∧ false) ∨ (¬true)")
+        
+
+    }
+    
+    
+    func testSimplifyFormulaTautologies() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let ap_a = AP(name: "a", observable: true, list: globalAPList)
+        let ap_b = AP(name: "b", observable: true, list: globalAPList)
+        let ap_c = AP(name: "c", observable: true, list: globalAPList)
+        let ap_d = AP(name: "d", observable: true, list: globalAPList)
+        let _ = AP(name: "o1", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "o2", observable: true, list: globalAPList, output: true)
+       
+        
+        var formula3_0 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        var true_aps = [ap_a, ap_b, ap_d]
+        formula3_0!.simplifyWithConstants(true_aps: true_aps)
+        XCTAssertEqual(formula3_0!.description, "(true ∧ ¬false ∧ ¬false) ∨ (true ∧ true) ∨ (¬true)")
+        formula3_0!.simplifyTautologies()
+        XCTAssertEqual(formula3_0!.description, "(true)")
+        
+        var formula4_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ ¬false) ∨ (d ∧ b) ∨ (¬a))", apList: globalAPList)
+        true_aps = [ap_a, ap_c]
+        formula4_0!.simplifyWithConstants(true_aps: true_aps)
+        XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1 ∧ ¬false) ∨ (false ∧ false) ∨ (¬true)")
+        formula4_0!.simplifyTautologies()
+        XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1)")
+        
+        
+        
+        var formula5_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ false) ∨ (true ∧ b) ∨ (¬true))", apList: globalAPList)
+        formula5_0!.simplifyTautologies()
+        XCTAssertEqual(formula5_0!.description, "(b)")
+        
+        
+        var formula6_0 = FormulaParser.parseDNFFormula(input_str: "(false) ∨ (false)", apList: globalAPList)
+        formula6_0!.simplifyTautologies()
+        XCTAssertEqual(formula6_0!.description, "(false)")
+        
+        var formula7_0 = FormulaParser.parseDNFFormula(input_str: "(true) ∨ (false)", apList: globalAPList)
+        formula7_0!.simplifyTautologies()
+        XCTAssertEqual(formula7_0!.description, "(true)")
         
 
     }

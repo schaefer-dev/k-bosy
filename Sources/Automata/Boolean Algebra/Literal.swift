@@ -14,6 +14,9 @@ public protocol Literal: CustomStringConvertible {
     
     var isConstant: Bool {get}
     
+    var alwaysTrue: Bool {get}
+    var alwaysFalse: Bool {get}
+    
     // TODO: make sure references to state are always passed so we don't copy the state over and over while calling this method repeatedly
     func eval(truthValues: CurrentTruthValues) -> Bool
     
@@ -37,6 +40,14 @@ public struct Variable : Literal, CustomStringConvertible {
         } else {
             return (ap.id)
         }
+    }
+    
+    public var alwaysTrue: Bool {
+        return false
+    }
+    
+    public var alwaysFalse: Bool {
+        return false
     }
     
     public var isConstant: Bool {
@@ -102,6 +113,38 @@ public struct Constant : Literal, CustomStringConvertible {
                 return ("true")
             } else {
                 return ("false" )
+            }
+        }
+    }
+    
+    public var alwaysTrue: Bool {
+        if self.neg {
+            if self.value {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            if self.value {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    public var alwaysFalse: Bool {
+        if self.neg {
+            if self.value {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if self.value {
+                return false
+            } else {
+                return true
             }
         }
     }

@@ -18,6 +18,8 @@ public class AutomataTransition {
     simplify this transition, which means that all occurances of non-output APs are replaced with their respective values according to the starting state of this transition. Only the value of output-APs is not known at this time which is why we keep those variable.
     */
     public func simplify() {
-        self.condition.simplify(true_aps: self.start.propositions)
+        self.condition.simplifyWithConstants(true_aps: self.start.propositions)
+        
+        self.condition.simplifyTautologies()
     }
 }
