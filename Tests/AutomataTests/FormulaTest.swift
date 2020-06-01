@@ -428,6 +428,15 @@ class FormulaTest: XCTestCase {
         formula5_0!.simplifyTautologies()
         XCTAssertEqual(formula5_0!.description, "(false) ∨ (b) ∨ (false)")
         
+        
+        var formula6_0 = FormulaParser.parseDNFFormula(input_str: "(false) ∨ (false)", apList: globalAPList)
+        formula6_0!.simplifyTautologies()
+        XCTAssertEqual(formula6_0!.description, "(false)")
+        
+        var formula7_0 = FormulaParser.parseDNFFormula(input_str: "(true) ∨ (false)", apList: globalAPList)
+        formula7_0!.simplifyTautologies()
+        XCTAssertEqual(formula7_0!.description, "(true)")
+        
 
     }
 }

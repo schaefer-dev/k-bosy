@@ -54,7 +54,32 @@ public struct Formula : Equatable, CustomStringConvertible {
             conj_index += 1
         }
         
-        // TODO: simplify the disjunctions further
+        _simplifyTautologiesFurther()
+    }
+    
+    
+    public mutating func _simplifyTautologiesFurther() {
+        var conj_index = 0
+        // simplify the conjunctions
+        while conj_index < dnf.count {
+            // if just one element in that conjunction look at it closer if we can maybe remove it
+            if self.dnf[conj_index].literals.count == 1 {
+                if (self.dnf[conj_index].literals[0].alwaysTrue) {
+                    // one single True in the Disjunction results in just true being returned
+                    self.dnf = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: true)])]
+                    break
+                } else if (self.dnf[conj_index].literals[0].alwaysFalse) {
+                    // every occurance of False in the Disjunction is just skipped
+                    self.dnf.remove(at: conj_index)
+                    continue
+                }
+            }
+            conj_index += 1
+        }
+        
+        if self.dnf.count == 0 {
+            self.dnf = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: false)])]
+        }
     }
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
@@ -161,7 +186,7 @@ public struct Conjunction : Equatable, CustomStringConvertible {
             lit_index += 1
         }
         
-        // if entire conjunction has been removed replace it with constant true
+        // if entire conjunction has been removed (everything has been true) replace it with constant true
         if self.literals.isEmpty {
             self.literals = [Constant(negated: false, truthValue: true)]
         }
