@@ -123,10 +123,12 @@ public struct Conjunction : Equatable, CustomStringConvertible {
             if true_aps.contains(var_ap) {
                 // if AP is part of true apps replace with true and keep negation if it was previously negated
                 self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: true)
+                print(var_ap.description + " is part of true apps")
                 
             } else {
                 // if AP is not part of true apps replace with false and keep negation if it was previously negated
                 self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: false)
+                print(var_ap.description + " is not part of true apps")
             }
             
             lit_index += 1

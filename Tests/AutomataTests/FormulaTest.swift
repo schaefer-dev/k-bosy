@@ -339,4 +339,59 @@ class FormulaTest: XCTestCase {
             XCTAssert(false, "Expected Formula Parsing Error")
         }
     }
+    
+    func testSimplifyFormula() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let ap_a = AP(name: "a", observable: true, list: globalAPList)
+        let ap_b = AP(name: "b", observable: true, list: globalAPList)
+        let ap_c = AP(name: "c", observable: true, list: globalAPList)
+        let ap_d = AP(name: "d", observable: true, list: globalAPList)
+        let _ = AP(name: "o1", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "o2", observable: true, list: globalAPList, output: true)
+        
+        
+        
+        var formula1_0 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
+        var true_aps = [ap_a]
+        formula1_0!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula1_0!.description, "(true) ∨ (o1) ∨ (¬false)")
+        
+        var formula1_1 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
+        true_aps = [ap_a, ap_d, ap_b]
+        formula1_1!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula1_1!.description, "(true) ∨ (o1) ∨ (¬true)")
+        
+        
+        var formula1_2 = FormulaParser.parseDNFFormula(input_str: "((a) ∨ (o1) ∨ (¬d))", apList: globalAPList)
+        true_aps = [ap_b]
+        formula1_2!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula1_2!.description, "(false) ∨ (o1) ∨ (¬false)")
+        
+        
+        
+        var formula2_0 = FormulaParser.parseDNFFormula(input_str: "((false) ∨ (b) ∨ (¬true))", apList: globalAPList)
+        true_aps = [ap_a, ap_d, ap_b]
+        formula2_0!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula2_0!.description, "(false) ∨ (true) ∨ (¬true)")
+        
+        var formula2_1 = FormulaParser.parseDNFFormula(input_str: "((o1) ∨ (b) ∨ (¬true))", apList: globalAPList)
+        true_aps = [ap_a, ap_d]
+        formula2_1!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula2_1!.description, "(o1) ∨ (false) ∨ (¬true)")
+       
+        
+        var formula3_0 = FormulaParser.parseDNFFormula(input_str: "((a ∧ ¬c ∧ ¬false) ∨ (b ∧ b) ∨ (¬d))", apList: globalAPList)
+        true_aps = [ap_a, ap_b, ap_d]
+        formula3_0!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula3_0!.description, "(true ∧ ¬false ∧ ¬false) ∨ (true ∧ true) ∨ (¬true)")
+        
+        var formula4_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ ¬false) ∨ (d ∧ b) ∨ (¬a))", apList: globalAPList)
+        true_aps = [ap_a, ap_c]
+        formula4_0!.simplify(true_aps: true_aps)
+        XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1 ∧ ¬false) ∨ (false ∧ false) ∨ (¬true)")
+        
+
+    }
 }

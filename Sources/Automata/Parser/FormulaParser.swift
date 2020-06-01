@@ -130,8 +130,6 @@ public class FormulaParser {
                 return nil
             } else {
                 literal_array.append(litOpt!)
-                // TODO: maybe extend this to not allow any for any conditions that contain anything but constants and output-APs
-                assert(litOpt!.isObservable() == true, "Found non observable AP as part of condition, does not make sense!")
             }
         }
         
