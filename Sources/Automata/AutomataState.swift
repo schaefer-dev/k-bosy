@@ -78,6 +78,18 @@ public class AutomataState : Hashable, CustomStringConvertible {
     }
     
     
+    /**
+     reduce structure in this state to only contain observable APs. This affects only the set of APs that hold in this state
+     */
+    public func reduceToObservablePart() {
+        
+        // only keep observable APs in proposition List that hold in this state
+        let obs_propositions = self.propositions.filter { $0.obs }
+        self.propositions = obs_propositions
+        
+    }
+    
+    
     // Equality of states defined over their name which has to be unique
     public static func == (state1: AutomataState, state2: AutomataState) -> Bool {
         return state1.name == state2.name

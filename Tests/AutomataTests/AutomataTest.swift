@@ -185,23 +185,6 @@ class AutomataTest: XCTestCase {
         XCTAssertEqual(test_value[2].description, "G ((s2) -> ((((⊤) ∧ (¬ (grant))) ∧ (¬ (i1))) ∧ (¬ (i2))))")
         XCTAssertEqual(test_value[3].description, "G ((s3) -> ((((grant) ∧ (i1)) ∧ (i2)) ∧ (⊤)))")
         
-        
-        // testing getObservableVersion
-        let obs_formula_01 = automata.get_state(name: "s0")!.transitions[0].condition.getObservableVersion()
-        XCTAssertEqual(obs_formula_01.description, "(request)")
-        
-        let obs_formula_02 = automata.get_state(name: "s0")!.transitions[1].condition.getObservableVersion()
-        XCTAssertEqual(obs_formula_02.description, "(¬request)")
-        
-        let obs_formula_03 = automata.get_state(name: "s1")!.transitions[0].condition.getObservableVersion()
-        XCTAssertEqual(obs_formula_03.description, "(true)")
-        
-        let obs_formula_04 = automata.get_state(name: "s2")!.transitions[0].condition.getObservableVersion()
-        XCTAssertEqual(obs_formula_04.description, "(true)")
-        
-        let obs_formula_05 = automata.get_state(name: "s2")!.transitions[1].condition.getObservableVersion()
-        XCTAssertEqual(obs_formula_05.description, "(true)")
-        
     }
     
     

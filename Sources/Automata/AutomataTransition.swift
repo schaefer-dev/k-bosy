@@ -3,7 +3,7 @@ import Foundation
 
 public class AutomataTransition {
     public let start: AutomataState
-    public let condition: Formula
+    public var condition: Formula
     public let end: AutomataState
     
     // Creates Transition and adds itself to Automata and correct states
