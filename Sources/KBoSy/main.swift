@@ -60,7 +60,7 @@ do {
         if let dotGraphFilename = parguments.get(dotFile) {
             let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
             if (automataOpt == nil) {
-                print("ERROR: something went wrong while reading AutomataInfo File")
+                print("ERROR: something went wrong while reading Automata Graph File")
                 exit(EXIT_FAILURE)
             }
             let automata = automataOpt!
