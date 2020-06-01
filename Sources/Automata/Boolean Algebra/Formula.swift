@@ -106,6 +106,7 @@ public struct Conjunction : Equatable, CustomStringConvertible {
         return true
     }
     
+    
     public static func == (c1: Conjunction, c2: Conjunction) -> Bool {
         // if not same length of dnf can not be equal
         if c1.literals.count != c2.literals.count {

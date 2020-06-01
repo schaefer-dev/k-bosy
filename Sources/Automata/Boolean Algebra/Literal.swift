@@ -16,6 +16,7 @@ public protocol Literal: CustomStringConvertible {
     func eval(truthValues: CurrentTruthValues) -> Bool
     
     func isObservable() -> Bool
+    func isOutput() -> Bool
 }
 
 public struct Variable : Literal, CustomStringConvertible {
@@ -40,6 +41,13 @@ public struct Variable : Literal, CustomStringConvertible {
     
     public func isObservable() -> Bool {
         if ap.obs {
+            return true
+        }
+        return false
+    }
+    
+    public func isOutput() -> Bool {
+        if ap.output {
             return true
         }
         return false
@@ -81,6 +89,10 @@ public struct Constant : Literal, CustomStringConvertible {
     
     public func isObservable() -> Bool {
         return true
+    }
+    
+    public func isOutput() -> Bool {
+        return false
     }
     
     public init(negated: Bool, truthValue: Bool) {

@@ -79,7 +79,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
     
     
     /**
-     reduce structure in this state to only contain observable APs. This affects only the set of APs that hold in this state
+     reduce structure in this state to only contain observable APs. This affects only  the set of APs that hold in this state
      */
     public func reduceToObservablePart() {
         

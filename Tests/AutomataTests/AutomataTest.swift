@@ -174,7 +174,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -194,7 +194,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -239,7 +239,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
@@ -258,7 +258,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         

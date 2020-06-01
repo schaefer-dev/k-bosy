@@ -20,7 +20,7 @@ public class AutomataKBSC {
         let new_all_states = [String: AutomataState]()
         
         // CAREFUL: states are references here, which means that changes in states are also reflected in the original input_automata because it uses the same state references!
-        let new_initial_states: [AutomataState] = []
+        var new_initial_states: [AutomataState] = []
         for old_initial_state in input_automata.initial_states {
             new_initial_states.append(old_initial_state)
         }
@@ -54,6 +54,8 @@ public class AutomataKBSC {
     public static func knowledgeBasedSubsetConstruction(old_initial_states: [AutomataState], old_states: [String: AutomataState]) -> ([AutomataState], [String: AutomataState]) {
         
         // TODO: make sure to fix transitions that contain non-observable APs - make sure that all cases are covered because these values may be either true or false at any point in time!
+        
+        return (old_initial_states, old_states)
     }
 
 }
