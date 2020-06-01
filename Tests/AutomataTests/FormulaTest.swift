@@ -164,9 +164,9 @@ class FormulaTest: XCTestCase {
         // Create Sample APs
         let _ = AP(name: "a", observable: true, list: globalAPList)
         let _ = AP(name: "b", observable: true, list: globalAPList)
-        let _ = AP(name: "c", observable: false, list: globalAPList)
-        let _ = AP(name: "d", observable: false, list: globalAPList)
-        let _ = AP(name: "test", observable: false, list: globalAPList)
+        let _ = AP(name: "c", observable: true, list: globalAPList)
+        let _ = AP(name: "d", observable: true, list: globalAPList)
+        let _ = AP(name: "test", observable: true, list: globalAPList)
         
         let str1 = "(a) ∧ (¬b)"
         let formula1 = FormulaParser.parseDNFFormula(input_str: str1, apList: globalAPList)
@@ -191,9 +191,9 @@ class FormulaTest: XCTestCase {
         
         // Create Sample APs
         let _ = AP(name: "a1", observable: true, list: globalAPList)
-        let _ = AP(name: "b2", observable: true, list: globalAPList)
-        let _ = AP(name: "c3", observable: false, list: globalAPList)
-        let _ = AP(name: "d4", observable: false, list: globalAPList)
+        let _ = AP(name: "b2", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "c3", observable: true, list: globalAPList)
+        let _ = AP(name: "d4", observable: true, list: globalAPList, output: true)
         
         
         
@@ -218,8 +218,8 @@ class FormulaTest: XCTestCase {
         // Create Sample APs
         let _ = AP(name: "a", observable: true, list: globalAPList)
         let _ = AP(name: "b", observable: true, list: globalAPList)
-        let _ = AP(name: "c", observable: false, list: globalAPList)
-        let _ = AP(name: "d", observable: false, list: globalAPList)
+        let _ = AP(name: "c", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "d", observable: true, list: globalAPList, output: true)
         
         
         
@@ -272,8 +272,8 @@ class FormulaTest: XCTestCase {
         // Create Sample APs
         let _ = AP(name: "a", observable: true, list: globalAPList)
         let _ = AP(name: "b", observable: true, list: globalAPList)
-        let _ = AP(name: "c", observable: false, list: globalAPList)
-        let _ = AP(name: "d", observable: false, list: globalAPList)
+        let _ = AP(name: "c", observable: true, list: globalAPList)
+        let _ = AP(name: "d", observable: true, list: globalAPList)
         
         
         

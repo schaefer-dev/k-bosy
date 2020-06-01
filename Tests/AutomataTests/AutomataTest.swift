@@ -39,7 +39,7 @@ class AutomataTest: XCTestCase {
             XCTAssertEqual(automata.initial_states.count, 1)
             var initial_state = automata.initial_states[0]
             
-            XCTAssertEqual(initial_state.propositions.count, 0)
+            XCTAssertEqual(initial_state.propositions.count, 1)
             
             var applicable_transitions = initial_state.getApplicableTransitions(truthValues: currentState)
             XCTAssertEqual(applicable_transitions.count, 1)
@@ -216,7 +216,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
         
-        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01.gv", info: automataInfo)
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
         
