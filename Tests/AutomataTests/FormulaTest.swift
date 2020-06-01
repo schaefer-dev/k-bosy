@@ -413,20 +413,20 @@ class FormulaTest: XCTestCase {
         formula3_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula3_0!.description, "(true ∧ ¬false ∧ ¬false) ∨ (true ∧ true) ∨ (¬true)")
         formula3_0!.simplifyTautologies()
-        XCTAssertEqual(formula3_0!.description, "(true) ∨ (true) ∨ (false)")
+        XCTAssertEqual(formula3_0!.description, "(true)")
         
         var formula4_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ ¬false) ∨ (d ∧ b) ∨ (¬a))", apList: globalAPList)
         true_aps = [ap_a, ap_c]
         formula4_0!.simplifyWithConstants(true_aps: true_aps)
         XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1 ∧ ¬false) ∨ (false ∧ false) ∨ (¬true)")
         formula4_0!.simplifyTautologies()
-        XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1) ∨ (false) ∨ (false)")
+        XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1)")
         
         
         
         var formula5_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ false) ∨ (true ∧ b) ∨ (¬true))", apList: globalAPList)
         formula5_0!.simplifyTautologies()
-        XCTAssertEqual(formula5_0!.description, "(false) ∨ (b) ∨ (false)")
+        XCTAssertEqual(formula5_0!.description, "(b)")
         
         
         var formula6_0 = FormulaParser.parseDNFFormula(input_str: "(false) ∨ (false)", apList: globalAPList)
