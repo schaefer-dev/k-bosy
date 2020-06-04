@@ -28,6 +28,7 @@ let package = Package(
         .target(name: "Automata", dependencies: ["LTL"]),
         .testTarget(name: "AutomataTests", dependencies: ["Automata"]),
         .testTarget(name: "IOTests", dependencies: ["Automata", "Specification"]),
-        .testTarget(name: "KnowledgeSpecificTests", dependencies: ["Specification"])
+        .testTarget(name: "KnowledgeSpecificTests", dependencies: ["Specification"]),
+        .testTarget(name: "UtilsTests", dependencies: ["Utils"])
     ]
 )
