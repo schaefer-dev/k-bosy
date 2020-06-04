@@ -34,19 +34,22 @@ public class Bitset: CustomStringConvertible {
     
     private var data: [TValue]
     
-    public var capacity: Int {
-        return data.capacity
+    public var count: Int {
+        return self.data.count
     }
     
     public var description: String {
         return self.data.description
     }
     
+    public var isEmpty: Bool {
+        return self.data.isEmpty
+    }
+    
     
     init() {
         self.data = []
     }
-    
     
     
     public func addTrue() {
@@ -62,16 +65,78 @@ public class Bitset: CustomStringConvertible {
     }
     
     
+    /*
+     empties all the contained data
+     */
+    private func clear() {
+        self.data.removeAll()
+    }
+    
+    
+    
+    /*
+     Operator definition for logic OR on Bitsets
+     */
     public static func bitOR(bs1: Bitset, bs2: Bitset) -> Bitset {
+        assert(bs1.count == bs2.count)
+        
         // TODO
         
         return bs1
     }
     
+    
+    /*
+    Operator definition for logic AND on Bitsets
+     
+     returns empty bitset if no solution
+    */
     public static func bitAND(bs1: Bitset, bs2: Bitset) -> Bitset {
-        // TODO
+        assert(bs1.count == bs2.count)
         
-        return bs1
+        let bsr = Bitset()
+        var i = 0
+        while (i < bs1.count) {
+            switch bs1.data[i] {
+            case .top:
+                // bs1 is true
+                switch bs2.data[i] {
+                case .top:
+                    bsr.addTrue()
+                case .bottom:
+                    // true && false
+                    return Bitset()
+                case .wildcard:
+                    bsr.addTrue()
+                }
+                
+            case .bottom:
+                // bs1 is false
+                switch bs2.data[i] {
+                case .top:
+                    // false && true
+                    return Bitset()
+                case .bottom:
+                    bsr.addFalse()
+                case .wildcard:
+                    bsr.addFalse()
+                }
+                
+            case .wildcard:
+                // bs1 is wildcard
+                switch bs2.data[i] {
+                case .top:
+                    bsr.addTrue()
+                case .bottom:
+                    bsr.addFalse()
+                case .wildcard:
+                    bsr.addWildcard()
+                }
+            }
+            
+            i += 1
+        }
+        return bsr
     }
     
     public func size() -> Int {
