@@ -66,5 +66,25 @@ class BitsetTest: XCTestCase {
         
         XCTAssertEqual(bs3.description, "[1, 0, 1, 0, *]")
     }
+    
+    
+    func testLogicallyContains() {
+        let bs1 = Bitset()
+        let bs2 = Bitset()
+        
+        bs1.addTrue()
+        bs2.addTrue()
+        bs1.addFalse()
+        bs2.addFalse()
+        bs1.addWildcard()
+        bs2.addWildcard ()
+        bs1.addWildcard()
+        bs2.addFalse ()
+        bs1.addWildcard()
+        bs2.addWildcard()
+        
+        XCTAssertEqual(bs1.logicallyContains(bs: bs2), true)
+        XCTAssertEqual(bs2.logicallyContains(bs: bs1), false)
+    }
 
 }

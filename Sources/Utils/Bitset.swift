@@ -66,23 +66,53 @@ public class Bitset: CustomStringConvertible {
     
     
     /*
+     Returns true if the passed bitset is stritly more limiting than self. This means that self covers all the truth values that would satisfy the passed bitset (and possibly more)
+     */
+    public func logicallyContains(bs: Bitset) -> Bool {
+        var i = 0
+        while (i < self.count) {
+            switch self.data[i] {
+            case .top:
+                switch bs.data[i] {
+                case .top:
+                    // bs covers same truth values
+                     ()
+                case .bottom:
+                    // bs covers different truth values
+                    return false
+                case .wildcard:
+                    // bs covers more truth values
+                    return false
+                }
+                
+            case .bottom:
+                switch bs.data[i] {
+                case .bottom:
+                    // bs covers same truth values
+                    ()
+                case .top:
+                    // bs covers different truth values
+                    return false
+                case .wildcard:
+                    // bs covers more truth values
+                    return false
+                }
+                
+            case .wildcard:
+                ()
+            }
+            
+            i += 1
+        }
+        
+        return true
+    }
+    
+    /*
      empties all the contained data
      */
     private func clear() {
         self.data.removeAll()
-    }
-    
-    
-    
-    /*
-     Operator definition for logic OR on Bitsets
-     */
-    public static func bitOR(bs1: Bitset, bs2: Bitset) -> Bitset {
-        assert(bs1.count == bs2.count)
-        
-        // TODO
-        
-        return bs1
     }
     
     
@@ -144,14 +174,6 @@ public class Bitset: CustomStringConvertible {
     }
 
 
-}
-
-
-/**
- Binding to be able to use && operator on bitset
- */
-public func || (bs1: Bitset, bs2: Bitset) -> Bitset {
-    return Bitset.bitOR(bs1: bs1, bs2: bs2)
 }
 
 /**
