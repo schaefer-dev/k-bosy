@@ -143,8 +143,6 @@ class BitsetTest: XCTestCase {
         formula7_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula7_0!.bitset_representation.description, "[[*, *, *, *, *, *]]")
         XCTAssertEqual(formula7_0!.bitset_representation.get_formula_string(), "(true)")
-        
-
     }
 
 }
