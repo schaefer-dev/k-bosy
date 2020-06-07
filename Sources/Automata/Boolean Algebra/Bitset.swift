@@ -50,6 +50,40 @@ public class Bitset: CustomStringConvertible {
     
     
     /**
+     Constructs a human-readable form of this formula using the names given in the array bitset_ap_mapping
+     */
+    public func get_conjunction_string(bitset_ap_mapping: [String]) -> String {
+        if self.data == [] {
+            return "false"
+        }
+        if !(self.data.contains(TValue.top) || self.data.contains(TValue.bottom)) {
+            return "true"
+        }
+        var returnStringArray : [String] = []
+        
+        var bitset_index = 0
+        
+        while bitset_index < self.data.count {
+            switch self.data[bitset_index] {
+            case .top:
+                returnStringArray.append(bitset_ap_mapping[bitset_index])
+                
+            case .bottom:
+                returnStringArray.append("¬" + bitset_ap_mapping[bitset_index])
+                
+            case .wildcard:
+                ()
+            }
+            bitset_index += 1
+        }
+        
+        let returnString = "(" + returnStringArray.joined(separator: " ∧ ") + ")"
+        
+        return returnString
+    }
+    
+    
+    /**
      Builds Formula representation with size amount of wildcards.
      */
     init(size: Int) {

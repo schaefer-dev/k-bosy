@@ -73,7 +73,6 @@ public class AssumptionsGenerator {
      */
     public static func _generateTransitionAssumptions(auto: Automata) -> [LTL] {
         let all_states = auto.get_allStates()
-        let all_observable_aps = auto.apList.get_allObservableAPs()
         var return_assumptions: [LTL] = []
         
         
