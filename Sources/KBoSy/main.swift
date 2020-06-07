@@ -64,6 +64,7 @@ do {
                 exit(EXIT_FAILURE)
             }
             let automata = automataOpt!
+            automata.finalize()
             
             let spec = SynthesisSpecification(automata: automata)
             

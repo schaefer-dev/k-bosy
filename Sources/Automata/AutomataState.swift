@@ -100,12 +100,18 @@ public class AutomataState : Hashable, CustomStringConvertible {
         
     }
     
+    
     /**
-     simplify transitions starting in this state, which means that all occurances of non-output APs are replaced with their respective values according to the state we are currently in. Only the value of output-APs is not known at this time which is why we keep those variable.
+     performs simplifications in this state.
+     This means that conditions of all transitions starting in this state are simplified
+        all occurances of non-output APs are replaced with their respective values according to the state we are currently in. Only the value of output-APs is not known at this time which is why we keep those variable.
+        Tautologies are also removed in the formulas
+     Also the Bitset representations of these simplified transitions are built.
      */
-    public func simplifyTransitions() {
+    public func finalize() {
         for trans in self.transitions {
             trans._simplify()
+            trans._buildBitsetRepresentation()
         }
     }
     

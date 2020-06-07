@@ -26,4 +26,9 @@ public class AutomataTransition {
         self.condition.simplifyTautologies()
         
     }
+    
+    
+    public func _buildBitsetRepresentation() {
+        self.condition.buildBitsetRepresentation()
+    }
 }

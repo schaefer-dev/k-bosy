@@ -12,8 +12,6 @@ public class Automata {
     private var all_states: [String: AutomataState]
     public var guarantees: [LTL]
     
-    private var bitset_ap_order: [AP]
-    
     
     /**
      This constructor may only be called in the `parseDotGraphFile` method.
@@ -37,8 +35,6 @@ public class Automata {
         
         self.initial_states = []
         self.all_states = [String: AutomataState]()
-        
-        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     /**
@@ -49,8 +45,6 @@ public class Automata {
         self.initial_states = initial_states
         self.all_states = all_states
         self.guarantees = guarantees
-        
-        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     
@@ -157,6 +151,17 @@ public class Automata {
         let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState)
         
         startState.addTransition(trans: new_transition)
+    }
+    
+    
+    /**
+     performs simplifications in this automata.
+     This includes optimizations that are performed on Transition-Conditions and also the building of BitsetRepresentations for all transitions.
+     */
+    public func finalize() {
+        for state in self.get_allStates() {
+            state.finalize()
+        }
     }
     
     

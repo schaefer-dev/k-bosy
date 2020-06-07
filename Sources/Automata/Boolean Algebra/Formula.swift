@@ -12,7 +12,7 @@ import Foundation
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula : Equatable, CustomStringConvertible {
     var dnf: [Conjunction]
-    var bitset_representation: BitsetFormula?
+    var bitset_representation: BitsetFormula
     
     public var description: String {
          if dnf.count == 0 {
@@ -35,9 +35,9 @@ public struct Formula : Equatable, CustomStringConvertible {
      }
     
     
-    public init(containedConjunctions: [Conjunction]) {
+    public init(containedConjunctions: [Conjunction], apList: APList) {
         self.dnf = containedConjunctions
-        self.bitset_representation = nil
+        self.bitset_representation = BitsetFormula(ap_index_map: apList.get_bitset_ap_index_map())
      }
     
     
@@ -89,6 +89,26 @@ public struct Formula : Equatable, CustomStringConvertible {
             self.dnf = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: false)])]
         }
     }
+    
+    
+    /**
+     Builds the bitset representation of that particular formla
+     Make sure this is only called once.
+     */
+    public func buildBitsetRepresentation() {
+        // cover special cases if only one literal part of entire formula
+        if self.dnf.count == 1 && self.dnf[0].literals.count == 1 {
+            if self.dnf[0].literals[0].alwaysFalse {
+                print("WARNING: Transition that is always false, this has to be filtered because no bitset exists here! Currently empty bitset means that never true")
+            }
+        }
+        
+        for conj in self.dnf {
+            let conj_bitset = conj.asBitset(ap_index_map: self.bitset_representation.get_mapping())
+            self.bitset_representation.add_formula(bitset: conj_bitset)
+        }
+    }
+    
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
         // empty formula is true
@@ -198,6 +218,52 @@ public struct Conjunction : Equatable, CustomStringConvertible {
         if self.literals.isEmpty {
             self.literals = [Constant(negated: false, truthValue: true)]
         }
+    }
+    
+    /**
+     Returns bitset representation of this conjunction.
+     If formula coontains contradiction (=is always false) then the empty bitset is returned.
+     */
+    public func asBitset(ap_index_map: [String : Int]) -> Bitset {
+        // build bitset with only wildcards
+        let bitset = Bitset(size: ap_index_map.count)
+        
+        for lit in self.literals {
+            if lit.alwaysFalse {
+                // in always false case return empty bitset
+                return Bitset(size: 0)
+            }
+            
+            if lit.alwaysTrue {
+                continue
+            }
+            
+            // now cover cases in which APs occur and not constants
+            let literal_ap_string = lit.getAP()!.id
+            let bitset_ap_index = ap_index_map[literal_ap_string]!
+            
+            if lit.neg {
+                // case of ap occuring in negated form
+                // make sure that positive form was not contained already, in that case return empty bitset because always false
+                if bitset.data[bitset_ap_index] == TValue.top {
+                    return Bitset(size: 0)
+                } else {
+                    // bitset now indicates that value of that ap has to be true
+                    bitset.data[bitset_ap_index] = TValue.bottom
+                }
+            } else {
+                // case of ap occuring in positive form
+                // make sure that negative form was not contained already, in that case return empty bitset because always false
+                if bitset.data[bitset_ap_index] == TValue.bottom {
+                    return Bitset(size: 0)
+                } else {
+                    // bitset now indicates that value of that ap has to be true
+                    bitset.data[bitset_ap_index] = TValue.top
+                }
+            }
+        }
+        
+        return bitset
     }
     
     

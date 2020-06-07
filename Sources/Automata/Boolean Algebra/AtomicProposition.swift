@@ -11,9 +11,12 @@ import Foundation
 public class APList {
     private var mapping : [String : AP]
     
+    private var bitset_ap_index_map: [String : Int]
+    
     
     public init() {
         mapping = [String : AP]()
+        bitset_ap_index_map = [String : Int]()
     }
     
     public func addAP(ap: AP) {
@@ -22,6 +25,11 @@ public class APList {
             return
         }
         mapping[ap.id] = ap
+        
+        // add output AP to bitset_ap_index_map
+        if ap.output {
+            bitset_ap_index_map[ap.id] = bitset_ap_index_map.count
+        }
     }
     
     public func lookupAP(apName: String) -> AP? {
@@ -30,6 +38,11 @@ public class APList {
             } else {
                 return nil
             }
+    }
+    
+    
+    public func get_bitset_ap_index_map() -> [String : Int] {
+        return self.bitset_ap_index_map
     }
     
     
