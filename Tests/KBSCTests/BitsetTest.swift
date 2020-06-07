@@ -135,14 +135,14 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula6_0!.description, "(false)")
         formula6_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula6_0!.bitset_representation.description, "[[]]")
-        XCTAssertEqual(formula6_0!.bitset_representation.get_formula_string(), "false")
+        XCTAssertEqual(formula6_0!.bitset_representation.get_formula_string(), "(false)")
         
         var formula7_0 = FormulaParser.parseDNFFormula(input_str: "(true) ∨ (false)", apList: globalAPList)
         formula7_0!.simplifyTautologies()
         XCTAssertEqual(formula7_0!.description, "(true)")
         formula7_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula7_0!.bitset_representation.description, "[[*, *, *, *, *, *]]")
-        XCTAssertEqual(formula7_0!.bitset_representation.get_formula_string(), "true")
+        XCTAssertEqual(formula7_0!.bitset_representation.get_formula_string(), "(true)")
         
 
     }

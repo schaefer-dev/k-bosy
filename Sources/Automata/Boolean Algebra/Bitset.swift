@@ -54,10 +54,10 @@ public class Bitset: CustomStringConvertible {
      */
     public func get_conjunction_string(bitset_ap_mapping: [String]) -> String {
         if self.data == [] {
-            return "false"
+            return "(false)"
         }
         if !(self.data.contains(TValue.top) || self.data.contains(TValue.bottom)) {
-            return "true"
+            return "(true)"
         }
         var returnStringArray : [String] = []
         

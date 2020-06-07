@@ -155,6 +155,17 @@ public class Automata {
     
     
     /**
+     performs simplifications in this automata.
+     This includes optimizations that are performed on Transition-Conditions and also the building of BitsetRepresentations for all transitions.
+     */
+    public func finalize() {
+        for state in self.get_allStates() {
+            state.finalize()
+        }
+    }
+    
+    
+    /**
      Reduces the entire automata structure to only contain observable stuff. This removed all non-observable and non-output APs from the apList. It also removes all non-observable APs from the state structure.
      - IMPORTANT: it does not remove any occurances of non-observable APs from the formulas that specify transition-conditions!
      */
