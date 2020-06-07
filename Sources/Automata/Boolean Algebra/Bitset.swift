@@ -8,14 +8,14 @@
 import Foundation
 
 
-private enum TValue: Int {
+public enum TValue: Int {
     case top = 1
     case bottom = 0
     case wildcard = 3
 }
 
 extension TValue: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         if rawValue == 1 {
             return "1"
         } else if rawValue == 0 {
@@ -34,7 +34,7 @@ public class Bitset: CustomStringConvertible {
     // TODO: maybe save order of AP-constraints somewhere (array of string with same length? could be global and static because never changes)
     
     
-    private var data: [TValue]
+    public var data: [TValue]
     
     public var count: Int {
         return self.data.count
@@ -49,8 +49,17 @@ public class Bitset: CustomStringConvertible {
     }
     
     
-    init() {
+    /**
+     Builds Formula representation with size amount of wildcards.
+     */
+    init(size: Int) {
         self.data = []
+        
+        var iter = 0
+        while (iter < size) {
+            self.data.append(.wildcard)
+            iter += 1
+        }
     }
     
     
@@ -127,7 +136,7 @@ public class Bitset: CustomStringConvertible {
     public static func bitAND(bs1: Bitset, bs2: Bitset) -> Bitset {
         assert(bs1.count == bs2.count)
         
-        let bsr = Bitset()
+        let bsr = Bitset(size: 0)
         var i = 0
         while (i < bs1.count) {
             switch bs1.data[i] {
@@ -138,7 +147,7 @@ public class Bitset: CustomStringConvertible {
                     bsr.addTrue()
                 case .bottom:
                     // true && false
-                    return Bitset()
+                    return Bitset(size: 0)
                 case .wildcard:
                     bsr.addTrue()
                 }
@@ -148,7 +157,7 @@ public class Bitset: CustomStringConvertible {
                 switch bs2.data[i] {
                 case .top:
                     // false && true
-                    return Bitset()
+                    return Bitset(size: 0)
                 case .bottom:
                     bsr.addFalse()
                 case .wildcard:
