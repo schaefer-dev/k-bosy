@@ -2,13 +2,17 @@ import Foundation
 import LTL
 
 
+
+
+
 // Represents dot Graph
 public class Automata {
     public var apList: APList
     public var initial_states: [AutomataState]
     private var all_states: [String: AutomataState]
     public var guarantees: [LTL]
-    // Transition contained in states currently: public var transition_relation: [Transition]
+    
+    private var bitset_ap_order: [AP]
     
     
     /**
@@ -31,10 +35,10 @@ public class Automata {
         }
         self.guarantees = info.guarantees
         
-        initial_states = []
-        all_states = [String: AutomataState]()
+        self.initial_states = []
+        self.all_states = [String: AutomataState]()
         
-        print(self.guarantees)
+        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     /**
@@ -45,6 +49,8 @@ public class Automata {
         self.initial_states = initial_states
         self.all_states = all_states
         self.guarantees = guarantees
+        
+        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     
@@ -76,6 +82,7 @@ public class Automata {
             return
         }
         self.all_states[new_state.name] = new_state
+        new_state.setParentAutomata(parent: self)
         print("DEBUG: added state " + new_state.description + " to Automata")
     }
     
@@ -148,6 +155,7 @@ public class Automata {
         }
         
         let new_transition = AutomataTransition(start: startState, condition: condition!, end: endState)
+        
         startState.addTransition(trans: new_transition)
     }
     

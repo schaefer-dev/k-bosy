@@ -13,6 +13,10 @@ public class AutomataState : Hashable, CustomStringConvertible {
     public var propositions: [AP]
     public var transitions: [AutomataTransition]
     
+    private var parent_automata: Automata?
+    
+    
+    
     public var description: String {
         var returnString = self.name + " {"
         
@@ -34,6 +38,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
         self.name = name
         self.propositions = propositions
         self.transitions = []
+        self.parent_automata = nil
     }
     
     
@@ -77,6 +82,12 @@ public class AutomataState : Hashable, CustomStringConvertible {
         }
     }
     
+    public func setParentAutomata(parent: Automata) {
+        // make sure that parent was not set yet (is only allowed to happen once!)
+        assert(self.parent_automata == nil)
+        
+        self.parent_automata = parent
+    }
     
     /**
      reduce structure in this state to only contain observable APs. This affects only  the set of APs that hold in this state
@@ -94,7 +105,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
      */
     public func simplifyTransitions() {
         for trans in self.transitions {
-            trans.simplify()
+            trans._simplify()
         }
     }
     

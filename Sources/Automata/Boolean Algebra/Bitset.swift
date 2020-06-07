@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Daniel Schäfer on 04.06.20.
 //
@@ -69,6 +69,7 @@ public class Bitset: CustomStringConvertible {
      Returns true if the passed bitset is stritly more limiting than self. This means that self covers all the truth values that would satisfy the passed bitset (and possibly more)
      */
     public func logicallyContains(bs: Bitset) -> Bool {
+        assert(self.count == bs.count)
         var i = 0
         while (i < self.count) {
             switch self.data[i] {

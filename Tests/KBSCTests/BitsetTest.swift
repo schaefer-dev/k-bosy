@@ -11,7 +11,7 @@ import XCTest
 
 import Foundation
 
-@testable import Utils
+@testable import Automata
 
 class BitsetTest: XCTestCase {
     
