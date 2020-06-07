@@ -160,11 +160,6 @@ public class FileParser {
                     index += 1
                 }
                 
-                // perform simplifications
-                for state in automata.get_allStates() {
-                    state.simplifyTransitions()
-                }
-                
                 return automata
             
             } catch {

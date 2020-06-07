@@ -12,6 +12,7 @@ import Foundation
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula : Equatable, CustomStringConvertible {
     var dnf: [Conjunction]
+    var bitset_representation: BitsetFormula?
     
     public var description: String {
          if dnf.count == 0 {
@@ -32,6 +33,13 @@ public struct Formula : Equatable, CustomStringConvertible {
          
          return output_string
      }
+    
+    
+    public init(containedConjunctions: [Conjunction]) {
+        self.dnf = containedConjunctions
+        self.bitset_representation = nil
+     }
+    
     
     /**
     simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
@@ -112,10 +120,6 @@ public struct Formula : Equatable, CustomStringConvertible {
         
         return true
     }
-    
-    public init(containedConjunctions: [Conjunction]) {
-        dnf = containedConjunctions
-    }
 }
 
 
@@ -140,6 +144,10 @@ public struct Conjunction : Equatable, CustomStringConvertible {
          
          return output_string
      }
+    
+    public init(literalsContainedInConjunction: [Literal]) {
+        literals = literalsContainedInConjunction
+    }
     
     /**
     simplify this conjunction, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
@@ -221,10 +229,6 @@ public struct Conjunction : Equatable, CustomStringConvertible {
         }
         
         return true
-    }
-    
-    public init(literalsContainedInConjunction: [Literal]) {
-        literals = literalsContainedInConjunction
     }
  
 }
