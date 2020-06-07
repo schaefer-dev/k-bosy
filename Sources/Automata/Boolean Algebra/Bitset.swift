@@ -27,7 +27,9 @@ extension TValue: CustomStringConvertible {
     }
 }
 
-
+/**
+ An empty Bitset.data means that the condition is ALWAYS FALSE.
+ */
 public class Bitset: CustomStringConvertible {
     // TODO: maybe save order of AP-constraints somewhere (array of string with same length? could be global and static because never changes)
     

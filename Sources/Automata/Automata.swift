@@ -12,8 +12,6 @@ public class Automata {
     private var all_states: [String: AutomataState]
     public var guarantees: [LTL]
     
-    private var bitset_ap_order: [AP]
-    
     
     /**
      This constructor may only be called in the `parseDotGraphFile` method.
@@ -37,8 +35,6 @@ public class Automata {
         
         self.initial_states = []
         self.all_states = [String: AutomataState]()
-        
-        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     /**
@@ -49,8 +45,6 @@ public class Automata {
         self.initial_states = initial_states
         self.all_states = all_states
         self.guarantees = guarantees
-        
-        self.bitset_ap_order = self.apList.get_allOutputAPs()
     }
     
     

@@ -10,15 +10,17 @@ import Foundation
 
 public class BitsetFormula {
     
-    public var formula: [Bitset]
-    private let ap_order: [AP]
+    private var formula: [Bitset]
+    private let ap_index_map: [String : Int]
     
     
     
-    init() {
+    init(ap_index_map: [String: Int]) {
         self.formula = []
-        self.ap_order = []
+        self.ap_index_map = ap_index_map
     }
     
-    
+    public func add_formula(bitset: Bitset) {
+        self.formula.append(bitset)
+    }
 }
