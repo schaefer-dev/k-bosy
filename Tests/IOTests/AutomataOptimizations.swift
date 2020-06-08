@@ -24,7 +24,7 @@ class AutomataOptimizations: XCTestCase {
         
         // Make sure that APs in states are set correctly
         
-        automata.reduceToObservablePart()
+        automata._reduceToObservablePart()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")
@@ -83,7 +83,7 @@ class AutomataOptimizations: XCTestCase {
         
         // Make sure that APs in states are set correctly
         
-        automata.reduceToObservablePart()
+        automata._reduceToObservablePart()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")

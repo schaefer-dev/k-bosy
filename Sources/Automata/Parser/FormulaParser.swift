@@ -88,7 +88,7 @@ public class FormulaParser {
         if (formula_string == "") {
             let constant = Constant(negated: false, truthValue: true)
             let conj = Conjunction(literalsContainedInConjunction: [constant])
-            let true_dnf_formula = Formula(containedConjunctions: [conj], apList: apList)
+            let true_dnf_formula = Formula(containedConjunctions: [conj], bitset_ap_mapping: apList.get_bitset_ap_index_map())
             return true_dnf_formula
         }
         
@@ -107,7 +107,7 @@ public class FormulaParser {
             }
         }
         
-        let dnf_formula = Formula(containedConjunctions: conj_list, apList: apList)
+        let dnf_formula = Formula(containedConjunctions: conj_list, bitset_ap_mapping: apList.get_bitset_ap_index_map())
         return dnf_formula
     }
 

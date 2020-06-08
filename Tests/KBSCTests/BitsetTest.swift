@@ -144,5 +144,64 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula7_0!.bitset_representation.description, "[[*, *, *, *, *, *]]")
         XCTAssertEqual(formula7_0!.bitset_representation.get_formula_string(), "(true)")
     }
+    
+    
+    func testBitsetFormulaAND() {
+        let globalAPList = APList()
+        
+        // Create Sample APs
+        let _ = AP(name: "a", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "b", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "c", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "d", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "o1", observable: true, list: globalAPList, output: true)
+        let _ = AP(name: "o2", observable: true, list: globalAPList, output: true)
+       
+        
+        
+        var formula1_0 = FormulaParser.parseDNFFormula(input_str: "((a ∧ b) ∨ (a ∧ c))", apList: globalAPList)!
+        formula1_0.simplifyTautologies()
+        XCTAssertEqual(formula1_0.description, "(a ∧ b) ∨ (a ∧ c)")
+        formula1_0.buildBitsetRepresentation()
+        XCTAssertEqual(formula1_0.bitset_representation.description, "[[1, 1, *, *, *, *], [1, *, 1, *, *, *]]")
+        
+        var formula2_0 = FormulaParser.parseDNFFormula(input_str: "(d)", apList: globalAPList)!
+        formula2_0.simplifyTautologies()
+        formula2_0.buildBitsetRepresentation()
+        
+        var formula3_0 = FormulaParser.parseDNFFormula(input_str: "(!a)", apList: globalAPList)!
+        formula3_0.simplifyTautologies()
+        formula3_0.buildBitsetRepresentation()
+        
+        
+        var formula_false = FormulaParser.parseDNFFormula(input_str: "(false)", apList: globalAPList)!
+        formula_false.simplifyTautologies()
+        formula_false.buildBitsetRepresentation()
+        
+        var formula_true = FormulaParser.parseDNFFormula(input_str: "(true)", apList: globalAPList)!
+        formula_true.simplifyTautologies()
+        formula_true.buildBitsetRepresentation()
+        
+        let test_result_01 = formula_true && formula_false
+        XCTAssertEqual(test_result_01.bitset_representation.description, "[]")
+        
+        let test_result_02 = formula_true && formula1_0
+        XCTAssertEqual(test_result_02.bitset_representation.description, "[[1, 1, *, *, *, *], [1, *, 1, *, *, *]]")
+        
+        let test_result_03 = formula_false && formula1_0
+        XCTAssertEqual(test_result_03.bitset_representation.description, "[]")
+        
+        let test_result_04 = formula2_0 && formula1_0
+        test_result_04.bitset_representation.simplify_using_contains_check()
+        XCTAssertEqual(test_result_04.bitset_representation.description, "[[1, 1, *, 1, *, *], [1, *, 1, 1, *, *]]")
+        
+        let test_result_05 = formula3_0 && formula1_0
+        test_result_05.bitset_representation.simplify_using_contains_check()
+        XCTAssertEqual(test_result_05.bitset_representation.description, "[]")
+        
+        let test_result_06 = test_result_04 && formula1_0
+        test_result_06.bitset_representation.simplify_using_contains_check()
+        XCTAssertEqual(test_result_06.bitset_representation.description, "[[1, 1, *, 1, *, *], [1, *, 1, 1, *, *]]")
+    }
 
 }

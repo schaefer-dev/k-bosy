@@ -114,17 +114,17 @@ class FormulaTest: XCTestCase {
         
         
         let dnf1Content = [conj1, conj3, conj4]
-        let dnf1 = Formula(containedConjunctions: dnf1Content, apList: globalAPList)
+        let dnf1 = Formula(containedConjunctions: dnf1Content, bitset_ap_mapping: globalAPList.get_bitset_ap_index_map())
         
         let dnf2Content = [conj3, conj4]
-        let dnf2 = Formula(containedConjunctions: dnf2Content, apList: globalAPList)
+        let dnf2 = Formula(containedConjunctions: dnf2Content, bitset_ap_mapping: globalAPList.get_bitset_ap_index_map())
         
         
         let dnf3Content = [conj3, conj3, conj4]
-        let dnf3 = Formula(containedConjunctions: dnf3Content, apList: globalAPList)
+        let dnf3 = Formula(containedConjunctions: dnf3Content, bitset_ap_mapping: globalAPList.get_bitset_ap_index_map())
         
         let dnf4Content = [conj4, conj4, conj1]
-        let dnf4 = Formula(containedConjunctions: dnf4Content, apList: globalAPList)
+        let dnf4 = Formula(containedConjunctions: dnf4Content, bitset_ap_mapping: globalAPList.get_bitset_ap_index_map())
         
         
         XCTAssertEqual(dnf1.eval(truthValues: currentState), true)

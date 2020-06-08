@@ -55,4 +55,59 @@ public class BitsetFormula : CustomStringConvertible{
         
         return returnString
     }
+    
+    
+    /**
+     Builds conjunction of 2 arrays of bitsets, representing 2 DNF Formula.
+     TODO: test this function
+     */
+    public static func bitAND(bf1: BitsetFormula, bf2: BitsetFormula) -> BitsetFormula {
+        var return_bitset_formula = BitsetFormula(ap_index_map: bf1.ap_index_map)
+        
+        for bs1 in bf1.conjunctions {
+            for bs2 in bf2.conjunctions {
+                let bs_new = bs1 && bs2
+                if !bs_new.isEmpty {
+                    return_bitset_formula.add_formula(bitset: bs_new)
+                }
+            }
+        }
+        
+        return return_bitset_formula
+    }
+    
+    
+    /**
+     Removes bitsets that are 'contained' in other bitsets that are also in this BitsetFormula. Idea is to make the formula easier to read
+     */
+    public func simplify_using_contains_check() {
+        var bitset_index = 0
+        
+        while (bitset_index < self.conjunctions.count) {
+            var j = 0
+            while (j < self.conjunctions.count) {
+                if (j == bitset_index) {
+                    // skip comparison with same bitset
+                    j += 1
+                    continue
+                }
+                // formula at j is "stronger" than at `bitset_index` -> remove bitset index
+                if self.conjunctions[j].logicallyContains(bs: self.conjunctions[bitset_index]) {
+                    self.conjunctions.remove(at: bitset_index)
+                    bitset_index -= 1
+                    break
+                }
+                j += 1
+            }
+            bitset_index += 1
+        }
+    }
+}
+
+
+/**
+ Binding to be able to use && operator on BitsetFormula
+ */
+public func && (bf1: BitsetFormula, bf2: BitsetFormula) -> BitsetFormula {
+    return BitsetFormula.bitAND(bf1: bf1, bf2: bf2)
 }

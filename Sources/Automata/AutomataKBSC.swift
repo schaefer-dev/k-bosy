@@ -13,7 +13,8 @@ public class AutomataKBSC {
     public static func constructObservableAutomataKBSC(input_automata: Automata) -> Automata {
         
         // states and aplist now only contain observable or output propositions.
-        input_automata.reduceToObservablePart()
+        input_automata._reduceToObservablePart()
+        input_automata.finalize()
         
         let new_apList = input_automata.apList
         
@@ -49,13 +50,44 @@ public class AutomataKBSC {
     
     
     /**
-     perform Knowledge based subset construction with the given initial states to output automata structure that contains only the observable part
+     Merging of 2 States following the KBSC algorithm.
+     Name of the new state = (s1.name + s2.name) with the names sorted (so its unique).
+     
+     Adds resulting new state to 'target_automata' and returns list of new nodes that have to be analyzed using the algorithm
      */
-    public static func knowledgeBasedSubsetConstruction(old_initial_states: [AutomataState], old_states: [String: AutomataState]) -> ([AutomataState], [String: AutomataState]) {
+    public static func mergeStates(s1: AutomataState, s2: AutomataState, target_automata: Automata) -> [AutomataState] {
+        // states can only be merged if they are not the same state, but still have the same APs (because otherwise we could distinguish them)
+        assert(s1.name != s2.name)
+        assert(s1.propositions == s2.propositions)
         
-        // TODO: make sure to fix transitions that contain non-observable APs - make sure that all cases are covered because these values may be either true or false at any point in time!
+        var todo_analyze_state_queue: [AutomataState] = []
         
-        return (old_initial_states, old_states)
+        // build new state name with sorting on contained state-names so we maintain correctness
+        let new_state_name_array = (s1.name.split(separator: "s") + s2.name.split(separator: "s")).sorted()
+        let new_state_name = "s" + new_state_name_array.joined(separator: "s")
+        
+        
+        let new_state = AutomataState(name: new_state_name, propositions: s1.propositions)
+        
+        
+        // TODO: go through all transitions of s1 and for each try to merge them with all of the transitions in s2
+        for trans1 in s1.transitions {
+            for trans2 in s2.transitions {
+                let new_state_opt = mergeTransitions(t1: trans1, t2: trans2, new_start_state: new_state)
+            }
+        }
+        
+        // TODO
+        
+        return todo_analyze_state_queue
+    }
+    
+    
+    public static func mergeTransitions(t1: AutomataTransition, t2: AutomataTransition, new_start_state: AutomataState) -> AutomataState? {
+        
+        return nil
+        
+        // TODO implment
     }
 
 }

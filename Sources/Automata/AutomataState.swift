@@ -12,10 +12,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
     public var name: String
     public var propositions: [AP]
     public var transitions: [AutomataTransition]
-    
     private var parent_automata: Automata?
-    
-    
     
     public var description: String {
         var returnString = self.name + " {"

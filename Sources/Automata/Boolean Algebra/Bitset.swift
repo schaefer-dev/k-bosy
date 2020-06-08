@@ -168,6 +168,9 @@ public class Bitset: CustomStringConvertible {
      returns empty bitset if no solution
     */
     public static func bitAND(bs1: Bitset, bs2: Bitset) -> Bitset {
+        if (bs1.count == 0 || bs2.count == 0) {
+            return Bitset(size: 0)
+        }
         assert(bs1.count == bs2.count)
         
         let bsr = Bitset(size: 0)
