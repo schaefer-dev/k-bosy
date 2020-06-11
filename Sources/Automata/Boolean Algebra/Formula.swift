@@ -34,6 +34,10 @@ public struct Formula : Equatable, CustomStringConvertible {
          return output_string
      }
     
+    public var isEmpty: Bool {
+        return self.bitset_representation.isEmpty
+    }
+    
     
     public init(containedConjunctions: [Conjunction], bitset_ap_mapping: [String : Int]) {
         self.dnf = containedConjunctions

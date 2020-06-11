@@ -31,9 +31,8 @@ extension TValue: CustomStringConvertible {
  An empty Bitset.data means that the condition is ALWAYS FALSE.
  */
 public class Bitset: CustomStringConvertible {
-    // TODO: maybe save order of AP-constraints somewhere (array of string with same length? could be global and static because never changes)
     
-    
+    // Empty bitset corresponds to false
     public var data: [TValue]
     
     public var count: Int {
@@ -83,6 +82,49 @@ public class Bitset: CustomStringConvertible {
     }
     
     
+    
+    /**
+     Increases a bitset by one. Does not support Bitsets that contain wildcards!
+     
+     Returns true if successful, false if already 'maximum' reached
+     */
+    public func increment() -> Bool {
+        var negative_index = 0
+        
+        var found_first_bottom = false
+        
+        // find the first .bottom to flip to a top
+        while (!found_first_bottom && negative_index < self.data.count) {
+            let current_iter_tvalue = self.data[self.data.count - 1 - negative_index]
+            switch current_iter_tvalue {
+            case .bottom:
+                self.data[self.data.count - 1 - negative_index] = .top
+                found_first_bottom = true
+            case .top:
+                // look further forwards to increment
+                negative_index += 1
+            case .wildcard:
+                assert(false, "wildcard found in bitset that is being incremented, this is not allowed!")
+            }
+        }
+        
+        // no TValue could be flipped -> has to be maximum Bitset value already
+        if (!found_first_bottom) {
+            return false
+        }
+        
+        // every value at a index greater than the one we flipped from .bottom to .top has to be overwritten to .bottom
+        var iter = 0
+        let starting_index = self.data.count - negative_index
+        while (starting_index + iter < self.data.count) {
+            self.data[starting_index + iter] = .bottom
+            iter += 1
+        }
+        
+        return true
+    }
+    
+    
     /**
      Builds Formula representation with size amount of wildcards.
      */
@@ -92,6 +134,23 @@ public class Bitset: CustomStringConvertible {
         var iter = 0
         while (iter < size) {
             self.data.append(.wildcard)
+            iter += 1
+        }
+    }
+    
+    /**
+     Builds Formula representation with size amount of truth-values
+     */
+    init(size: Int, truth_value: Bool) {
+        self.data = []
+        
+        var iter = 0
+        while (iter < size) {
+            if (truth_value == true) {
+                self.data.append(.top)
+            } else {
+                self.data.append(.bottom)
+            }
             iter += 1
         }
     }

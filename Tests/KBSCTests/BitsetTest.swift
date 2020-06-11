@@ -203,5 +203,33 @@ class BitsetTest: XCTestCase {
         test_result_06.bitset_representation.simplify_using_contains_check()
         XCTAssertEqual(test_result_06.bitset_representation.description, "[[1, 1, *, 1, *, *], [1, *, 1, 1, *, *]]")
     }
+    
+    
+    func testBitsetIncrement() {
+        let bs1 = Bitset(size: 3, truth_value: false)
+        
+        
+        let bs_max = Bitset(size: 10, truth_value: true)
+        
+        XCTAssertFalse(bs_max.increment(), "Already at maximum value, should return false")
+        
+        XCTAssertEqual(bs1.description, "[0, 0, 0]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[0, 0, 1]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[0, 1, 0]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[0, 1, 1]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[1, 0, 0]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[1, 0, 1]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[1, 1, 0]")
+        XCTAssertTrue(bs1.increment(), "Increment should be fine for now")
+        XCTAssertEqual(bs1.description, "[1, 1, 1]")
+        XCTAssertFalse(bs1.increment(), "Maximum should have been reached")
+        
+    }
 
 }

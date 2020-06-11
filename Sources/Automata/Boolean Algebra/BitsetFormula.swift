@@ -10,11 +10,21 @@ import Foundation
 
 public class BitsetFormula : CustomStringConvertible{
     
+    // Empty bitset corresponds to false
+    
     private var conjunctions: [Bitset]
     private let ap_index_map: [String : Int]
     
     public var description: String {
         return conjunctions.description
+    }
+    
+    public var isEmpty: Bool {
+        if self.conjunctions.count == 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     
