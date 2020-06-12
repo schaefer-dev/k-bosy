@@ -17,7 +17,7 @@ public class KBSConstructor {
     
     
     /**
-     
+     Assumes that finalize has not been called yet on given input automata
      */
     public init(input_automata: Automata) {
         input_automata._reduceToObservablePart()
