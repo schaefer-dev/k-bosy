@@ -10,13 +10,14 @@ import Foundation
 
 public class APList {
     private var mapping : [String : AP]
-    
     private var bitset_ap_index_map: [String : Int]
+    private var bitset_index_to_ap_string: [String]
     
     
     public init() {
         mapping = [String : AP]()
         bitset_ap_index_map = [String : Int]()
+        bitset_index_to_ap_string = []
     }
     
     public func addAP(ap: AP) {
@@ -26,9 +27,10 @@ public class APList {
         }
         mapping[ap.id] = ap
         
-        // add output AP to bitset_ap_index_map
+        // add output AP to bitset_ap_index_map and bitset_index_to_ap_string
         if ap.output {
             bitset_ap_index_map[ap.id] = bitset_ap_index_map.count
+            bitset_index_to_ap_string.append(ap.id)
         }
     }
     
@@ -43,6 +45,10 @@ public class APList {
     
     public func get_bitset_ap_index_map() -> [String : Int] {
         return self.bitset_ap_index_map
+    }
+    
+    public func get_bitset_index_to_ap_string_map() -> [String] {
+        return self.bitset_index_to_ap_string
     }
     
     

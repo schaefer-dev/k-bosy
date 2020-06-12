@@ -171,7 +171,7 @@ public class Automata {
      */
     public func _reduceToObservablePart() {
         // Transform apList to only contain observable stuff
-        self.apList = AutomataKBSC.getObservableAPList(input_list: self.apList)
+        self.apList = KBSConstructor.getObservableAPList(input_list: self.apList)
         
         
         // Transform states to only contain observable propositions
