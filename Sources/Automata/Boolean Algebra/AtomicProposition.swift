@@ -108,7 +108,7 @@ public class APList {
 }
 
 // make id and obs non-changable!
-public class AP : Hashable, CustomStringConvertible {
+public class AP : Hashable, CustomStringConvertible, Comparable {
     var id : String
     var obs : Bool
     var output : Bool
@@ -130,6 +130,10 @@ public class AP : Hashable, CustomStringConvertible {
     
     public static func == (ap1: AP, ap2: AP) -> Bool {
         return ap1.id == ap2.id
+    }
+    
+    public static func < (ap1: AP, ap2: AP) -> Bool {
+        return ap1.id < ap2.id
     }
     
     public func hash(into hasher: inout Hasher) {

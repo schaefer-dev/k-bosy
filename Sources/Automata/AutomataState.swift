@@ -10,6 +10,7 @@ import Foundation
 
 public class AutomataState : Hashable, CustomStringConvertible {
     public var name: String
+    // proposition list is kept sorted
     public var propositions: [AP]
     public var transitions: [AutomataTransition]
     private var parent_automata: Automata?
@@ -34,6 +35,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
     public init(name: String, propositions: [AP]) {
         self.name = name
         self.propositions = propositions
+        self.propositions = self.propositions.sorted()
         // TODO sort propositions list!
         self.transitions = []
         self.parent_automata = nil
@@ -79,7 +81,8 @@ public class AutomataState : Hashable, CustomStringConvertible {
             print("DEBUG: added " + ap.description + " to state " + self.name)
         }
         
-        // TODO sort propositions list!
+        // Keep proposition list sorted
+        self.propositions = self.propositions.sorted()
     }
     
     public func setParentAutomata(parent: Automata) {
