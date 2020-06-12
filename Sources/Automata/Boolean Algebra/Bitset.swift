@@ -172,13 +172,13 @@ public class Bitset: CustomStringConvertible {
     /*
      Returns true if the passed bitset is stritly more limiting than self. This means that self covers all the truth values that would satisfy the passed bitset (and possibly more)
      */
-    public func logicallyContains(bs: Bitset) -> Bool {
-        assert(self.count == bs.count)
+    public func holdsUnderAssumption(assumption_bs: Bitset) -> Bool {
+        assert(self.count == assumption_bs.count)
         var i = 0
         while (i < self.count) {
             switch self.data[i] {
             case .top:
-                switch bs.data[i] {
+                switch assumption_bs.data[i] {
                 case .top:
                     // bs covers same truth values
                      ()
@@ -191,7 +191,7 @@ public class Bitset: CustomStringConvertible {
                 }
                 
             case .bottom:
-                switch bs.data[i] {
+                switch assumption_bs.data[i] {
                 case .bottom:
                     // bs covers same truth values
                     ()

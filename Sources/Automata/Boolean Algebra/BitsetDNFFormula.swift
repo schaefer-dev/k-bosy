@@ -8,7 +8,8 @@
 import Foundation
 
 
-public class BitsetFormula : CustomStringConvertible{
+// DNF Formula in BitsetRepresentation
+public class BitsetDNFFormula : CustomStringConvertible{
     
     // Empty bitset corresponds to false
     
@@ -42,6 +43,20 @@ public class BitsetFormula : CustomStringConvertible{
     }
     
     
+    /*
+     Check if the given assumption_bs satisfies this DNF Formula
+     */
+    public func holdsUnderAssumption(assumption_bs: Bitset) -> Bool {
+        for conj in self.conjunctions {
+            if conj.holdsUnderAssumption(assumption_bs: assumption_bs) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    
     /**
      Inefficient because it has to turn dictionary around
      */
@@ -71,8 +86,8 @@ public class BitsetFormula : CustomStringConvertible{
      Builds conjunction of 2 arrays of bitsets, representing 2 DNF Formula.
      TODO: test this function
      */
-    public static func bitAND(bf1: BitsetFormula, bf2: BitsetFormula) -> BitsetFormula {
-        var return_bitset_formula = BitsetFormula(ap_index_map: bf1.ap_index_map)
+    public static func bitAND(bf1: BitsetDNFFormula, bf2: BitsetDNFFormula) -> BitsetDNFFormula {
+        var return_bitset_formula = BitsetDNFFormula(ap_index_map: bf1.ap_index_map)
         
         for bs1 in bf1.conjunctions {
             for bs2 in bf2.conjunctions {
@@ -102,7 +117,7 @@ public class BitsetFormula : CustomStringConvertible{
                     continue
                 }
                 // formula at j is "stronger" than at `bitset_index` -> remove bitset index
-                if self.conjunctions[j].logicallyContains(bs: self.conjunctions[bitset_index]) {
+                if self.conjunctions[j].holdsUnderAssumption(assumption_bs: self.conjunctions[bitset_index]) {
                     self.conjunctions.remove(at: bitset_index)
                     bitset_index -= 1
                     break
@@ -118,6 +133,6 @@ public class BitsetFormula : CustomStringConvertible{
 /**
  Binding to be able to use && operator on BitsetFormula
  */
-public func && (bf1: BitsetFormula, bf2: BitsetFormula) -> BitsetFormula {
-    return BitsetFormula.bitAND(bf1: bf1, bf2: bf2)
+public func && (bf1: BitsetDNFFormula, bf2: BitsetDNFFormula) -> BitsetDNFFormula {
+    return BitsetDNFFormula.bitAND(bf1: bf1, bf2: bf2)
 }

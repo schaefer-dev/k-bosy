@@ -34,6 +34,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
     public init(name: String, propositions: [AP]) {
         self.name = name
         self.propositions = propositions
+        // TODO sort propositions list!
         self.transitions = []
         self.parent_automata = nil
     }
@@ -77,6 +78,8 @@ public class AutomataState : Hashable, CustomStringConvertible {
             self.propositions.append(ap)
             print("DEBUG: added " + ap.description + " to state " + self.name)
         }
+        
+        // TODO sort propositions list!
     }
     
     public func setParentAutomata(parent: Automata) {

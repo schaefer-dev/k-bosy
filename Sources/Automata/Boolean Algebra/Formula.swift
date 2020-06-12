@@ -12,7 +12,7 @@ import Foundation
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula : Equatable, CustomStringConvertible {
     var dnf: [Conjunction]
-    var bitset_representation: BitsetFormula
+    var bitset_representation: BitsetDNFFormula
     
     public var description: String {
          if dnf.count == 0 {
@@ -41,7 +41,7 @@ public struct Formula : Equatable, CustomStringConvertible {
     
     public init(containedConjunctions: [Conjunction], bitset_ap_mapping: [String : Int]) {
         self.dnf = containedConjunctions
-        self.bitset_representation = BitsetFormula(ap_index_map: bitset_ap_mapping)
+        self.bitset_representation = BitsetDNFFormula(ap_index_map: bitset_ap_mapping)
      }
     
     

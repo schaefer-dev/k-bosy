@@ -83,10 +83,11 @@ class BitsetTest: XCTestCase {
         bs1.addWildcard()
         bs2.addWildcard()
         
-        XCTAssertEqual(bs1.logicallyContains(bs: bs2), true)
-        XCTAssertEqual(bs2.logicallyContains(bs: bs1), false)
+        // bs1: [1, 0, *, *, *]
+        // bs2: [1, 0, *, 0, *]
+        XCTAssertEqual(bs1.holdsUnderAssumption(assumption_bs: bs2), true)
+        XCTAssertEqual(bs2.holdsUnderAssumption(assumption_bs: bs1), false)
     }
-    
     
     
     func testFormulaAsBitset() {
