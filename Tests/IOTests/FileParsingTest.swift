@@ -88,23 +88,23 @@ class FileParsingTest: XCTestCase {
         
         // test if conditions are parsed correctly
         // Test condition of s0->s1
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals[0].description, "a")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals[0].description, "b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 2)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![0].literals[0].description, "a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![1].literals[0].description, "b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![1].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf!.count, 2)
         
         // Test condition of s0->s0
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[0].description, "¬a")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[1].description, "¬b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 2)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals[0].description, "¬a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals[1].description, "¬b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals.count, 2)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf!.count, 1)
         
         
         // Test condition of s1->s1
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf[0].literals[0].description, "true")
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf[0].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf![0].literals[0].description, "true")
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf![0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[0].condition.dnf!.count, 1)
     }
     
     
@@ -149,19 +149,19 @@ class FileParsingTest: XCTestCase {
         
         // test if conditions are parsed correctly
         // Test condition of s0->s1
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf.count, 2)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals[0].description, "a")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[0].literals.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals[0].description, "b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf[1].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf!.count, 2)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![0].literals[0].description, "a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![1].literals[0].description, "b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[0].condition.dnf![1].literals.count, 1)
         
         
         
         // Test condition of s0->s0
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals.count, 2)
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[0].description, "¬a")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf[0].literals[1].description, "¬b")
-        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals.count, 2)
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals[0].description, "¬a")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf![0].literals[1].description, "¬b")
+        XCTAssertEqual(dotGraph.get_state(name: "s0")!.transitions[1].condition.dnf!.count, 1)
         
 
         // Transitions s1->s1 not tested
@@ -169,9 +169,9 @@ class FileParsingTest: XCTestCase {
         
         
         // Test condition of s2->s2
-        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[1].condition.dnf.count, 1)
-        XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf[0].literals[0].description, "true")
-        XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf[0].literals.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s1")!.transitions[1].condition.dnf!.count, 1)
+        XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf![0].literals[0].description, "true")
+        XCTAssertEqual(dotGraph.get_state(name: "s2")!.transitions[0].condition.dnf![0].literals.count, 1)
     }
 
 }

@@ -11,10 +11,12 @@ import Foundation
 
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula : Equatable, CustomStringConvertible {
-    var dnf: [Conjunction]
+    var dnf: [Conjunction]?
     var bitset_representation: BitsetDNFFormula
     
     public var description: String {
+        if (self.dnf != nil) {
+            let dnf = self.dnf!
             if dnf.count == 0 {
                 return ""
             }
@@ -32,7 +34,9 @@ public struct Formula : Equatable, CustomStringConvertible {
             }
              
             return output_string
-            
+        } else {
+            return bitset_representation.description
+        }
      }
     
     public var isEmpty: Bool {
@@ -55,20 +59,26 @@ public struct Formula : Equatable, CustomStringConvertible {
     simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
     public mutating func simplifyWithConstants(true_aps: [AP]) {
+        if (self.dnf == nil) {
+            assert(false, "this method can not be called on optimized structures")
+        }
         var conj_index = 0
         
-        while conj_index < dnf.count {
-            self.dnf[conj_index].simplifyWithConstants(true_aps: true_aps)
+        while conj_index < dnf!.count {
+            self.dnf![conj_index].simplifyWithConstants(true_aps: true_aps)
             conj_index += 1
         }
     }
     
     public mutating func simplifyTautologies() {
+        if (self.dnf == nil) {
+            assert(false, "this method can not be called on optimized structures")
+        }
         var conj_index = 0
         
         // simplify the conjunctions
-        while conj_index < dnf.count {
-            self.dnf[conj_index].simplifyTautologies()
+        while conj_index < dnf!.count {
+            self.dnf![conj_index].simplifyTautologies()
             conj_index += 1
         }
         
@@ -79,24 +89,24 @@ public struct Formula : Equatable, CustomStringConvertible {
     public mutating func _simplifyTautologiesFurther() {
         var conj_index = 0
         // simplify the conjunctions
-        while conj_index < dnf.count {
+        while conj_index < dnf!.count {
             // if just one element in that conjunction look at it closer if we can maybe remove it
-            if self.dnf[conj_index].literals.count == 1 {
-                if (self.dnf[conj_index].literals[0].alwaysTrue) {
+            if self.dnf![conj_index].literals.count == 1 {
+                if (self.dnf![conj_index].literals[0].alwaysTrue) {
                     // one single True in the Disjunction results in just true being returned
-                    self.dnf = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: true)])]
+                    self.dnf! = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: true)])]
                     break
-                } else if (self.dnf[conj_index].literals[0].alwaysFalse) {
+                } else if (self.dnf![conj_index].literals[0].alwaysFalse) {
                     // every occurance of False in the Disjunction is just skipped
-                    self.dnf.remove(at: conj_index)
+                    self.dnf!.remove(at: conj_index)
                     continue
                 }
             }
             conj_index += 1
         }
         
-        if self.dnf.count == 0 {
-            self.dnf = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: false)])]
+        if self.dnf!.count == 0 {
+            self.dnf! = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: false)])]
         }
     }
     
@@ -105,27 +115,36 @@ public struct Formula : Equatable, CustomStringConvertible {
      Builds the bitset representation of that particular formla
      Make sure this is only called once.
      */
-    public func buildBitsetRepresentation() {
+    public mutating func buildBitsetRepresentation() {
+        if (self.dnf == nil) {
+            assert(false, "this method can not be called on optimized structures")
+        }
         // cover special cases if only one literal part of entire formula
-        if self.dnf.count == 1 && self.dnf[0].literals.count == 1 {
-            if self.dnf[0].literals[0].alwaysFalse {
+        if self.dnf!.count == 1 && self.dnf![0].literals.count == 1 {
+            if self.dnf![0].literals[0].alwaysFalse {
                 print("WARNING: Transition that is always false, this has to be filtered because no bitset exists here! Currently empty bitset means that never true")
             }
         }
         
-        for conj in self.dnf {
+        for conj in self.dnf! {
             let conj_bitset = conj.asBitset(ap_index_map: self.bitset_representation.get_mapping())
             self.bitset_representation.add_formula(bitset: conj_bitset)
         }
+        
+        self.dnf = nil
     }
     
     
     public func eval(truthValues: CurrentTruthValues) -> Bool {
+        if (self.dnf == nil) {
+            // TODO
+            assert(false, "TODO: implement this with bitset")
+        }
         // empty formula is true
-        if (self.dnf.count == 0) {
+        if (self.dnf!.count == 0) {
             return true
         }
-        for conj in dnf {
+        for conj in dnf! {
             // whenever one conjunction is true, then DNF-Formula must be true
             if (conj.eval(truthValues: truthValues)){
                 return true
@@ -137,13 +156,17 @@ public struct Formula : Equatable, CustomStringConvertible {
     
     // Equality definition on formulas, if all subformulas are equal
     public static func == (f1: Formula, f2: Formula) -> Bool {
+        if (f1.dnf == nil || f1.dnf == nil) {
+            return (f1.bitset_representation.description == f2.bitset_representation.description)
+        }
+        
         // if not same length of dnf can not be equal
-        if f1.dnf.count != f2.dnf.count {
+        if f1.dnf!.count != f2.dnf!.count {
             return false
         }
-        for i in 0...(f1.dnf.count - 1) {
+        for i in 0...(f1.dnf!.count - 1) {
             // if any pair in dnf not equal return false
-            if (f1.dnf[i] != f2.dnf[i]) {
+            if (f1.dnf![i] != f2.dnf![i]) {
                 return false
             }
         }

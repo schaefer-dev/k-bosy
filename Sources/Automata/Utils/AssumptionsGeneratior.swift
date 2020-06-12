@@ -96,7 +96,9 @@ public class AssumptionsGenerator {
             while transition_index < relevant_transitions.count {
                 
                 // add condition that is being in the correct state and the transition condition holding
-                ltl_string += "((" + relevant_transitions[transition_index].condition.getStringFromBitsetRepresentation(index_to_ap_map: auto.apList.get_bitset_index_to_ap_string_map()) + ")"
+                let relevant_transition_condition = relevant_transitions[transition_index].condition
+                assert(relevant_transition_condition.dnf == nil, "dnf structure has to be aborted at this point and worked only with bitset. This can be achieved by using automata.finalize() which builds this structure.")
+                ltl_string += "((" + relevant_transition_condition.getStringFromBitsetRepresentation(index_to_ap_map: auto.apList.get_bitset_index_to_ap_string_map()) + ")"
                 ltl_string += " && X(" + relevant_transitions[transition_index].end.name + "))"
                 
                 // if more transitions following add disjunction
