@@ -36,6 +36,25 @@ func setupObsNumberv1() -> Automata {
     return obs_automata
 }
 
+
+func setupObsDetectGloballyAEarly() -> Automata {
+    let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_detect_globally_a_early.json")
+    XCTAssert(automataInfoOpt != nil)
+    let automataInfo = automataInfoOpt!
+    
+    
+    let automataOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_detect_globally_a_early.gv", info: automataInfo)
+    XCTAssert(automataOpt != nil)
+    let automata = automataOpt!
+    
+    print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
+    
+    let kbsc = KBSConstructor(input_automata: automata)
+    let obs_automata = kbsc.run()
+    
+    return obs_automata
+}
+
 class KBSCConstructionTest: XCTestCase {
 
     
@@ -159,6 +178,86 @@ class KBSCConstructionTest: XCTestCase {
             XCTAssertTrue(expected_transitions_s4.contains(elem), "transition " + elem + " was not expected by test")
         }
         
+    }
+    
+    
+    
+    
+    func testKBSCConstruction_Detect_Globally_a_early() {
+        
+        let obs_automata = setupObsDetectGloballyAEarly()
+        
+        
+        XCTAssertEqual(obs_automata.get_allStates().count, 9, "expected the obs Automata to consist of 9 states")
+        
+        
+        // NOTE: 4 different truth values possible, and currently every truth value has its own transition, which means that the number of transitions is multiplied by 4 to the intuitive version one would build by hand
+        
+        
+        // test transitions from s0
+        XCTAssertEqual(obs_automata.get_state(name: "s0")!.transitions.count, 1 * 4, "expected the initial state to have 4 Transitions, because 4 different truth value combinations possible with 2 APs")
+        let possible_trans_in_s0 = ["{s0 + (¬go) --> s1}", "{s0 + (¬go) --> s2}", "{s0 + (go) --> s2}", "{s0 + (go) --> s1}"]
+        XCTAssertTrue(possible_trans_in_s0.contains(obs_automata.get_state(name: "s0")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s0.contains(obs_automata.get_state(name: "s0")!.transitions[1].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s0.contains(obs_automata.get_state(name: "s0")!.transitions[2].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s0.contains(obs_automata.get_state(name: "s0")!.transitions[3].description), "Unexpected Formula found")
+
+        
+        // test transitions from s1
+        XCTAssertEqual(obs_automata.get_state(name: "s0")!.transitions.count, 1 * 4)
+        let possible_trans_in_s1 = ["{s1 + (¬go) --> s3}", "{s1 + (¬go) --> s4}", "{s1 + (go) --> s3}", "{s1 + (go) --> s4}"]
+        XCTAssertTrue(possible_trans_in_s1.contains(obs_automata.get_state(name: "s1")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s1.contains(obs_automata.get_state(name: "s1")!.transitions[1].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s1.contains(obs_automata.get_state(name: "s1")!.transitions[2].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s1.contains(obs_automata.get_state(name: "s1")!.transitions[3].description), "Unexpected Formula found")
+
+        
+        // test transitions from s2
+        XCTAssertEqual(obs_automata.get_state(name: "s2")!.transitions.count, 1 * 2)
+        let possible_trans_in_s2 = ["{s2 + (¬go) --> s5s6}", "{s2 + (go) --> s5s6}"]
+        XCTAssertTrue(possible_trans_in_s2.contains(obs_automata.get_state(name: "s2")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s2.contains(obs_automata.get_state(name: "s2")!.transitions[1].description), "Unexpected Formula found")
+        
+        // test transitions from s3
+        XCTAssertEqual(obs_automata.get_state(name: "s3")!.transitions.count, 1 * 2)
+        let possible_trans_in_s3 = ["{s3 + (¬go) --> s7}", "{s3 + (go) --> s7}"]
+        XCTAssertTrue(possible_trans_in_s3.contains(obs_automata.get_state(name: "s3")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s3.contains(obs_automata.get_state(name: "s3")!.transitions[1].description), "Unexpected Formula found")
+        
+        // test transitions from s4
+        XCTAssertEqual(obs_automata.get_state(name: "s4")!.transitions.count, 1 * 2)
+        let possible_trans_in_s4 = ["{s4 + (¬go) --> s4}", "{s4 + (go) --> s4}"]
+        XCTAssertTrue(possible_trans_in_s4.contains(obs_automata.get_state(name: "s4")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s4.contains(obs_automata.get_state(name: "s4")!.transitions[1].description), "Unexpected Formula found")
+        
+        
+        // test transitions from s5s6
+        XCTAssertEqual(obs_automata.get_state(name: "s5s6")!.transitions.count, 1 * 4)
+        let possible_trans_in_s5s6 = ["{s5s6 + (¬go) --> s8}", "{s5s6 + (¬go) --> s9}", "{s5s6 + (go) --> s8}", "{s5s6 + (go) --> s9}"]
+        XCTAssertTrue(possible_trans_in_s5s6.contains(obs_automata.get_state(name: "s5s6")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s5s6.contains(obs_automata.get_state(name: "s5s6")!.transitions[1].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s5s6.contains(obs_automata.get_state(name: "s5s6")!.transitions[2].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s5s6.contains(obs_automata.get_state(name: "s5s6")!.transitions[3].description), "Unexpected Formula found")
+        
+        
+        
+        // test transitions from s7
+        XCTAssertEqual(obs_automata.get_state(name: "s7")!.transitions.count, 1 * 2)
+        let possible_trans_in_s7 = ["{s7 + (¬go) --> s7}", "{s7 + (go) --> s7}"]
+        XCTAssertTrue(possible_trans_in_s7.contains(obs_automata.get_state(name: "s7")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s7.contains(obs_automata.get_state(name: "s7")!.transitions[1].description), "Unexpected Formula found")
+        
+        // test transitions from s8
+        XCTAssertEqual(obs_automata.get_state(name: "s8")!.transitions.count, 1 * 2)
+        let possible_trans_in_s8 = ["{s8 + (¬go) --> s8}", "{s8 + (go) --> s8}"]
+        XCTAssertTrue(possible_trans_in_s8.contains(obs_automata.get_state(name: "s8")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s8.contains(obs_automata.get_state(name: "s8")!.transitions[1].description), "Unexpected Formula found")
+        
+        // test transitions from s9
+        XCTAssertEqual(obs_automata.get_state(name: "s9")!.transitions.count, 1 * 2)
+        let possible_trans_in_s9 = ["{s9 + (¬go) --> s9}", "{s9 + (go) --> s9}"]
+        XCTAssertTrue(possible_trans_in_s9.contains(obs_automata.get_state(name: "s9")!.transitions[0].description), "Unexpected Formula found")
+        XCTAssertTrue(possible_trans_in_s9.contains(obs_automata.get_state(name: "s9")!.transitions[1].description), "Unexpected Formula found")
     }
     
     
