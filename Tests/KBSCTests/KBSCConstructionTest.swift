@@ -31,7 +31,8 @@ class KBSCConstructionTest: XCTestCase {
         
         print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
         
-        let obs_automata = AutomataKBSC.constructObservableAutomataKBSC(input_automata: automata)
+        let kbsc = KBSConstructor(input_automata: automata)
+        let obs_automata = kbsc.run()
         
         
         XCTAssertEqual(obs_automata.get_allStates().count, 6, "expected the obs Automata to consist of 6 states")

@@ -110,7 +110,7 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula3_0!.description, "(a ∧ ¬c) ∨ (b ∧ b) ∨ (¬d)")
         formula3_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula3_0!.bitset_representation.description, "[[1, *, 0, *, *, *], [*, 1, *, *, *, *], [*, *, *, 0, *, *]]")
-        XCTAssertEqual(formula3_0!.bitset_representation.get_formula_string(), "(a ∧ ¬c) ∨ (b) ∨ (¬d)")
+        XCTAssertEqual(formula3_0!.bitset_representation._debug_get_formula_string(), "(a ∧ ¬c) ∨ (b) ∨ (¬d)")
         
         var formula4_0 = FormulaParser.parseDNFFormula(input_str: "((o2 ∧ ¬o1 ∧ ¬false) ∨ (d ∧ b) ∨ (¬a))", apList: globalAPList)
         formula4_0!.simplifyWithConstants(true_aps: true_aps)
@@ -119,7 +119,7 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula4_0!.description, "(o2 ∧ ¬o1) ∨ (d ∧ b) ∨ (¬a)")
         formula4_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula4_0!.bitset_representation.description, "[[*, *, *, *, 0, 1], [*, 1, *, 1, *, *], [0, *, *, *, *, *]]")
-        XCTAssertEqual(formula4_0!.bitset_representation.get_formula_string(), "(¬o1 ∧ o2) ∨ (b ∧ d) ∨ (¬a)")
+        XCTAssertEqual(formula4_0!.bitset_representation._debug_get_formula_string(), "(¬o1 ∧ o2) ∨ (b ∧ d) ∨ (¬a)")
         
         
         
@@ -128,7 +128,7 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula5_0!.description, "(b)")
         formula5_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula5_0!.bitset_representation.description, "[[*, 1, *, *, *, *]]")
-        XCTAssertEqual(formula5_0!.bitset_representation.get_formula_string(), "(b)")
+        XCTAssertEqual(formula5_0!.bitset_representation._debug_get_formula_string(), "(b)")
         
         
         var formula6_0 = FormulaParser.parseDNFFormula(input_str: "(false) ∨ (false)", apList: globalAPList)
@@ -136,14 +136,14 @@ class BitsetTest: XCTestCase {
         XCTAssertEqual(formula6_0!.description, "(false)")
         formula6_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula6_0!.bitset_representation.description, "[[]]")
-        XCTAssertEqual(formula6_0!.bitset_representation.get_formula_string(), "(false)")
+        XCTAssertEqual(formula6_0!.bitset_representation._debug_get_formula_string(), "(false)")
         
         var formula7_0 = FormulaParser.parseDNFFormula(input_str: "(true) ∨ (false)", apList: globalAPList)
         formula7_0!.simplifyTautologies()
         XCTAssertEqual(formula7_0!.description, "(true)")
         formula7_0!.buildBitsetRepresentation()
         XCTAssertEqual(formula7_0!.bitset_representation.description, "[[*, *, *, *, *, *]]")
-        XCTAssertEqual(formula7_0!.bitset_representation.get_formula_string(), "(true)")
+        XCTAssertEqual(formula7_0!.bitset_representation._debug_get_formula_string(), "(true)")
     }
     
     
