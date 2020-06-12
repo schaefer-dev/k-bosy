@@ -15,23 +15,24 @@ public struct Formula : Equatable, CustomStringConvertible {
     var bitset_representation: BitsetDNFFormula
     
     public var description: String {
-         if dnf.count == 0 {
-             return ""
-         }
-         
-         var output_string = ""
-         
-         var conj_index = 0
-         while (true) {
-             output_string += self.dnf[conj_index].description
-             conj_index += 1
-             if (conj_index > (self.dnf.count - 1)) {
-                 break
-             }
-             output_string += " ∨ "
-         }
-         
-         return output_string
+            if dnf.count == 0 {
+                return ""
+            }
+             
+            var output_string = ""
+             
+            var conj_index = 0
+            while (true) {
+                output_string += dnf[conj_index].description
+                conj_index += 1
+                if (conj_index > (dnf.count - 1)) {
+                    break
+                }
+                output_string += " ∨ "
+            }
+             
+            return output_string
+            
      }
     
     public var isEmpty: Bool {

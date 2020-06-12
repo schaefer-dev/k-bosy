@@ -197,6 +197,7 @@ class AutomataTest: XCTestCase {
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
+        automata.finalize()
         
         let test_value = AssumptionsGenerator._generateTransitionAssumptions(auto: automata)
         
@@ -261,7 +262,7 @@ class AutomataTest: XCTestCase {
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
-        
+        automata.finalize()
         let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
         
         // 1 condition for each transition
@@ -279,6 +280,7 @@ class AutomataTest: XCTestCase {
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_nas_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
+        automata.finalize()
         
         let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
         
