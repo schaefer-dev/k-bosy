@@ -12,7 +12,7 @@ import Foundation
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula : Equatable, CustomStringConvertible {
     var dnf: [Conjunction]
-    var bitset_representation: BitsetFormula
+    var bitset_representation: BitsetDNFFormula
     
     public var description: String {
          if dnf.count == 0 {
@@ -34,10 +34,14 @@ public struct Formula : Equatable, CustomStringConvertible {
          return output_string
      }
     
+    public var isEmpty: Bool {
+        return self.bitset_representation.isEmpty
+    }
     
-    public init(containedConjunctions: [Conjunction], apList: APList) {
+    
+    public init(containedConjunctions: [Conjunction], bitset_ap_mapping: [String : Int]) {
         self.dnf = containedConjunctions
-        self.bitset_representation = BitsetFormula(ap_index_map: apList.get_bitset_ap_index_map())
+        self.bitset_representation = BitsetDNFFormula(ap_index_map: bitset_ap_mapping)
      }
     
     
@@ -298,3 +302,21 @@ public struct Conjunction : Equatable, CustomStringConvertible {
     }
  
 }
+
+
+/**
+ Binding to be able to use && operator on BitsetFormula
+ 
+ Does NOT create old conjunctions structure for the newly created Formula!!!
+ */
+public func && (f1: Formula, f2: Formula) -> Formula {
+    var return_formula = Formula(containedConjunctions: [], bitset_ap_mapping: f1.bitset_representation.get_mapping())
+    
+    return_formula.bitset_representation = f1.bitset_representation && f2.bitset_representation
+    
+    // simplify the returned formula by eliminating contained subformulae
+    return_formula.bitset_representation.simplify_using_contains_check()
+    
+    return return_formula
+}
+

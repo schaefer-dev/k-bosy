@@ -53,6 +53,8 @@ class FileParsingTest: XCTestCase {
         XCTAssertEqual(spec.outputs.count, 1)
     }
     
+    
+    
     func testDotGraphParsingSingleAction() {
         let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_automata_small.json")
         XCTAssert(automataInfoOpt != nil)

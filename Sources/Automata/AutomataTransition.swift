@@ -2,10 +2,14 @@ import Foundation
 import Utils
 
 
-public class AutomataTransition {
+public class AutomataTransition: CustomStringConvertible{
     public let start: AutomataState
     public var condition: Formula
     public let end: AutomataState
+    
+    public var description: String {
+        return "{" + start.name + " + " + condition.description + " --> " + end.name + "}"
+    }
     
     // Creates Transition and adds itself to Automata and correct states
     public init (start: AutomataState, condition: Formula, end: AutomataState) {

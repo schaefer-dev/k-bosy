@@ -169,7 +169,7 @@ public class Automata {
      Reduces the entire automata structure to only contain observable stuff. This removed all non-observable and non-output APs from the apList. It also removes all non-observable APs from the state structure.
      - IMPORTANT: it does not remove any occurances of non-observable APs from the formulas that specify transition-conditions!
      */
-    public func reduceToObservablePart() {
+    public func _reduceToObservablePart() {
         // Transform apList to only contain observable stuff
         self.apList = AutomataKBSC.getObservableAPList(input_list: self.apList)
         
