@@ -126,11 +126,13 @@ public struct Formula : Equatable, CustomStringConvertible {
             }
         }
         
+        self.bitset_representation.initialize()
         for conj in self.dnf! {
             let conj_bitset = conj.asBitset(ap_index_map: self.bitset_representation.get_mapping())
             self.bitset_representation.add_formula(bitset: conj_bitset)
         }
         
+        // remove dnf mapping because we are now in 'bitset-mode'
         self.dnf = nil
     }
     
@@ -340,6 +342,8 @@ public struct Conjunction : Equatable, CustomStringConvertible {
  */
 public func && (f1: Formula, f2: Formula) -> Formula {
     var return_formula = Formula(containedConjunctions: [], bitset_ap_mapping: f1.bitset_representation.get_mapping())
+    
+    return_formula.bitset_representation.initialize()
     
     return_formula.bitset_representation = f1.bitset_representation && f2.bitset_representation
     
