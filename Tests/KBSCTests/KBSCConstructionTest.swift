@@ -16,23 +16,32 @@ import Foundation
 
 @testable import Automata
 
+
+
+func setupObsNumberv1() -> Automata {
+    let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1.json")
+    XCTAssert(automataInfoOpt != nil)
+    let automataInfo = automataInfoOpt!
+    
+    
+    let automataOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+    XCTAssert(automataOpt != nil)
+    let automata = automataOpt!
+    
+    print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
+    
+    let kbsc = KBSConstructor(input_automata: automata)
+    let obs_automata = kbsc.run()
+    
+    return obs_automata
+}
+
 class KBSCConstructionTest: XCTestCase {
 
     
     func testKBSCConstructionSimple() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1.json")
-        XCTAssert(automataInfoOpt != nil)
-        let automataInfo = automataInfoOpt!
         
-        
-        let automataOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
-        XCTAssert(automataOpt != nil)
-        let automata = automataOpt!
-        
-        print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
-        
-        let kbsc = KBSConstructor(input_automata: automata)
-        let obs_automata = kbsc.run()
+        let obs_automata = setupObsNumberv1()
         
         
         XCTAssertEqual(obs_automata.get_allStates().count, 6, "expected the obs Automata to consist of 6 states")
@@ -149,7 +158,53 @@ class KBSCConstructionTest: XCTestCase {
         for elem in transition_strings_s4 {
             XCTAssertTrue(expected_transitions_s4.contains(elem), "transition " + elem + " was not expected by test")
         }
+        
     }
+    
+    
+    func testKBSCAssumptionsSimple() {
+    
+        let obs_automata = setupObsNumberv1()
+        obs_automata.finalize()
+        
+        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata)
+        
+        XCTAssertEqual(entire_assumptions.count, 20)
+        
+        // state assumptions
+        XCTAssertEqual(entire_assumptions[0].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[1].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[2].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[3].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[4].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[5].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(entire_assumptions[6].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
+        
+        
+        // initial state assumptions
+        XCTAssertEqual(entire_assumptions[7].description, "s0")
+        
+        
+        // state ap assumptions
+        XCTAssertEqual(entire_assumptions[8].description, "G ((s0) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[9].description, "G ((s1) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[10].description, "G ((s1s2) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[11].description, "G ((s2) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[12].description, "G ((s3) -> ((y1) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[13].description, "G ((s4) -> ((y2) ∧ (¬ (y1))))")
+        
+        
+        // state transition assumptions
+        XCTAssertEqual(entire_assumptions[14].description, "G ((¬ (s0)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s1s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s1s2)))))")
+        XCTAssertEqual(entire_assumptions[15].description, "G ((¬ (s1)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        // TODO: nondeterminism here, maybe check for substrings instead
+        XCTAssertEqual(entire_assumptions[16].description, "G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        XCTAssertEqual(entire_assumptions[17].description, "G ((¬ (s2)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        XCTAssertEqual(entire_assumptions[18].description, "G ((¬ (s3)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s3))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        XCTAssertEqual(entire_assumptions[19].description, "G ((¬ (s4)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s4))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+    }
+    
+    
 
 
 }
