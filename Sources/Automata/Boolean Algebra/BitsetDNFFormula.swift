@@ -14,7 +14,7 @@ public class BitsetDNFFormula : CustomStringConvertible{
     // Empty bitset corresponds to false
     
     private var conjunctions: [Bitset]
-    private let ap_index_map: [String : Int]
+    private let ap_to_index_map: [String : Int]
     
     public var description: String {
         return conjunctions.description
@@ -31,7 +31,7 @@ public class BitsetDNFFormula : CustomStringConvertible{
     
     init(ap_index_map: [String: Int]) {
         self.conjunctions = []
-        self.ap_index_map = ap_index_map
+        self.ap_to_index_map = ap_index_map
     }
     
     public func add_formula(bitset: Bitset) {
@@ -39,7 +39,7 @@ public class BitsetDNFFormula : CustomStringConvertible{
     }
     
     public func get_mapping() -> [String : Int] {
-        return self.ap_index_map
+        return self.ap_to_index_map
     }
     
     
@@ -58,15 +58,35 @@ public class BitsetDNFFormula : CustomStringConvertible{
     
     
     /**
-     Inefficient because it has to turn dictionary around
+     Inefficient because it has to turn dictionary around itself
      */
-    public func get_formula_string() -> String {
+    public func _debug_get_formula_string() -> String {
         // build array that contains all APs in the order of their indices in the bitmap
-        var bitset_ap_mapping = [String](repeating: "", count: ap_index_map.count)
+        var bitset_ap_mapping = [String](repeating: "", count: ap_to_index_map.count)
         
-        for (ap_str, ap_bitmap_index) in ap_index_map {
+        for (ap_str, ap_bitmap_index) in ap_to_index_map {
             bitset_ap_mapping[ap_bitmap_index] = ap_str
         }
+        
+        var conjunctions_index = 0
+        var conjunction_string_array : [String] = []
+        while conjunctions_index < self.conjunctions.count {
+            conjunction_string_array.append(self.conjunctions[conjunctions_index].get_conjunction_string(bitset_ap_mapping: bitset_ap_mapping))
+            
+            conjunctions_index += 1
+        }
+        
+        let returnString = conjunction_string_array.joined(separator: " ∨ ")
+        
+        return returnString
+    }
+    
+    
+    /**
+     Efficient because dict given
+     */
+    public func get_formula_string(bitset_ap_mapping: [String]) -> String {
+        // build array that contains all APs in the order of their indices in the bitmap
         
         var conjunctions_index = 0
         var conjunction_string_array : [String] = []
@@ -87,7 +107,7 @@ public class BitsetDNFFormula : CustomStringConvertible{
      TODO: test this function
      */
     public static func bitAND(bf1: BitsetDNFFormula, bf2: BitsetDNFFormula) -> BitsetDNFFormula {
-        var return_bitset_formula = BitsetDNFFormula(ap_index_map: bf1.ap_index_map)
+        var return_bitset_formula = BitsetDNFFormula(ap_index_map: bf1.ap_to_index_map)
         
         for bs1 in bf1.conjunctions {
             for bs2 in bf2.conjunctions {

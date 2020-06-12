@@ -45,6 +45,11 @@ public struct Formula : Equatable, CustomStringConvertible {
      }
     
     
+    public func getStringFromBitsetRepresentation(index_to_ap_map: [String]) -> String {
+        return bitset_representation.get_formula_string(bitset_ap_mapping: index_to_ap_map)
+    }
+    
+    
     /**
     simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
