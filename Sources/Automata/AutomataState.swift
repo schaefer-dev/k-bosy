@@ -15,6 +15,9 @@ public class AutomataState : Hashable, CustomStringConvertible {
     public var transitions: [AutomataTransition]
     private var parent_automata: Automata?
     
+    private var tag_annotation: Set<String>
+    
+    
     public var description: String {
         var returnString = self.name + " {"
         
@@ -39,6 +42,7 @@ public class AutomataState : Hashable, CustomStringConvertible {
         // TODO sort propositions list!
         self.transitions = []
         self.parent_automata = nil
+        self.tag_annotation = Set.init()
     }
     
     
@@ -101,6 +105,20 @@ public class AutomataState : Hashable, CustomStringConvertible {
         let obs_propositions = self.propositions.filter { $0.obs }
         self.propositions = obs_propositions
         
+    }
+    
+    public func containsAnnotation(annotation_name: String) -> Bool {
+        return self.tag_annotation.contains(annotation_name)
+    }
+    
+    public func addAnnotation(annotation_name: String) {
+        // if tag already contained it is skipped because tag_annotation is a set
+        self.tag_annotation.insert(annotation_name)
+    }
+    
+    
+    public func getAnnotation() -> [String] {
+        return Array(self.tag_annotation)
     }
     
     

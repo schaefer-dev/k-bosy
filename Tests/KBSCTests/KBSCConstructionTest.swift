@@ -37,6 +37,30 @@ func setupObsNumberv1() -> Automata {
 }
 
 
+func setupObsNumberv1_tagged() -> Automata {
+    let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1.json")
+    XCTAssert(automataInfoOpt != nil)
+    let automataInfo = automataInfoOpt!
+    
+    
+    let automataOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+    XCTAssert(automataOpt != nil)
+    let automata = automataOpt!
+    
+    print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
+    
+    automata.get_state(name: "s1")!.addAnnotation(annotation_name: "k1")
+    automata.get_state(name: "s3")!.addAnnotation(annotation_name: "k1")
+    automata.get_state(name: "s2")!.addAnnotation(annotation_name: "k2")
+    automata.get_state(name: "s4")!.addAnnotation(annotation_name: "k2")
+    
+    let kbsc = KBSConstructor(input_automata: automata)
+    let obs_automata = kbsc.run()
+    
+    return obs_automata
+}
+
+
 func setupObsDetectGloballyAEarly() -> Automata {
     let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_detect_globally_a_early.json")
     XCTAssert(automataInfoOpt != nil)
@@ -183,6 +207,86 @@ class KBSCConstructionTest: XCTestCase {
     
     
     
+    func testKBSCConstructionSimpleTagged() {
+        
+        let obs_automata = setupObsNumberv1_tagged()
+        
+        
+        XCTAssertEqual(obs_automata.get_allStates().count, 6, "expected the obs Automata to consist of 6 states")
+        
+        
+        XCTAssertEqual(obs_automata.get_state(name: "s0")!.getAnnotation(), [])
+        XCTAssertEqual(obs_automata.get_state(name: "s1s2")!.getAnnotation(), [])
+        XCTAssertEqual(obs_automata.get_state(name: "s1")!.getAnnotation(), ["k1"])
+        XCTAssertEqual(obs_automata.get_state(name: "s2")!.getAnnotation(), ["k2"])
+        XCTAssertEqual(obs_automata.get_state(name: "s3")!.getAnnotation(), ["k1"])
+        XCTAssertEqual(obs_automata.get_state(name: "s4")!.getAnnotation(), ["k2"])
+    }
+    
+    
+    
+    func testKBSCAssumptionsTagged() {
+        
+        let obs_automata = setupObsNumberv1_tagged()
+        obs_automata.finalize()
+        
+        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: ["k1", "k2"])
+        
+        
+        XCTAssertEqual(entire_assumptions.count, 20)
+        
+        // state assumptions
+        XCTAssertEqual(entire_assumptions[0].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[1].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[2].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[3].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[4].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[5].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(entire_assumptions[6].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
+        
+        
+        // initial state assumptions
+        XCTAssertEqual(entire_assumptions[7].description, "s0")
+        
+        
+        // state ap assumptions including tags
+        XCTAssertEqual(entire_assumptions[8].description, "G ((s0) -> (((((⊤) ∧ (¬ (k1))) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[9].description, "G ((s1) -> ((((k1) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[10].description, "G ((s1s2) -> (((((⊤) ∧ (¬ (k1))) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[11].description, "G ((s2) -> ((((k2) ∧ (¬ (k1))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[12].description, "G ((s3) -> ((((y1) ∧ (k1)) ∧ (¬ (k2))) ∧ (¬ (y2))))")
+        XCTAssertEqual(entire_assumptions[13].description, "G ((s4) -> ((((y2) ∧ (k2)) ∧ (¬ (k1))) ∧ (¬ (y1))))")
+        
+        
+        // state transition assumptions
+        XCTAssertEqual(entire_assumptions[14].description, "G ((¬ (s0)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s1s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s1s2)))))")
+        XCTAssertEqual(entire_assumptions[15].description, "G ((¬ (s1)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        // TODO: nondeterminism here, maybe check for substrings instead
+        var possible_strings_16 = ["G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))"]
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))'")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        possible_strings_16.append("G ((¬ (s1s2)) ∨ (((((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s1s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s1)))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        XCTAssertTrue(possible_strings_16.contains(entire_assumptions[16].description), "Formula ''" + entire_assumptions[16].description + "'' is not one of the correct ones (nondeterministic ordering)")
+        XCTAssertEqual(entire_assumptions[17].description, "G ((¬ (s2)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s2))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s2)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        XCTAssertEqual(entire_assumptions[18].description, "G ((¬ (s3)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s3))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s3)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s3)))) ∨ (((o1) ∧ (o2)) ∧ (X (s3)))))")
+        XCTAssertEqual(entire_assumptions[19].description, "G ((¬ (s4)) ∨ ((((((¬ (o1)) ∧ (¬ (o2))) ∧ (X (s4))) ∨ (((¬ (o1)) ∧ (o2)) ∧ (X (s4)))) ∨ (((o1) ∧ (¬ (o2))) ∧ (X (s4)))) ∨ (((o1) ∧ (o2)) ∧ (X (s4)))))")
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func testKBSCConstruction_Detect_Globally_a_early() {
         
         let obs_automata = setupObsDetectGloballyAEarly()
@@ -266,7 +370,7 @@ class KBSCConstructionTest: XCTestCase {
         let obs_automata = setupObsNumberv1()
         obs_automata.finalize()
         
-        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata)
+        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: [])
         
         XCTAssertEqual(entire_assumptions.count, 20)
         

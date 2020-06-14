@@ -104,7 +104,7 @@ public class KBSConstructor {
             }
         }
         
-        print("DEBUG: Successors " + old_states_successors.description + " possible according to original automata using condition " + current_bitset_condition.description)
+        print("DEBUG: Successors " + old_states_successors.description + " possible according to original automata using condition " + condition.description)
         return old_states_successors
     }
     

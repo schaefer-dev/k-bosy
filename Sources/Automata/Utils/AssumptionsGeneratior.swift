@@ -14,8 +14,20 @@ public class AssumptionsGenerator {
     /**
      Assumes that bitset representation has been built whenever this function is called
      */
-    public static func generateAutomataAssumptions(auto: Automata) -> [LTL] {
+    public static func generateAutomataAssumptions(auto: Automata, tags: [String]) -> [LTL] {
         var return_assumptions: [LTL] = []
+        
+        // create set of tags that has to be used
+        var tag_set: Set<String> = Set.init()
+        for tag in tags {
+            tag_set.insert(tag)
+        }
+        
+        // create APs belonging to those tags
+        for tag in tag_set {
+            let new_ap = AP(name: tag, observable: true, list: auto.apList)
+        }
+        
         
         return_assumptions = return_assumptions + self._generatePossibleStateAssumptions(auto: auto)
         return_assumptions.append(self._generateInitialStateAssumptions(auto: auto))
@@ -97,6 +109,7 @@ public class AssumptionsGenerator {
                 
                 // add condition that is being in the correct state and the transition condition holding
                 let relevant_transition_condition = relevant_transitions[transition_index].condition
+                // TODO: think about if we should require the following line or not
                 assert(relevant_transition_condition.dnf == nil, "dnf structure has to be aborted at this point and worked only with bitset. This can be achieved by using automata.finalize() which builds this structure.")
                 ltl_string += "((" + relevant_transition_condition.getStringFromBitsetRepresentation(index_to_ap_map: auto.apList.get_bitset_index_to_ap_string_map()) + ")"
                 ltl_string += " && X(" + relevant_transitions[transition_index].end.name + "))"
@@ -142,6 +155,14 @@ public class AssumptionsGenerator {
                     obs_state_aps.append(ap)
                 }
             }
+            
+            // add all the tags that have been set in this state
+            for tag in all_states[current_state_index].getAnnotation() {
+                let tag_ap_opt = auto.apList.lookupAP(apName: tag)
+                assert(tag_ap_opt != nil, "tag AP was not created properly")
+                obs_state_aps.append(tag_ap_opt!)
+            }
+            
             // generate string version of this array with all APs that hold in this state
             var obs_state_aps_strings: [String] = []
             for ap in obs_state_aps {

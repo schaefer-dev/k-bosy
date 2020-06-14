@@ -91,12 +91,48 @@ public class KBSCUtils {
         
         let new_state_name = constructStateName(source_names: source_state_names)
         
+        let common_tags = getCommonTags(states: states)
+        
         
         // create new state that represents the marged state
         let new_state = AutomataState(name: new_state_name, propositions: required_propositions)
         
+        for common_tag in common_tags {
+            new_state.addAnnotation(annotation_name: common_tag)
+        }
+        
         return new_state
     }
+    
+    
+    /**
+     Goes through set of states and returns all tags which are included in ALL of these states
+     */
+    private static func getCommonTags(states: [AutomataState]) -> [String] {
+        assert(states.count > 0)
+        
+        var return_array: [String] = []
+        
+        let tags = states[0].getAnnotation()
+        
+        for tag in tags {
+            var tag_valid_forall_states = true
+            
+            for state in states {
+                if !(state.containsAnnotation(annotation_name: tag)) {
+                    tag_valid_forall_states = false
+                    break
+                }
+            }
+            // if tag valid for all states add it to the returnlist
+            if tag_valid_forall_states {
+                return_array.append(tag)
+            }
+        }
+        
+        return return_array
+    }
+    
     
     /**
      Helper function that constructs unique state name whenever a set of states is merged to identify that merged state

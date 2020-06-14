@@ -64,9 +64,19 @@ do {
                 exit(EXIT_FAILURE)
             }
             let automata = automataOpt!
-            automata.finalize()
             
-            let spec = SynthesisSpecification(automata: automata)
+            // TODO: annotate with model checking candidate states and add tags to this array
+            let tags: [String] = []
+            // TODO: during KBSC eliminate candidate markers for all states in which one state contained in the set was not a candidate state.
+            
+            
+            let kbsc = KBSConstructor(input_automata: automata)
+            
+            let obs_automata = kbsc.run()
+            obs_automata.finalize()
+            
+            
+            let spec = SynthesisSpecification(automata: obs_automata, tags: tags)
             
             print("Assumptions:")
             for a in spec.assumptions {
