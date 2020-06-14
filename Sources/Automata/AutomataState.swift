@@ -12,9 +12,9 @@ public class AutomataState: Hashable, CustomStringConvertible {
     // proposition list is kept sorted
     public var propositions: [AP]
     public var transitions: [AutomataTransition]
-    private var parent_automata: Automata?
+    private var parentAutomata: Automata?
 
-    private var tag_annotation: Set<String>
+    private var tagAnnotation: Set<String>
 
     public var description: String {
         var returnString = self.name + " {"
@@ -37,10 +37,9 @@ public class AutomataState: Hashable, CustomStringConvertible {
         self.name = name
         self.propositions = propositions
         self.propositions = self.propositions.sorted()
-        // TODO sort propositions list!
         self.transitions = []
-        self.parent_automata = nil
-        self.tag_annotation = Set.init()
+        self.parentAutomata = nil
+        self.tagAnnotation = Set.init()
     }
 
     /**
@@ -87,9 +86,9 @@ public class AutomataState: Hashable, CustomStringConvertible {
 
     public func setParentAutomata(parent: Automata) {
         // make sure that parent was not set yet (is only allowed to happen once!)
-        assert(self.parent_automata == nil)
+        assert(self.parentAutomata == nil)
 
-        self.parent_automata = parent
+        self.parentAutomata = parent
     }
 
     /**
@@ -98,22 +97,22 @@ public class AutomataState: Hashable, CustomStringConvertible {
     public func reduceToObservablePart() {
 
         // only keep observable APs in proposition List that hold in this state
-        let obs_propositions = self.propositions.filter { $0.obs }
-        self.propositions = obs_propositions
+        let obsPropositions = self.propositions.filter { $0.obs }
+        self.propositions = obsPropositions
 
     }
 
-    public func containsAnnotation(annotation_name: String) -> Bool {
-        return self.tag_annotation.contains(annotation_name)
+    public func containsAnnotation(annotationName: String) -> Bool {
+        return self.tagAnnotation.contains(annotationName)
     }
 
     public func addAnnotation(annotation_name: String) {
         // if tag already contained it is skipped because tag_annotation is a set
-        self.tag_annotation.insert(annotation_name)
+        self.tagAnnotation.insert(annotation_name)
     }
 
     public func getAnnotation() -> [String] {
-        return Array(self.tag_annotation)
+        return Array(self.tagAnnotation)
     }
 
     /**

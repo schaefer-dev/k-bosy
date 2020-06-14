@@ -113,7 +113,7 @@ public class KBSCUtils {
             var tag_valid_forall_states = true
 
             for state in states {
-                if !(state.containsAnnotation(annotation_name: tag)) {
+                if !(state.containsAnnotation(annotationName: tag)) {
                     tag_valid_forall_states = false
                     break
                 }
