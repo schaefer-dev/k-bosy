@@ -46,12 +46,11 @@ public struct SynthesisSpecification: Codable {
     }
     
     
-    public init(automata: Automata) {
-        // TODO maybe change to moore later
+    public init(automata: Automata, tags: [String]) {
         self.semantics = TransitionSystemType.moore
         self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata)
         self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
-        self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: tags)
         self.guarantees = automata.guarantees
         self.transformation_rules = nil
     }

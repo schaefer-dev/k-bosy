@@ -265,7 +265,7 @@ class AutomataTest: XCTestCase {
         let automata = dotGraphOpt!
         automata.finalize()
         
-        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
         
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)
@@ -284,7 +284,7 @@ class AutomataTest: XCTestCase {
         let automata = dotGraphOpt!
         automata.finalize()
         
-        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
         
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)

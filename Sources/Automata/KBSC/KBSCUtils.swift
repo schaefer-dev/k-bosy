@@ -15,7 +15,7 @@ public class KBSCUtils {
      
      TODO: lots of improvement potential here
      */
-    public static func _naiveBitsetToFormula(bs: Bitset, apList: APList) -> Formula {
+    public static func naiveBitsetToFormula(bs: Bitset, apList: APList) -> Formula {
         
         let bitset_as_formula_string = bs.get_conjunction_string(bitset_ap_mapping: apList.get_bitset_index_to_ap_string_map())
         
@@ -30,7 +30,7 @@ public class KBSCUtils {
      
      The minimal number of Sets is guaranteed to be returned (minimum amount of observational equivalence classes required).
      */
-    public static func _divideStatesByAPs(input_states: [AutomataState]) -> [[AutomataState]] {
+    public static func divideStatesByAPs(input_states: [AutomataState]) -> [[AutomataState]] {
         var obs_eq_state_mapping = [[AP] : [AutomataState]]()
         
         // TODO: order matters so we have to make sure that list of APs contained in every state is sorted!!
@@ -91,17 +91,53 @@ public class KBSCUtils {
         
         let new_state_name = constructStateName(source_names: source_state_names)
         
+        let common_tags = getCommonTags(states: states)
+        
         
         // create new state that represents the marged state
         let new_state = AutomataState(name: new_state_name, propositions: required_propositions)
         
+        for common_tag in common_tags {
+            new_state.addAnnotation(annotation_name: common_tag)
+        }
+        
         return new_state
     }
+    
+    
+    /**
+     Goes through set of states and returns all tags which are included in ALL of these states
+     */
+    private static func getCommonTags(states: [AutomataState]) -> [String] {
+        assert(states.count > 0)
+        
+        var return_array: [String] = []
+        
+        let tags = states[0].getAnnotation()
+        
+        for tag in tags {
+            var tag_valid_forall_states = true
+            
+            for state in states {
+                if !(state.containsAnnotation(annotation_name: tag)) {
+                    tag_valid_forall_states = false
+                    break
+                }
+            }
+            // if tag valid for all states add it to the returnlist
+            if tag_valid_forall_states {
+                return_array.append(tag)
+            }
+        }
+        
+        return return_array
+    }
+    
     
     /**
      Helper function that constructs unique state name whenever a set of states is merged to identify that merged state
      */
-    private static func constructStateName(source_names: [String]) -> String {
+    public static func constructStateName(source_names: [String]) -> String {
         // build new state name with sorting on contained state-names so we maintain correctness
         var new_state_name_set = Set<String>()
         var new_state_name_array : [String] = []

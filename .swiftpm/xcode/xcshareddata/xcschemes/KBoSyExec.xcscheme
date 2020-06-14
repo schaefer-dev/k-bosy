@@ -149,7 +149,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_env_01.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-s /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/web/web_numberv1_fixed-leak?_1.json"
@@ -169,7 +169,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/numberv1.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/numberv1.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/info_file/random_01.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/automata/random_01.gv"
