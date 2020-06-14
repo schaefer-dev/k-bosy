@@ -8,17 +8,17 @@
 import Foundation
 
 public class CurrentTruthValues {
-    private var map : [AP : Bool]
-    
+    private var map: [AP: Bool]
+
     // TODO: require to add all possible APs into this state on construction, afterwards keys are not allowed to be added!
     public init() {
-        map = [AP : Bool]()
+        map = [AP: Bool]()
     }
-    
+
     public func update_value(ap: AP, value: Bool) {
         map[ap] = value
     }
-    
+
     public func give_value(ap: AP) -> Bool {
         if let truthValue = map[ap] {
             return truthValue

@@ -7,10 +7,8 @@
 
 import Foundation
 
-
 public class FileParser {
 
-    
     /**
     Attempts to parse a AutomataInfo File which corresponds to the structure specified in the 'InputAutomataInfo' class. This file adheres to the JSON standart.
     
@@ -25,7 +23,6 @@ public class FileParser {
             let jsonURL = URL(fileURLWithPath: path)
             //print("loading json from path: " + jsonURL.path)
 
-
             /* try to read input JSON File */
             do {
                 let jsonData =  try Data(contentsOf: jsonURL)
@@ -36,8 +33,7 @@ public class FileParser {
                     let automataInfo = try decoder.decode(InputAutomataInfo.self, from: jsonData)
                     //print("AutomataInfoDecoding completed.")
                     return automataInfo
-                    
-                    
+
                 } catch {
                     /* failed to decode content of jsonData */
                     print("ERROR during Decoding: " + error.localizedDescription)
@@ -52,8 +48,7 @@ public class FileParser {
         }
         return nil
     }
-    
-    
+
     /**
      Attempts to parse a Text file describing a dot graph. This dot graph describes the Automata which describes the possible behaviour of the environment.
    
@@ -69,7 +64,6 @@ public class FileParser {
             let fileURL = URL(fileURLWithPath: path)
             print("loading dot-graph from path: " + fileURL.path)
 
-
             /* try to read input dot graph File */
             do {
                 let data = try NSString(contentsOfFile: fileURL.path,
@@ -77,28 +71,28 @@ public class FileParser {
 
                 // If a value was returned, print it.
                 var content_lines = data.components(separatedBy: ";")
-                
+
                 for i in 0...(content_lines.count - 1) {
                     content_lines[i] = content_lines[i].trimmingCharacters(in: .whitespacesAndNewlines)
                 }
-                
+
                 // Parsing of dot graph File starts now
                 let automata = Automata(info: info)
-                
+
                 // cleanup loop to remove irrelevant lines
                 var index = 0
-                while (index < content_lines.count - 1) {
+                while index < content_lines.count - 1 {
                     // Condition to find initial state marker
-                    if (content_lines[index].contains("_init -> ")){
+                    if content_lines[index].contains("_init -> ") {
                         let substrings = content_lines[index].components(separatedBy: " -> ")
                         let right_substrings = substrings[1].split(separator: "[")
                         let initial_state_name = right_substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                        
+
                         let new_initial_state = AutomataState(name: initial_state_name, propositions: [])
                         automata.add_initial_state(new_initial_state: new_initial_state)
                     } else {
                         // Condition to find transition description line
-                        if (wildcard(content_lines[index], pattern: "??*->??*")) {
+                        if wildcard(content_lines[index], pattern: "??*->??*") {
                             print("DEBUG: Transition found in Statement " + String(index + 1))
                             let substrings = content_lines[index].components(separatedBy: "->")
                             let start_state = substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -106,7 +100,7 @@ public class FileParser {
                             let goal_state = right_substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                             let right_sub_substrings = right_substrings[1].components(separatedBy: "\"")
                             let equation = right_sub_substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
-                            
+
                             automata.parseAndAddTransition(start_str: start_state, end_str: goal_state, condition: equation)
                         } else {
                             // if wildcard does not match we may be looking at a state description
@@ -116,16 +110,16 @@ public class FileParser {
                                 var formula_substring = substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
                                 let left_substring = substrings[0].components(separatedBy: "[")
                                 let statename_substring = left_substring[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                                
+
                                 // print("DEBUG: Parser found APs " + formula_substring + " in state " + statename_substring)
-                                
+
                                 // Remove brackets
                                 formula_substring.removeLast()
                                 formula_substring.removeFirst()
                                 formula_substring = formula_substring.trimmingCharacters(in: .whitespacesAndNewlines)
-                                
+
                                 let formula_elementList = formula_substring.components(separatedBy: ",")
-                                
+
                                 var apList: [AP] = []
                                 for ap_string in formula_elementList {
                                     // do not handle empty string
@@ -139,8 +133,7 @@ public class FileParser {
                                         apList.append(apOpt!)
                                     }
                                 }
-                                
-                                
+
                                 // If state already created (e.g. is initial state, add the missing APs to it
                                 let stateAlreadyThereOpt = automata.get_state(name: statename_substring)
                                 if stateAlreadyThereOpt == nil {
@@ -152,16 +145,15 @@ public class FileParser {
                                     let state = stateAlreadyThereOpt!
                                     state.addAPs(aps: apList)
                                 }
-   
-                                
+
                             }
                         }
                     }
                     index += 1
                 }
-                
+
                 return automata
-            
+
             } catch {
                 /* failed to read data from given path */
                 print("loading of dotGraphFile error. UTF-8 encoding expected.")
@@ -174,6 +166,5 @@ public class FileParser {
         }
         return nil
     }
-    
-    
+
 }

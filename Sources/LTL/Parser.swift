@@ -1,16 +1,16 @@
 struct LTLParser {
     var lexer: LTLLexer
     var current: LTLToken
-    var symbolTable: [String:LTLAtomicProposition]
-    var paths: [String:LTLPathVariable]
-    
+    var symbolTable: [String: LTLAtomicProposition]
+    var paths: [String: LTLPathVariable]
+
     init(lexer: LTLLexer) {
         self.lexer = lexer
         self.current = .Proposition("dummy")
         self.symbolTable = [:]
         self.paths = [:]
     }
-    
+
     mutating func parse() throws -> LTL {
         current = try self.lexer.next()
         return try parseQuantifiedExpression()
@@ -35,7 +35,6 @@ struct LTLParser {
         assert(current == .dot)
         current = try lexer.next()
 
-
         guard let ltlQuant = quant.ltlQuant else {
             fatalError()
         }
@@ -55,7 +54,7 @@ struct LTLParser {
         let body = try parseQuantifiedExpression()
 
         // remove bound path variables
-        paths = paths.filter({ (key, value) in !boundPathVariables.contains(value) })
+        paths = paths.filter({ (_, value) in !boundPathVariables.contains(value) })
 
         return .pathQuantifier(ltlQuant, parameters: boundPathVariables, body: body)
     }
@@ -71,10 +70,10 @@ struct LTLParser {
         }
         return list
     }
-    
+
     mutating func parseBinaryExpression(minPrecedence: LTLOperatorPrecedence) throws -> LTL {
         var lhs = try parseUnaryExpression()
-        
+
         while current.isBinaryOperator && current.precedence >= minPrecedence {
             let op = current
             current = try lexer.next()
@@ -84,10 +83,10 @@ struct LTLParser {
             }
             lhs = .application(fun, parameters: [lhs, rhs])
         }
-        
+
         return lhs
     }
-    
+
     mutating func parseUnaryExpression() throws -> LTL {
         if current.isUnaryOperator {
             let op = current
@@ -96,12 +95,11 @@ struct LTLParser {
                 fatalError()
             }
             return .application(fun, parameters: [try parseUnaryExpression()])
-        }
-        else {
+        } else {
             return try parsePrimaryExpression()
         }
     }
-    
+
     mutating func parsePrimaryExpression() throws -> LTL {
         switch current {
         case .Proposition(let name):

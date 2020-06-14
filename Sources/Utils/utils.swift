@@ -23,7 +23,6 @@ public func shell(launchPath: String, arguments: [String]) -> String {
     return output_from_command
 }
 
-
 public func listAllFiles(dir: URL) {
     /* try to list all files in directory */
     let fileManager = FileManager.default
@@ -35,7 +34,7 @@ public func listAllFiles(dir: URL) {
     } catch {
         print("Error while enumerating files \(dir.path): \(error.localizedDescription)")
     }
-    
+
 }
 
 public func getDesktopDirectory() -> URL {

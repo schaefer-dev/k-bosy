@@ -7,22 +7,21 @@
 
 import Foundation
 
-
 // DNF Formula in BitsetRepresentation
-public class BitsetDNFFormula : CustomStringConvertible{
-    
+public class BitsetDNFFormula: CustomStringConvertible {
+
     // Empty bitset corresponds to false
-    
+
     private var conjunctions: [Bitset]?
-    private let ap_to_index_map: [String : Int]
-    
+    private let ap_to_index_map: [String: Int]
+
     public var description: String {
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
         return conjunctions!.description
     }
-    
+
     public var isEmpty: Bool {
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
@@ -33,13 +32,12 @@ public class BitsetDNFFormula : CustomStringConvertible{
             return false
         }
     }
-    
-    
+
     init(ap_index_map: [String: Int]) {
         self.conjunctions = nil
         self.ap_to_index_map = ap_index_map
     }
-    
+
     public func initialize() {
         if self.conjunctions != nil {
             assert(false, "initialize was already called")
@@ -52,12 +50,11 @@ public class BitsetDNFFormula : CustomStringConvertible{
         }
         self.conjunctions!.append(bitset)
     }
-    
-    public func get_mapping() -> [String : Int] {
+
+    public func get_mapping() -> [String: Int] {
         return self.ap_to_index_map
     }
-    
-    
+
     /*
      Check if the given assumption_bs satisfies this DNF Formula
      */
@@ -70,11 +67,10 @@ public class BitsetDNFFormula : CustomStringConvertible{
                 return true
             }
         }
-        
+
         return false
     }
-    
-    
+
     /**
      Inefficient because it has to turn dictionary around itself
      */
@@ -83,27 +79,26 @@ public class BitsetDNFFormula : CustomStringConvertible{
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
-        
+
         var bitset_ap_mapping = [String](repeating: "", count: ap_to_index_map.count)
-        
+
         for (ap_str, ap_bitmap_index) in ap_to_index_map {
             bitset_ap_mapping[ap_bitmap_index] = ap_str
         }
-        
+
         var conjunctions_index = 0
-        var conjunction_string_array : [String] = []
+        var conjunction_string_array: [String] = []
         while conjunctions_index < self.conjunctions!.count {
             conjunction_string_array.append(self.conjunctions![conjunctions_index].get_conjunction_string(bitset_ap_mapping: bitset_ap_mapping))
-            
+
             conjunctions_index += 1
         }
-        
+
         let returnString = conjunction_string_array.joined(separator: " ∨ ")
-        
+
         return returnString
     }
-    
-    
+
     /**
      Efficient because dict given
      */
@@ -111,21 +106,20 @@ public class BitsetDNFFormula : CustomStringConvertible{
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
-        
+
         var conjunctions_index = 0
-        var conjunction_string_array : [String] = []
+        var conjunction_string_array: [String] = []
         while conjunctions_index < self.conjunctions!.count {
             conjunction_string_array.append(self.conjunctions![conjunctions_index].get_conjunction_string(bitset_ap_mapping: bitset_ap_mapping))
-            
+
             conjunctions_index += 1
         }
-        
+
         let returnString = conjunction_string_array.joined(separator: " ∨ ")
-        
+
         return returnString
     }
-    
-    
+
     /**
      Builds conjunction of 2 arrays of bitsets, representing 2 DNF Formula.
      TODO: test this function
@@ -133,7 +127,7 @@ public class BitsetDNFFormula : CustomStringConvertible{
     public static func bitAND(bf1: BitsetDNFFormula, bf2: BitsetDNFFormula) -> BitsetDNFFormula {
         var return_bitset_formula = BitsetDNFFormula(ap_index_map: bf1.ap_to_index_map)
         return_bitset_formula.initialize()
-        
+
         for bs1 in bf1.conjunctions! {
             for bs2 in bf2.conjunctions! {
                 let bs_new = bs1 && bs2
@@ -142,22 +136,21 @@ public class BitsetDNFFormula : CustomStringConvertible{
                 }
             }
         }
-        
+
         return return_bitset_formula
     }
-    
-    
+
     /**
      Removes bitsets that are 'contained' in other bitsets that are also in this BitsetFormula. Idea is to make the formula easier to read
      */
     public func simplify_using_contains_check() {
         var bitset_index = 0
         assert(self.conjunctions != nil, "bitset structure is not yet initialized")
-        
-        while (bitset_index < self.conjunctions!.count) {
+
+        while bitset_index < self.conjunctions!.count {
             var j = 0
-            while (j < self.conjunctions!.count) {
-                if (j == bitset_index) {
+            while j < self.conjunctions!.count {
+                if j == bitset_index {
                     // skip comparison with same bitset
                     j += 1
                     continue
@@ -174,7 +167,6 @@ public class BitsetDNFFormula : CustomStringConvertible{
         }
     }
 }
-
 
 /**
  Binding to be able to use && operator on BitsetFormula
