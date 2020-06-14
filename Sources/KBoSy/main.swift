@@ -78,16 +78,6 @@ do {
             
             let spec = SynthesisSpecification(automata: obs_automata, tags: tags)
             
-            print("Assumptions:")
-            for a in spec.assumptions {
-                print(a.description)
-            }
-            
-            print("Guarantees:")
-            for g in spec.guarantees {
-                print(g.description)
-            }
-            
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
             print("Output file saved.")
             
