@@ -15,7 +15,7 @@ public class KBSCUtils {
      
      TODO: lots of improvement potential here
      */
-    public static func _naiveBitsetToFormula(bs: Bitset, apList: APList) -> Formula {
+    public static func naiveBitsetToFormula(bs: Bitset, apList: APList) -> Formula {
         
         let bitset_as_formula_string = bs.get_conjunction_string(bitset_ap_mapping: apList.get_bitset_index_to_ap_string_map())
         
@@ -30,7 +30,7 @@ public class KBSCUtils {
      
      The minimal number of Sets is guaranteed to be returned (minimum amount of observational equivalence classes required).
      */
-    public static func _divideStatesByAPs(input_states: [AutomataState]) -> [[AutomataState]] {
+    public static func divideStatesByAPs(input_states: [AutomataState]) -> [[AutomataState]] {
         var obs_eq_state_mapping = [[AP] : [AutomataState]]()
         
         // TODO: order matters so we have to make sure that list of APs contained in every state is sorted!!
@@ -101,7 +101,7 @@ public class KBSCUtils {
     /**
      Helper function that constructs unique state name whenever a set of states is merged to identify that merged state
      */
-    private static func constructStateName(source_names: [String]) -> String {
+    public static func constructStateName(source_names: [String]) -> String {
         // build new state name with sorting on contained state-names so we maintain correctness
         var new_state_name_set = Set<String>()
         var new_state_name_array : [String] = []

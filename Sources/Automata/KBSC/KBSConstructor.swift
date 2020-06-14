@@ -41,6 +41,9 @@ public class KBSConstructor {
     }
     
     
+    /**
+     Perform Knowledge Based Subset Construction and return the observational Automata
+     */
     public func run() -> Automata {
         // only initial states exist currently, we have to analyze all those states
         var state_analyze_queue: [AutomataState] = self.obs_automata.initial_states
@@ -60,50 +63,83 @@ public class KBSConstructor {
                 // lookup old states that were merged into the currently analyzed state
                 let old_states: [AutomataState] = self.new_to_old_states_mapping[analyzed_state]!
                 
-                // determine the successor states of each of those old states for this particular bitset conditon
-                var old_states_successors: [AutomataState] = []
-                for old_state in old_states {
-                    for old_trans in old_state.transitions {
-                        // TODO check if current_bitset_condition assumption satisfies condition for this transition.
-                        if old_trans.condition.bitset_representation.holdsUnderAssumption(assumption_bs: current_bitset_condition) {
-                            old_states_successors.append(old_trans.end)
-                        }
-                    }
-                }
-                print("DEBUG: Successors " + old_states_successors.description + " possible according to original automata using condition " + current_bitset_condition.description)
+                let old_states_successors = getPossibleSuccessorsUnderCondition(condition: current_bitset_condition, start_states: old_states)
                 
                 // divide possible successor states into sets that each contain environment-states which can not be distinguished by their APs
-                let obs_eq_state_classes = KBSCUtils._divideStatesByAPs(input_states: old_states_successors)
+                let obs_eq_state_classes = KBSCUtils.divideStatesByAPs(input_states: old_states_successors)
                 
                 for obs_eq_state_set in obs_eq_state_classes {
-                    // TODO: minor optimization: check before creating new state if it already exists
-                    var obs_successor_state = KBSCUtils.mergeStatesIntoNewState(states: obs_eq_state_set)
-                    if self.obs_automata.get_state(name: obs_successor_state.name) == nil {
-                        // obs_successor_state is in fact new and thus has to be added to the obs automata structures
-                        self.new_to_old_states_mapping[obs_successor_state] = obs_eq_state_set
-                        print("DEBUG: newly discovered state " + obs_successor_state.name + " added to observational automata.")
-                        self.obs_automata.add_state(new_state: obs_successor_state)
-                        
-                        // also we have to put in in the queue to observe its possible successors later
+                    
+                    let (obs_successor_state, is_new_state) = getObsEqState(obs_eq_state_set: obs_eq_state_set)
+                    
+                    if (is_new_state) {
+                        // if new state was created we put it in the queue to observe its possible successors later
                         state_analyze_queue.append(obs_successor_state)
-                    } else {
-                        // new_successor_state is not new -> abort newly created state and move reference to the already existing one such that the transition links to the correct state
-                        print("DEBUG: skipping state " + obs_successor_state.name + " because it was already created.")
-                        
-                        obs_successor_state = self.obs_automata.get_state(name: obs_successor_state.name)!
                     }
                     
                     // create the transition from 'analyzed_state' to 'obs_successor_state' with condition 'current_bitset_condition' and add it to the state 'analyzed_state'
-                    
-                    let transition_formula = KBSCUtils._naiveBitsetToFormula(bs: current_bitset_condition, apList: self.obs_automata.apList)
-                    let new_found_transition = AutomataTransition(start: analyzed_state, condition: transition_formula, end: obs_successor_state)
-                    analyzed_state.addTransition(trans: new_found_transition)
+                    createTransitionFromBitset(bs: current_bitset_condition, start: analyzed_state, end: obs_successor_state)
                 }
                 
             } while (current_bitset_condition.increment())
             
         }
         return self.obs_automata
+    }
+    
+    
+    
+    /**
+     Returns the set of possible successors of all states given as `start_states` with the condition `condition` holding for all taken transitions.
+     */
+    private func getPossibleSuccessorsUnderCondition(condition: Bitset, start_states: [AutomataState]) -> [AutomataState] {
+        // determine the successor states of each of those old states for this particular bitset conditon
+        var old_states_successors: [AutomataState] = []
+        for state in start_states {
+            for transition in state.transitions {
+                // check if current_bitset_condition assumption satisfies condition for this transition.
+                if transition.condition.bitset_representation.holdsUnderAssumption(assumption_bs: condition) {
+                    old_states_successors.append(transition.end)
+                }
+            }
+        }
+        
+        print("DEBUG: Successors " + old_states_successors.description + " possible according to original automata using condition " + current_bitset_condition.description)
+        return old_states_successors
+    }
+    
+    
+    /**
+     Check if a state that contains all the states given as argument already exists.
+     If yes, return a reference to this existing state and also return false.
+     If no, create a new state that corresponds to this set of states and add it to the automata structure and then return a reference to this new state. Also return true.
+     */
+    private func getObsEqState(obs_eq_state_set: [AutomataState]) -> (AutomataState, Bool) {
+        // check before creating adding new state if it already exists
+        var obs_successor_state = KBSCUtils.mergeStatesIntoNewState(states: obs_eq_state_set)
+        if self.obs_automata.get_state(name: obs_successor_state.name) == nil {
+            // obs_successor_state is in fact new and thus has to be added to the obs automata structures
+            self.new_to_old_states_mapping[obs_successor_state] = obs_eq_state_set
+            print("DEBUG: newly discovered state " + obs_successor_state.name + " added to observational automata.")
+            self.obs_automata.add_state(new_state: obs_successor_state)
+            
+            
+            return (obs_successor_state, true)
+        } else {
+            // new_successor_state is not new -> abort newly created state and move reference to the already existing one such that the following transition creation links to the already existing state in the structure
+            obs_successor_state = self.obs_automata.get_state(name: obs_successor_state.name)!
+            return (obs_successor_state, false)
+        }
+    }
+    
+    
+    /**
+     Create a AutomataTransition in `start` that goes from state `start` to state `end` with the condition `bs`.
+     */
+    private func createTransitionFromBitset(bs: Bitset, start: AutomataState, end: AutomataState) {
+        let transition_formula = KBSCUtils.naiveBitsetToFormula(bs: bs, apList: self.obs_automata.apList)
+        let new_found_transition = AutomataTransition(start: start, condition: transition_formula, end: end)
+        start.addTransition(trans: new_found_transition)
     }
 
 }
