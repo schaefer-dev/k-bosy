@@ -36,9 +36,9 @@ public struct Variable: Literal, CustomStringConvertible {
 
     public var description: String {
         if neg {
-            return ("¬" + ap.id)
+            return ("¬" + ap.name)
         } else {
-            return (ap.id)
+            return (ap.name)
         }
     }
 

@@ -67,10 +67,10 @@ do {
 
             let kbsc = KBSConstructor(input_automata: automata)
 
-            let obs_automata = kbsc.run()
-            obs_automata.finalize()
+            let obsAutomata = kbsc.run()
+            obsAutomata.finalize()
 
-            let spec = SynthesisSpecification(automata: obs_automata, tags: tags)
+            let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
             print("Output file saved.")
@@ -103,8 +103,8 @@ do {
         var spec = specOpt!
 
         print("Guarantees before transformation rules:")
-        for g in spec.guarantees {
-            print(g.description)
+        for guarantee in spec.guarantees {
+            print(guarantee.description)
         }
 
         /* Apply transformation rules that are contained in the input file.*/
@@ -114,8 +114,8 @@ do {
         }
 
         print("Guarantees after transformation rules:")
-        for g in spec.guarantees {
-            print(g.description)
+        for guarantee in spec.guarantees {
+            print(guarantee.description)
         }
 
         let inputFilePath = inputFilename.split(separator: "/")

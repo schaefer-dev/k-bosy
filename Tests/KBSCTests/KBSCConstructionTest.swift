@@ -43,10 +43,10 @@ func setupObsNumberv1_tagged() -> Automata {
 
     print("\n\n----------------------------------\nTEST: Starting building of obs Automata now...\n")
 
-    automata.get_state(name: "s1")!.addAnnotation(annotation_name: "k1")
-    automata.get_state(name: "s3")!.addAnnotation(annotation_name: "k1")
-    automata.get_state(name: "s2")!.addAnnotation(annotation_name: "k2")
-    automata.get_state(name: "s4")!.addAnnotation(annotation_name: "k2")
+    automata.get_state(name: "s1")!.addAnnotation(annotationName: "k1")
+    automata.get_state(name: "s3")!.addAnnotation(annotationName: "k1")
+    automata.get_state(name: "s2")!.addAnnotation(annotationName: "k2")
+    automata.get_state(name: "s4")!.addAnnotation(annotationName: "k2")
 
     let kbsc = KBSConstructor(input_automata: automata)
     let obs_automata = kbsc.run()

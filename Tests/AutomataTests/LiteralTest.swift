@@ -71,31 +71,31 @@ class LiteralTest: XCTestCase {
         _ = AP(name: "c12", observable: false, list: globalAPList)
         _ = AP(name: "d", observable: false, list: globalAPList)
 
-        let lit1 = FormulaParser.parseLiteral(str_literal: "", apList: globalAPList)
+        let lit1 = FormulaParser.parseLiteral(stringLiteral: "", apList: globalAPList)
         if lit1 != nil {
             XCTAssert(false, "Expected Literal parsing error because literal empty")
         }
 
-        let lit2 = FormulaParser.parseLiteral(str_literal: "¬", apList: globalAPList)
+        let lit2 = FormulaParser.parseLiteral(stringLiteral: "¬", apList: globalAPList)
         if lit2 != nil {
             XCTAssert(false, "Expected Literal parsing error because literal empty")
         }
 
-        let lit3 = FormulaParser.parseLiteral(str_literal: "a", apList: globalAPList)
+        let lit3 = FormulaParser.parseLiteral(stringLiteral: "a", apList: globalAPList)
         if lit3 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
             XCTAssertEqual(lit3!.description, "a")
         }
 
-        let lit4 = FormulaParser.parseLiteral(str_literal: "c12", apList: globalAPList)
+        let lit4 = FormulaParser.parseLiteral(stringLiteral: "c12", apList: globalAPList)
         if lit4 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {
             XCTAssertEqual(lit4!.description, "c12")
         }
 
-        let lit5 = FormulaParser.parseLiteral(str_literal: "¬false", apList: globalAPList)
+        let lit5 = FormulaParser.parseLiteral(stringLiteral: "¬false", apList: globalAPList)
         if lit5 == nil {
             XCTAssert(false, "Unexpected Literal Parsing Error")
         } else {

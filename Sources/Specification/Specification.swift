@@ -13,13 +13,15 @@ import LTL
 import Automata
 
 public enum TransitionSystemType: String, Codable {
-    case mealy = "mealy"
-    case moore = "moore"
+    case mealy
+    case moore
 
     public var swapped: TransitionSystemType {
         switch self {
-            case .mealy: return .moore
-            case .moore: return .mealy
+        case .mealy:
+            return .moore
+        case .moore:
+            return .mealy
         }
     }
 
@@ -32,7 +34,7 @@ public struct SynthesisSpecification: Codable {
     public let outputs: [String]
     public var assumptions: [LTL]
     public var guarantees: [LTL]
-    public let transformation_rules: [LTL]?
+    public let transformationRules: [LTL]?
 
     public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [LTL], guarantees: [LTL], transformation_rules: [LTL]) {
         self.semantics = semantics
@@ -40,7 +42,7 @@ public struct SynthesisSpecification: Codable {
         self.outputs = outputs
         self.assumptions = assumptions
         self.guarantees = guarantees
-        self.transformation_rules = transformation_rules
+        self.transformationRules = transformation_rules
     }
 
     public init(automata: Automata, tags: [String]) {
@@ -49,7 +51,7 @@ public struct SynthesisSpecification: Codable {
         self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
         self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: tags)
         self.guarantees = automata.guarantees
-        self.transformation_rules = nil
+        self.transformationRules = nil
     }
 
     public static func fromJson(string: String) -> SynthesisSpecification? {
@@ -84,47 +86,47 @@ public struct SynthesisSpecification: Codable {
         print("outputs: ", self.outputs)
         print("assumptions: ", self.assumptions)
         print("guarantees: ", self.guarantees)
-        if let rules = self.transformation_rules {
+        if let rules = self.transformationRules {
             print("transformation rules: ", rules)
         }
         print("----------------------------------------")
     }
 
     public mutating func applyTransformationRules() -> Bool {
-        if let rules = self.transformation_rules {
-            let rules_max_index = rules.count
-            if rules_max_index == 0 {
+        if let rules = self.transformationRules {
+            let rulesMaxIndex = rules.count
+            if rulesMaxIndex == 0 {
                 print("Warning: no transformation Rules given.")
                 return true
             }
 
-            if (rules_max_index % 2) != 0 {
+            if (rulesMaxIndex % 2) != 0 {
                 print("ERROR: transformation rules have to be given in Pairs")
                 return false
             }
 
-            var k_index = 0
-            var r_index = 1
+            var kIndex = 0
+            var rIndex = 1
 
-            while r_index < rules_max_index {
+            while rIndex < rulesMaxIndex {
 
-                let k_ltl = rules[k_index]
-                let r_ltl = rules[r_index]
+                let kLTL = rules[kIndex]
+                let rLTL = rules[rIndex]
 
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWithLTL(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, replaced_ltl: rLTL)
                 }
 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: k_ltl, replaced_ltl: r_ltl)
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, replaced_ltl: rLTL)
                 }
 
                 // TODO: maybe add warning if replacement has not worked
 
-                k_index += 1
-                r_index += 1
+                kIndex += 1
+                rIndex += 1
             }
 
             return true
@@ -156,13 +158,13 @@ public struct SynthesisSpecification: Codable {
         let jsonString = self.jsonString()
 
         // use input filename without the file-suffix (without .kbosy)
-        let output_filename = inputFileName.split(separator: ".")[0].description + "_transformed.bosy"
+        let outputFilename = inputFileName.split(separator: ".")[0].description + "_transformed.bosy"
 
-        let output_file = dir.appendingPathComponent(output_filename)
+        let outputFile = dir.appendingPathComponent(outputFilename)
 
         do {
-            try jsonString.write(to: output_file, atomically: true, encoding: String.Encoding.utf8)
-            return output_filename
+            try jsonString.write(to: outputFile, atomically: true, encoding: String.Encoding.utf8)
+            return outputFilename
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
             print("ERROR: writing json file to Directory failed!")

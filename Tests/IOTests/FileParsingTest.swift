@@ -62,8 +62,8 @@ class FileParsingTest: XCTestCase {
         let dotGraph = dotGraphOpt!
 
         // s0 is only initial state
-        XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
-        XCTAssertEqual(dotGraph.initial_states.count, 1)
+        XCTAssertEqual(dotGraph.initialStates[0].name, "s0")
+        XCTAssertEqual(dotGraph.initialStates.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions[0].description, "h")
         XCTAssertEqual(dotGraph.get_state(name: "s1")!.propositions.count, 1)
@@ -108,9 +108,9 @@ class FileParsingTest: XCTestCase {
         let dotGraph = dotGraphOpt!
 
         // s0 is only initial state
-        XCTAssertEqual(dotGraph.initial_states[0].name, "s0")
-        XCTAssertEqual(dotGraph.initial_states[0].propositions.count, 2)
-        XCTAssertEqual(dotGraph.initial_states.count, 1)
+        XCTAssertEqual(dotGraph.initialStates[0].name, "s0")
+        XCTAssertEqual(dotGraph.initialStates[0].propositions.count, 2)
+        XCTAssertEqual(dotGraph.initialStates.count, 1)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions.count, 2)
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions[0].description, "go")
         XCTAssertEqual(dotGraph.get_state(name: "s0")!.propositions[1].description, "stop")

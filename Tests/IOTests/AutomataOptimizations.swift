@@ -22,20 +22,20 @@ class AutomataOptimizations: XCTestCase {
 
         // Make sure that APs in states are set correctly
 
-        automata._reduceToObservablePart()
+        automata.reduceToObservablePart()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s2")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s3")!.propositions.count, 0)
 
         automata.finalize()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s2")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s3")!.propositions.count, 0)
 
         // Make sure that transitions are translated correctly into their bitset form
@@ -45,16 +45,16 @@ class AutomataOptimizations: XCTestCase {
         XCTAssertEqual(automata.get_state(name: "s2")!.transitions.count, 2)
         XCTAssertEqual(automata.get_state(name: "s3")!.transitions.count, 1)
 
-        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(true)")
-        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(true)")
+        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(true)")
+        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(true)")
 
-        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(¬g1)")
-        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(g1)")
+        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(¬g1)")
+        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(g1)")
 
-        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(¬g1)")
-        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(g1)")
+        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(¬g1)")
+        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(g1)")
 
-        XCTAssertEqual(automata.get_state(name: "s3")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(true)")
+        XCTAssertEqual(automata.get_state(name: "s3")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(true)")
 
     }
 
@@ -75,20 +75,20 @@ class AutomataOptimizations: XCTestCase {
 
         // Make sure that APs in states are set correctly
 
-        automata._reduceToObservablePart()
+        automata.reduceToObservablePart()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s2")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s3")!.propositions.count, 0)
 
         automata.finalize()
         XCTAssertEqual(automata.get_state(name: "s0")!.propositions.count, 0)
         XCTAssertEqual(automata.get_state(name: "s1")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s1")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s2")!.propositions.count, 1)
-        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].id, "r1")
+        XCTAssertEqual(automata.get_state(name: "s2")!.propositions[0].name, "r1")
         XCTAssertEqual(automata.get_state(name: "s3")!.propositions.count, 0)
 
         // Make sure that transitions are translated correctly into their bitset form
@@ -98,17 +98,17 @@ class AutomataOptimizations: XCTestCase {
         XCTAssertEqual(automata.get_state(name: "s2")!.transitions.count, 2)
         XCTAssertEqual(automata.get_state(name: "s3")!.transitions.count, 1)
 
-        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(false) ∨ (b) ∨ (¬b)")
-        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(false) ∨ (b) ∨ (¬b)")
+        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(false) ∨ (b) ∨ (¬b)")
+        XCTAssertEqual(automata.get_state(name: "s0")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(false) ∨ (b) ∨ (¬b)")
 
-        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(¬g1 ∧ a)")
-        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(¬g1 ∧ ¬a) ∨ (¬g1 ∧ a) ∨ (¬g1 ∧ ¬a ∧ c ∧ d)")
-        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[2].condition.bitset_representation._debug_get_formula_string(), "(g1 ∧ d) ∨ (g1 ∧ ¬c ∧ ¬d)")
+        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(¬g1 ∧ a)")
+        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(¬g1 ∧ ¬a) ∨ (¬g1 ∧ a) ∨ (¬g1 ∧ ¬a ∧ c ∧ d)")
+        XCTAssertEqual(automata.get_state(name: "s1")!.transitions[2].condition.bitsetRepresentation.debug_get_formula_string(), "(g1 ∧ d) ∨ (g1 ∧ ¬c ∧ ¬d)")
 
-        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(¬g1 ∧ b) ∨ (¬g1 ∧ ¬b)")
-        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[1].condition.bitset_representation._debug_get_formula_string(), "(g1 ∧ c) ∨ (g1 ∧ ¬c)")
+        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(¬g1 ∧ b) ∨ (¬g1 ∧ ¬b)")
+        XCTAssertEqual(automata.get_state(name: "s2")!.transitions[1].condition.bitsetRepresentation.debug_get_formula_string(), "(g1 ∧ c) ∨ (g1 ∧ ¬c)")
 
-        XCTAssertEqual(automata.get_state(name: "s3")!.transitions[0].condition.bitset_representation._debug_get_formula_string(), "(true)")
+        XCTAssertEqual(automata.get_state(name: "s3")!.transitions[0].condition.bitsetRepresentation.debug_get_formula_string(), "(true)")
 
     }
 }

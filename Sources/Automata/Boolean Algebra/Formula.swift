@@ -10,7 +10,7 @@ import Foundation
 /* Formula represented as Distjunctive Normal Form (DNF) */
 public struct Formula: Equatable, CustomStringConvertible {
     var dnf: [Conjunction]?
-    var bitset_representation: BitsetDNFFormula
+    var bitsetRepresentation: BitsetDNFFormula
 
     public var description: String {
         if self.dnf != nil {
@@ -19,49 +19,49 @@ public struct Formula: Equatable, CustomStringConvertible {
                 return ""
             }
 
-            var output_string = ""
+            var outputString = ""
 
-            var conj_index = 0
+            var conjunctionIndex = 0
             while true {
-                output_string += dnf[conj_index].description
-                conj_index += 1
-                if conj_index > (dnf.count - 1) {
+                outputString += dnf[conjunctionIndex].description
+                conjunctionIndex += 1
+                if conjunctionIndex > (dnf.count - 1) {
                     break
                 }
-                output_string += " ∨ "
+                outputString += " ∨ "
             }
 
-            return output_string
+            return outputString
         } else {
-            return bitset_representation.description
+            return bitsetRepresentation.description
         }
      }
 
     public var isEmpty: Bool {
-        return self.bitset_representation.isEmpty
+        return self.bitsetRepresentation.isEmpty
     }
 
     public init(containedConjunctions: [Conjunction], bitset_ap_mapping: [String: Int]) {
         self.dnf = containedConjunctions
-        self.bitset_representation = BitsetDNFFormula(ap_index_map: bitset_ap_mapping)
+        self.bitsetRepresentation = BitsetDNFFormula(ap_index_map: bitset_ap_mapping)
      }
 
     public func getStringFromBitsetRepresentation(index_to_ap_map: [String]) -> String {
-        return bitset_representation.get_formula_string(bitset_ap_mapping: index_to_ap_map)
+        return bitsetRepresentation.get_formula_string(bitsetAPMapping: index_to_ap_map)
     }
 
     /**
     simplify this formula, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
-    public mutating func simplifyWithConstants(true_aps: [AP]) {
+    public mutating func simplifyWithConstants(trueAPs: [AP]) {
         if self.dnf == nil {
             assert(false, "this method can not be called on optimized structures")
         }
-        var conj_index = 0
+        var conjunctionIndex = 0
 
-        while conj_index < dnf!.count {
-            self.dnf![conj_index].simplifyWithConstants(true_aps: true_aps)
-            conj_index += 1
+        while conjunctionIndex < dnf!.count {
+            self.dnf![conjunctionIndex].simplifyWithConstants(trueAPs: trueAPs)
+            conjunctionIndex += 1
         }
     }
 
@@ -69,34 +69,34 @@ public struct Formula: Equatable, CustomStringConvertible {
         if self.dnf == nil {
             assert(false, "this method can not be called on optimized structures")
         }
-        var conj_index = 0
+        var conjunctionIndex = 0
 
         // simplify the conjunctions
-        while conj_index < dnf!.count {
-            self.dnf![conj_index].simplifyTautologies()
-            conj_index += 1
+        while conjunctionIndex < dnf!.count {
+            self.dnf![conjunctionIndex].simplifyTautologies()
+            conjunctionIndex += 1
         }
 
-        _simplifyTautologiesFurther()
+        simplifyTautologiesFurther()
     }
 
-    public mutating func _simplifyTautologiesFurther() {
-        var conj_index = 0
+    public mutating func simplifyTautologiesFurther() {
+        var conjunctionIndex = 0
         // simplify the conjunctions
-        while conj_index < dnf!.count {
+        while conjunctionIndex < dnf!.count {
             // if just one element in that conjunction look at it closer if we can maybe remove it
-            if self.dnf![conj_index].literals.count == 1 {
-                if self.dnf![conj_index].literals[0].alwaysTrue {
+            if self.dnf![conjunctionIndex].literals.count == 1 {
+                if self.dnf![conjunctionIndex].literals[0].alwaysTrue {
                     // one single True in the Disjunction results in just true being returned
                     self.dnf! = [Conjunction(literalsContainedInConjunction: [Constant(negated: false, truthValue: true)])]
                     break
-                } else if self.dnf![conj_index].literals[0].alwaysFalse {
+                } else if self.dnf![conjunctionIndex].literals[0].alwaysFalse {
                     // every occurance of False in the Disjunction is just skipped
-                    self.dnf!.remove(at: conj_index)
+                    self.dnf!.remove(at: conjunctionIndex)
                     continue
                 }
             }
-            conj_index += 1
+            conjunctionIndex += 1
         }
 
         if self.dnf!.count == 0 {
@@ -119,10 +119,10 @@ public struct Formula: Equatable, CustomStringConvertible {
             }
         }
 
-        self.bitset_representation.initialize()
+        self.bitsetRepresentation.initialize()
         for conj in self.dnf! {
-            let conj_bitset = conj.asBitset(ap_index_map: self.bitset_representation.get_mapping())
-            self.bitset_representation.add_formula(bitset: conj_bitset)
+            let conj_bitset = conj.asBitset(ap_index_map: self.bitsetRepresentation.get_mapping())
+            self.bitsetRepresentation.add_formula(bitset: conj_bitset)
         }
 
         // remove dnf mapping because we are now in 'bitset-mode'
@@ -150,16 +150,16 @@ public struct Formula: Equatable, CustomStringConvertible {
     // Equality definition on formulas, if all subformulas are equal
     public static func == (f1: Formula, f2: Formula) -> Bool {
         if f1.dnf == nil || f1.dnf == nil {
-            return (f1.bitset_representation.description == f2.bitset_representation.description)
+            return (f1.bitsetRepresentation.description == f2.bitsetRepresentation.description)
         }
 
         // if not same length of dnf can not be equal
         if f1.dnf!.count != f2.dnf!.count {
             return false
         }
-        for i in 0...(f1.dnf!.count - 1) {
+        for iter in 0...(f1.dnf!.count - 1) {
             // if any pair in dnf not equal return false
-            if f1.dnf![i] != f2.dnf![i] {
+            if f1.dnf![iter] != f2.dnf![iter] {
                 return false
             }
         }
@@ -175,19 +175,19 @@ public struct Conjunction: Equatable, CustomStringConvertible {
          if literals.count == 0 {
              return ""
          }
-         var output_string = "("
-         var lit_index = 0
+         var outputString = "("
+         var litIndex = 0
          while true {
-             output_string += self.literals[lit_index].description
-             lit_index += 1
-             if lit_index > (self.literals.count - 1) {
+             outputString += self.literals[litIndex].description
+             litIndex += 1
+             if litIndex > (self.literals.count - 1) {
                  break
              }
-             output_string += " ∧ "
+             outputString += " ∧ "
          }
-         output_string += ")"
+         outputString += ")"
 
-         return output_string
+         return outputString
      }
 
     public init(literalsContainedInConjunction: [Literal]) {
@@ -197,46 +197,46 @@ public struct Conjunction: Equatable, CustomStringConvertible {
     /**
     simplify this conjunction, all non-output APs that are true are contained in 'true_aps'. Every other non-output AP can be assumed to evaluate to false.
     */
-    public mutating func simplifyWithConstants(true_aps: [AP]) {
-        var lit_index = 0
-        while lit_index < self.literals.count {
-            let current_lit = self.literals[lit_index]
+    public mutating func simplifyWithConstants(trueAPs: [AP]) {
+        var litIndex = 0
+        while litIndex < self.literals.count {
+            let currentLit = self.literals[litIndex]
 
             // do not touch output APs or constants at all
-            if current_lit.isOutput() || current_lit.isConstant {
-                lit_index += 1
+            if currentLit.isOutput() || currentLit.isConstant {
+                litIndex += 1
                 continue
             }
 
-            let var_ap = current_lit.getAP()!
+            let varAP = currentLit.getAP()!
 
-            if true_aps.contains(var_ap) {
+            if trueAPs.contains(varAP) {
                 // if AP is part of true apps replace with true and keep negation if it was previously negated
-                self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: true)
+                self.literals[litIndex] = Constant(negated: currentLit.neg, truthValue: true)
 
             } else {
                 // if AP is not part of true apps replace with false and keep negation if it was previously negated
-                self.literals[lit_index] = Constant(negated: current_lit.neg, truthValue: false)
+                self.literals[litIndex] = Constant(negated: currentLit.neg, truthValue: false)
             }
 
-            lit_index += 1
+            litIndex += 1
         }
     }
 
     public mutating func simplifyTautologies() {
-        var lit_index = 0
+        var litIndex = 0
 
-        while lit_index < self.literals.count {
+        while litIndex < self.literals.count {
             // if false is contained somewhere the entire thing will always be false
-            if self.literals[lit_index].alwaysFalse {
+            if self.literals[litIndex].alwaysFalse {
                 self.literals = [Constant(negated: false, truthValue: false)]
                 break
-            } else if self.literals[lit_index].alwaysTrue {
+            } else if self.literals[litIndex].alwaysTrue {
                 // if true value is contained somewhere remove it and continue with rest of formula
-                self.literals.remove(at: lit_index)
+                self.literals.remove(at: litIndex)
                 continue
             }
-            lit_index += 1
+            litIndex += 1
         }
 
         // if entire conjunction has been removed (everything has been true) replace it with constant true
@@ -264,26 +264,26 @@ public struct Conjunction: Equatable, CustomStringConvertible {
             }
 
             // now cover cases in which APs occur and not constants
-            let literal_ap_string = lit.getAP()!.id
-            let bitset_ap_index = ap_index_map[literal_ap_string]!
+            let literalAPString = lit.getAP()!.name
+            let bitsetAPIndex = ap_index_map[literalAPString]!
 
             if lit.neg {
                 // case of ap occuring in negated form
                 // make sure that positive form was not contained already, in that case return empty bitset because always false
-                if bitset.data[bitset_ap_index] == TValue.top {
+                if bitset.data[bitsetAPIndex] == TValue.top {
                     return Bitset(size: 0)
                 } else {
                     // bitset now indicates that value of that ap has to be true
-                    bitset.data[bitset_ap_index] = TValue.bottom
+                    bitset.data[bitsetAPIndex] = TValue.bottom
                 }
             } else {
                 // case of ap occuring in positive form
                 // make sure that negative form was not contained already, in that case return empty bitset because always false
-                if bitset.data[bitset_ap_index] == TValue.bottom {
+                if bitset.data[bitsetAPIndex] == TValue.bottom {
                     return Bitset(size: 0)
                 } else {
                     // bitset now indicates that value of that ap has to be true
-                    bitset.data[bitset_ap_index] = TValue.top
+                    bitset.data[bitsetAPIndex] = TValue.top
                 }
             }
         }
@@ -328,14 +328,14 @@ public struct Conjunction: Equatable, CustomStringConvertible {
  Does NOT create old conjunctions structure for the newly created Formula!!!
  */
 public func && (f1: Formula, f2: Formula) -> Formula {
-    var return_formula = Formula(containedConjunctions: [], bitset_ap_mapping: f1.bitset_representation.get_mapping())
+    var return_formula = Formula(containedConjunctions: [], bitset_ap_mapping: f1.bitsetRepresentation.get_mapping())
 
-    return_formula.bitset_representation.initialize()
+    return_formula.bitsetRepresentation.initialize()
 
-    return_formula.bitset_representation = f1.bitset_representation && f2.bitset_representation
+    return_formula.bitsetRepresentation = f1.bitsetRepresentation && f2.bitsetRepresentation
 
     // simplify the returned formula by eliminating contained subformulae
-    return_formula.bitset_representation.simplify_using_contains_check()
+    return_formula.bitsetRepresentation.simplify_using_contains_check()
 
     return return_formula
 }

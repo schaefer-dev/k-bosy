@@ -17,7 +17,7 @@ class KSynthesisTaskCreationTest: XCTestCase {
 
         let synthesisTask = KSynthesisTask(automata: aut, observableAP: automataInfo.observableAP, hiddenAP: automataInfo.hiddenAP, outputs: automataInfo.outputs, apList: globalAPList)
 
-        XCTAssertEqual(synthesisTask.observableAP[0].id, "y1")
+        XCTAssertEqual(synthesisTask.observableAP[0].name, "y1")
         XCTAssertEqual(synthesisTask.observableAP[0].obs, true)
         XCTAssertEqual(synthesisTask.observableAP[0].output, false)
     }

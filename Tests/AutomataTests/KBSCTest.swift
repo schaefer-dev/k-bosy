@@ -16,7 +16,7 @@ class KBSCTest: XCTestCase {
         _ = AP(name: "test4", observable: true, list: globalAPList)
         _ = AP(name: "testOut", observable: false, list: globalAPList, output: true)
 
-        let obsAPList = KBSCUtils.getObservableAPList(input_list: globalAPList)
+        let obsAPList = KBSCUtils.getObservableAPList(inputList: globalAPList)
 
         let obs_APs = obsAPList.get_allAPs()
         XCTAssertEqual(obs_APs.count, 4)

@@ -17,38 +17,38 @@ public class FormulaParser {
     
     - Returns: An optional new class of Type Literal which is the internal representation of the given Literal. This may either represent a constant or an atomic proposition. Both cases may occur in negated forms.
     */
-    public static func parseLiteral(str_literal: String, apList: APList) -> Literal? {
+    public static func parseLiteral(stringLiteral: String, apList: APList) -> Literal? {
         var negated = false
         // check if negated
-        var literal_str = str_literal
+        var literalString = stringLiteral
 
-        if literal_str.count == 0 {
+        if literalString.count == 0 {
             print("Tried to parse empty literal")
             return nil
         }
 
-        if (literal_str.character(at: 0) == "!") || (literal_str.character(at: 0) == "¬") {
+        if (literalString.character(at: 0) == "!") || (literalString.character(at: 0) == "¬") {
             negated = true
             // remove negation character, such that only AP remains
-            literal_str.remove(at: str_literal.startIndex)
+            literalString.remove(at: stringLiteral.startIndex)
         }
 
-        if literal_str.count == 0 {
+        if literalString.count == 0 {
             print("Tried to parse empty literal with only negation")
             return nil
         }
 
         // parse string of Literal, which can be either AP (Variable) or Constant
-        if literal_str == "true" {
+        if literalString == "true" {
             let constant = Constant(negated: negated, truthValue: true)
             return constant
 
-        } else if literal_str == "false" {
+        } else if literalString == "false" {
             let constant = Constant(negated: negated, truthValue: false)
             return constant
 
         } else {
-            let apOpt = apList.lookupAP(apName: literal_str)
+            let apOpt = apList.lookupAP(apName: literalString)
 
             if apOpt == nil {
                 return nil
@@ -67,44 +67,44 @@ public class FormulaParser {
     
     - Returns: An optional new class of Type Formula which is the internal representation of the given DNF Formula.
     */
-    public static func parseDNFFormula(input_str: String, apList: APList) -> Formula? {
+    public static func parseDNFFormula(inputString: String, apList: APList) -> Formula? {
 
         // Remove ALL whitespace from string
-        var formula_string = input_str.components(separatedBy: .whitespacesAndNewlines).joined()
+        var formulaString = inputString.components(separatedBy: .whitespacesAndNewlines).joined()
 
         // check if brackets are set correctly!!
-        if !checkBracketCorrectness(input_str: formula_string) {
-            print("ERROR: Invalid Brackets in formula: " + formula_string)
+        if !checkBracketCorrectness(inputString: formulaString) {
+            print("ERROR: Invalid Brackets in formula: " + formulaString)
             return nil
         }
 
         // Remove all brackets
-        formula_string = formula_string.replacingOccurrences(of: "(", with: "")
-        formula_string = formula_string.replacingOccurrences(of: ")", with: "")
+        formulaString = formulaString.replacingOccurrences(of: "(", with: "")
+        formulaString = formulaString.replacingOccurrences(of: ")", with: "")
 
-        if formula_string == "" {
+        if formulaString == "" {
             let constant = Constant(negated: false, truthValue: true)
             let conj = Conjunction(literalsContainedInConjunction: [constant])
-            let true_dnf_formula = Formula(containedConjunctions: [conj], bitset_ap_mapping: apList.get_bitset_ap_index_map())
-            return true_dnf_formula
+            let trueDNFFormula = Formula(containedConjunctions: [conj], bitset_ap_mapping: apList.get_bitset_ap_index_map())
+            return trueDNFFormula
         }
 
         // TODO: check if bracketting is correct
-        let str_conjunctions = formula_string.components(separatedBy: "∨")
+        let stringConjunctions = formulaString.components(separatedBy: "∨")
 
-        var conj_list: [Conjunction] = []
+        var conjunctionsList: [Conjunction] = []
 
-        for str_conj in str_conjunctions {
-            let conj = parseConjunction(str_conj: str_conj, apList: apList)
+        for stringConjunction in stringConjunctions {
+            let conj = parseConjunction(stringConjunction: stringConjunction, apList: apList)
             if conj == nil {
                 return nil
             } else {
-                conj_list.append(conj!)
+                conjunctionsList.append(conj!)
             }
         }
 
-        let dnf_formula = Formula(containedConjunctions: conj_list, bitset_ap_mapping: apList.get_bitset_ap_index_map())
-        return dnf_formula
+        let dnfFormula = Formula(containedConjunctions: conjunctionsList, bitset_ap_mapping: apList.get_bitset_ap_index_map())
+        return dnfFormula
     }
 
     /**
@@ -115,21 +115,21 @@ public class FormulaParser {
      
      - Returns: An optional new class of Type Conjunction which is the internal representation of the given Formula.
      */
-    public static func parseConjunction(str_conj: String, apList: APList) -> Conjunction? {
-        let str_literals = str_conj.components(separatedBy: "∧")
-        var literal_array: [Literal] = []
+    public static func parseConjunction(stringConjunction: String, apList: APList) -> Conjunction? {
+        let stringLiterals = stringConjunction.components(separatedBy: "∧")
+        var literalArray: [Literal] = []
 
-        for str_literal in str_literals {
-            let litOpt = parseLiteral(str_literal: str_literal, apList: apList)
+        for stringLiteral in stringLiterals {
+            let litOpt = parseLiteral(stringLiteral: stringLiteral, apList: apList)
             if litOpt == nil {
-                print("ERROR: critical parsing error, literal '" + str_literal + "' could not be parsed!")
+                print("ERROR: critical parsing error, literal '" + stringLiteral + "' could not be parsed!")
                 return nil
             } else {
-                literal_array.append(litOpt!)
+                literalArray.append(litOpt!)
             }
         }
 
-        let conj = Conjunction(literalsContainedInConjunction: literal_array)
+        let conj = Conjunction(literalsContainedInConjunction: literalArray)
         return conj
     }
 
@@ -140,12 +140,12 @@ public class FormulaParser {
     
     - Returns: True if the Bracket Check was passed, false otherwise.
     */
-    public static func checkBracketCorrectness(input_str: String) -> Bool {
+    public static func checkBracketCorrectness(inputString: String) -> Bool {
         var counter = 0
         var parsingList: [String] = []
         var stringIndex = 0
 
-        for character in input_str {
+        for character in inputString {
             if character == "(" {
                 counter += 1
                 if stringIndex == 0 {
@@ -160,21 +160,21 @@ public class FormulaParser {
                 // check if enclosed formula in brackets contained ∨, if yet it may be invalid
                 if checkString != nil && (checkString!.contains("∨")) {
                     // check if it is not a surrounding bracket (start at index 0 end at last index), which allows for ∨ being contained
-                    if !(stringIndex == (input_str.count - 1)) || !(checkString!.contains("0")) {
+                    if !(stringIndex == (inputString.count - 1)) || !(checkString!.contains("0")) {
                         print("DEBUG: bracketing not valid because it contained ∨")
                         return false
                     }
                 }
             } else if character == "∨" {
                 if parsingList.count > 0 {
-                    for i in 0...(parsingList.count - 1) {
-                        parsingList[i] += "∨"
+                    for iter in 0...(parsingList.count - 1) {
+                        parsingList[iter] += "∨"
                     }
                 }
             } else if character == "∧" {
                 if parsingList.count > 0 {
-                    for i in 0...(parsingList.count - 1) {
-                        parsingList[i] += "∧"
+                    for iter in 0...(parsingList.count - 1) {
+                        parsingList[iter] += "∧"
                     }
                 }
             }

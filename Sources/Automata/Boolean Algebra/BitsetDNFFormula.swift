@@ -13,7 +13,7 @@ public class BitsetDNFFormula: CustomStringConvertible {
     // Empty bitset corresponds to false
 
     private var conjunctions: [Bitset]?
-    private let ap_to_index_map: [String: Int]
+    private let apToIndexMap: [String: Int]
 
     public var description: String {
         if conjunctions == nil {
@@ -35,7 +35,7 @@ public class BitsetDNFFormula: CustomStringConvertible {
 
     init(ap_index_map: [String: Int]) {
         self.conjunctions = nil
-        self.ap_to_index_map = ap_index_map
+        self.apToIndexMap = ap_index_map
     }
 
     public func initialize() {
@@ -52,18 +52,18 @@ public class BitsetDNFFormula: CustomStringConvertible {
     }
 
     public func get_mapping() -> [String: Int] {
-        return self.ap_to_index_map
+        return self.apToIndexMap
     }
 
     /*
      Check if the given assumption_bs satisfies this DNF Formula
      */
-    public func holdsUnderAssumption(assumption_bs: Bitset) -> Bool {
+    public func holdsUnderAssumption(assumptionBS: Bitset) -> Bool {
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
         for conj in self.conjunctions! {
-            if conj.holdsUnderAssumption(assumption_bs: assumption_bs) {
+            if conj.holdsUnderAssumption(assumptionBS: assumptionBS) {
                 return true
             }
         }
@@ -74,27 +74,27 @@ public class BitsetDNFFormula: CustomStringConvertible {
     /**
      Inefficient because it has to turn dictionary around itself
      */
-    public func _debug_get_formula_string() -> String {
+    public func debug_get_formula_string() -> String {
         // build array that contains all APs in the order of their indices in the bitmap
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
 
-        var bitset_ap_mapping = [String](repeating: "", count: ap_to_index_map.count)
+        var bitsetAPMapping = [String](repeating: "", count: apToIndexMap.count)
 
-        for (ap_str, ap_bitmap_index) in ap_to_index_map {
-            bitset_ap_mapping[ap_bitmap_index] = ap_str
+        for (apString, apBitmapIndex) in apToIndexMap {
+            bitsetAPMapping[apBitmapIndex] = apString
         }
 
-        var conjunctions_index = 0
-        var conjunction_string_array: [String] = []
-        while conjunctions_index < self.conjunctions!.count {
-            conjunction_string_array.append(self.conjunctions![conjunctions_index].get_conjunction_string(bitset_ap_mapping: bitset_ap_mapping))
+        var conjunctionsIndex = 0
+        var conjunctionStringArray: [String] = []
+        while conjunctionsIndex < self.conjunctions!.count {
+            conjunctionStringArray.append(self.conjunctions![conjunctionsIndex].get_conjunction_string(bitsetAPMapping: bitsetAPMapping))
 
-            conjunctions_index += 1
+            conjunctionsIndex += 1
         }
 
-        let returnString = conjunction_string_array.joined(separator: " ∨ ")
+        let returnString = conjunctionStringArray.joined(separator: " ∨ ")
 
         return returnString
     }
@@ -102,20 +102,20 @@ public class BitsetDNFFormula: CustomStringConvertible {
     /**
      Efficient because dict given
      */
-    public func get_formula_string(bitset_ap_mapping: [String]) -> String {
+    public func get_formula_string(bitsetAPMapping: [String]) -> String {
         if conjunctions == nil {
             assert(false, "bitset structure is not yet initialized")
         }
 
-        var conjunctions_index = 0
-        var conjunction_string_array: [String] = []
-        while conjunctions_index < self.conjunctions!.count {
-            conjunction_string_array.append(self.conjunctions![conjunctions_index].get_conjunction_string(bitset_ap_mapping: bitset_ap_mapping))
+        var conjunctionsIndex = 0
+        var conjunctionStringArray: [String] = []
+        while conjunctionsIndex < self.conjunctions!.count {
+            conjunctionStringArray.append(self.conjunctions![conjunctionsIndex].get_conjunction_string(bitsetAPMapping: bitsetAPMapping))
 
-            conjunctions_index += 1
+            conjunctionsIndex += 1
         }
 
-        let returnString = conjunction_string_array.joined(separator: " ∨ ")
+        let returnString = conjunctionStringArray.joined(separator: " ∨ ")
 
         return returnString
     }
@@ -125,45 +125,45 @@ public class BitsetDNFFormula: CustomStringConvertible {
      TODO: test this function
      */
     public static func bitAND(bf1: BitsetDNFFormula, bf2: BitsetDNFFormula) -> BitsetDNFFormula {
-        var return_bitset_formula = BitsetDNFFormula(ap_index_map: bf1.ap_to_index_map)
-        return_bitset_formula.initialize()
+        var returnBitsetFormula = BitsetDNFFormula(ap_index_map: bf1.apToIndexMap)
+        returnBitsetFormula.initialize()
 
         for bs1 in bf1.conjunctions! {
             for bs2 in bf2.conjunctions! {
-                let bs_new = bs1 && bs2
-                if !bs_new.isEmpty {
-                    return_bitset_formula.add_formula(bitset: bs_new)
+                let bsNew = bs1 && bs2
+                if !bsNew.isEmpty {
+                    returnBitsetFormula.add_formula(bitset: bsNew)
                 }
             }
         }
 
-        return return_bitset_formula
+        return returnBitsetFormula
     }
 
     /**
      Removes bitsets that are 'contained' in other bitsets that are also in this BitsetFormula. Idea is to make the formula easier to read
      */
     public func simplify_using_contains_check() {
-        var bitset_index = 0
+        var bitsetIndex = 0
         assert(self.conjunctions != nil, "bitset structure is not yet initialized")
 
-        while bitset_index < self.conjunctions!.count {
+        while bitsetIndex < self.conjunctions!.count {
             var j = 0
             while j < self.conjunctions!.count {
-                if j == bitset_index {
+                if j == bitsetIndex {
                     // skip comparison with same bitset
                     j += 1
                     continue
                 }
                 // formula at j is "stronger" than at `bitset_index` -> remove bitset index
-                if self.conjunctions![j].holdsUnderAssumption(assumption_bs: self.conjunctions![bitset_index]) {
-                    self.conjunctions!.remove(at: bitset_index)
-                    bitset_index -= 1
+                if self.conjunctions![j].holdsUnderAssumption(assumptionBS: self.conjunctions![bitsetIndex]) {
+                    self.conjunctions!.remove(at: bitsetIndex)
+                    bitsetIndex -= 1
                     break
                 }
                 j += 1
             }
-            bitset_index += 1
+            bitsetIndex += 1
         }
     }
 }

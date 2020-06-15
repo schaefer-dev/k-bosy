@@ -33,8 +33,8 @@ class AutomataTest: XCTestCase {
             currentState.update_value(ap: ap_b, value: false)
             currentState.update_value(ap: ap_h, value: false)
 
-            XCTAssertEqual(automata.initial_states.count, 1)
-            var initial_state = automata.initial_states[0]
+            XCTAssertEqual(automata.initialStates.count, 1)
+            var initial_state = automata.initialStates[0]
 
             XCTAssertEqual(initial_state.propositions.count, 1)
 
@@ -84,7 +84,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         var automata = dotGraphOpt!
 
-        var test_value = AssumptionsGenerator._generateInitialStateAssumptions(auto: automata)
+        var test_value = AssumptionsGenerator.generateInitialStateAssumptions(auto: automata)
 
         XCTAssertEqual(test_value.description, "s0")
 
@@ -99,7 +99,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         automata = dotGraphOpt!
 
-        test_value = AssumptionsGenerator._generateInitialStateAssumptions(auto: automata)
+        test_value = AssumptionsGenerator.generateInitialStateAssumptions(auto: automata)
 
         XCTAssertEqual(test_value.description, "((s0) ∨ (s1)) ∨ (s2)")
 
@@ -118,7 +118,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
 
-        let test_value = AssumptionsGenerator._generatePossibleStateAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generatePossibleStateAssumptions(auto: automata)
         XCTAssertEqual(test_value.count, 3)
 
         XCTAssertEqual(test_value[0].description, "G ((s0) -> (¬ (s1)))")
@@ -139,7 +139,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
 
-        let test_value = AssumptionsGenerator._generatePossibleStateAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generatePossibleStateAssumptions(auto: automata)
         XCTAssertEqual(test_value.count, 4)
 
         XCTAssertEqual(test_value[0].description, "G ((s0) -> ((¬ (s1)) ∧ (¬ (s2))))")
@@ -159,7 +159,7 @@ class AutomataTest: XCTestCase {
         let automata = dotGraphOpt!
         automata.finalize()
 
-        let test_value = AssumptionsGenerator._generateStateAPsAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generateStateAPsAssumptions(auto: automata)
         XCTAssertEqual(test_value.count, 4)
         XCTAssertEqual(test_value[0].description, "G ((s0) -> (((i1) ∧ (i2)) ∧ (¬ (grant))))")
         XCTAssertEqual(test_value[1].description, "G ((s1) -> (((grant) ∧ (i2)) ∧ (¬ (i1))))")
@@ -179,7 +179,7 @@ class AutomataTest: XCTestCase {
         let automata = dotGraphOpt!
         automata.finalize()
 
-        let test_value = AssumptionsGenerator._generateTransitionAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.generateTransitionAssumptions(auto: automata)
 
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 4)

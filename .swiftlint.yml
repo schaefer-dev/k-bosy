@@ -1,3 +1,6 @@
 included:
- - Sources
+ - Sources/Automata
+ - Sources/KBoSy
+ - Sources/Specification
+ - Sources/Utils
  - Tests

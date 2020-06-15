@@ -49,7 +49,7 @@ public class Bitset: CustomStringConvertible {
     /**
      Constructs a human-readable form of this formula using the names given in the array bitset_ap_mapping
      */
-    public func get_conjunction_string(bitset_ap_mapping: [String]) -> String {
+    public func get_conjunction_string(bitsetAPMapping: [String]) -> String {
         if self.data == [] {
             return "(false)"
         }
@@ -58,20 +58,20 @@ public class Bitset: CustomStringConvertible {
         }
         var returnStringArray: [String] = []
 
-        var bitset_index = 0
+        var bitsetIndex = 0
 
-        while bitset_index < self.data.count {
-            switch self.data[bitset_index] {
+        while bitsetIndex < self.data.count {
+            switch self.data[bitsetIndex] {
             case .top:
-                returnStringArray.append(bitset_ap_mapping[bitset_index])
+                returnStringArray.append(bitsetAPMapping[bitsetIndex])
 
             case .bottom:
-                returnStringArray.append("¬" + bitset_ap_mapping[bitset_index])
+                returnStringArray.append("¬" + bitsetAPMapping[bitsetIndex])
 
             case .wildcard:
                 ()
             }
-            bitset_index += 1
+            bitsetIndex += 1
         }
 
         let returnString = "(" + returnStringArray.joined(separator: " ∧ ") + ")"
@@ -85,35 +85,35 @@ public class Bitset: CustomStringConvertible {
      Returns true if successful, false if already 'maximum' reached
      */
     public func increment() -> Bool {
-        var negative_index = 0
+        var negativeIndex = 0
 
-        var found_first_bottom = false
+        var foundFirstBottom = false
 
         // find the first .bottom to flip to a top
-        while !found_first_bottom && negative_index < self.data.count {
-            let current_iter_tvalue = self.data[self.data.count - 1 - negative_index]
-            switch current_iter_tvalue {
+        while !foundFirstBottom && negativeIndex < self.data.count {
+            let currentIterTValue = self.data[self.data.count - 1 - negativeIndex]
+            switch currentIterTValue {
             case .bottom:
-                self.data[self.data.count - 1 - negative_index] = .top
-                found_first_bottom = true
+                self.data[self.data.count - 1 - negativeIndex] = .top
+                foundFirstBottom = true
             case .top:
                 // look further forwards to increment
-                negative_index += 1
+                negativeIndex += 1
             case .wildcard:
                 assert(false, "wildcard found in bitset that is being incremented, this is not allowed!")
             }
         }
 
         // no TValue could be flipped -> has to be maximum Bitset value already
-        if !found_first_bottom {
+        if !foundFirstBottom {
             return false
         }
 
         // every value at a index greater than the one we flipped from .bottom to .top has to be overwritten to .bottom
         var iter = 0
-        let starting_index = self.data.count - negative_index
-        while starting_index + iter < self.data.count {
-            self.data[starting_index + iter] = .bottom
+        let startingIndex = self.data.count - negativeIndex
+        while startingIndex + iter < self.data.count {
+            self.data[startingIndex + iter] = .bottom
             iter += 1
         }
 
@@ -165,13 +165,13 @@ public class Bitset: CustomStringConvertible {
     /*
      Returns true if the passed bitset is stritly more limiting than self. This means that self covers all the truth values that would satisfy the passed bitset (and possibly more)
      */
-    public func holdsUnderAssumption(assumption_bs: Bitset) -> Bool {
-        assert(self.count == assumption_bs.count)
+    public func holdsUnderAssumption(assumptionBS: Bitset) -> Bool {
+        assert(self.count == assumptionBS.count)
         var i = 0
         while i < self.count {
             switch self.data[i] {
             case .top:
-                switch assumption_bs.data[i] {
+                switch assumptionBS.data[i] {
                 case .top:
                     // bs covers same truth values
                      ()
@@ -184,7 +184,7 @@ public class Bitset: CustomStringConvertible {
                 }
 
             case .bottom:
-                switch assumption_bs.data[i] {
+                switch assumptionBS.data[i] {
                 case .bottom:
                     // bs covers same truth values
                     ()

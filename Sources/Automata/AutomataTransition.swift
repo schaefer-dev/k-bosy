@@ -17,20 +17,21 @@ public class AutomataTransition: CustomStringConvertible {
         self.end = end
         print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with condition " + self.condition.description)
 
-        self._simplify()
+        self.simplify()
     }
 
     /**
-    simplify this transition, which means that all occurances of non-output APs are replaced with their respective values according to the starting state of this transition. Only the value of output-APs is not known at this time which is why we keep those variable.
+    simplify this transition, which means that all occurances of non-output APs are replaced with their respective values
+     according to the starting state of this transition. Only the value of output-APs is not known at this time which is why we keep those variable.
     */
-    public func _simplify() {
-        self.condition.simplifyWithConstants(true_aps: self.start.propositions)
+    public func simplify() {
+        self.condition.simplifyWithConstants(trueAPs: self.start.propositions)
 
         self.condition.simplifyTautologies()
 
     }
 
-    public func _buildBitsetRepresentation() {
+    public func buildBitsetRepresentation() {
         self.condition.buildBitsetRepresentation()
     }
 }

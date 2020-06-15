@@ -106,9 +106,9 @@ public class AutomataState: Hashable, CustomStringConvertible {
         return self.tagAnnotation.contains(annotationName)
     }
 
-    public func addAnnotation(annotation_name: String) {
+    public func addAnnotation(annotationName: String) {
         // if tag already contained it is skipped because tag_annotation is a set
-        self.tagAnnotation.insert(annotation_name)
+        self.tagAnnotation.insert(annotationName)
     }
 
     public func getAnnotation() -> [String] {
@@ -124,8 +124,8 @@ public class AutomataState: Hashable, CustomStringConvertible {
      */
     public func finalize() {
         for trans in self.transitions {
-            trans._simplify()
-            trans._buildBitsetRepresentation()
+            trans.simplify()
+            trans.buildBitsetRepresentation()
         }
     }
 
