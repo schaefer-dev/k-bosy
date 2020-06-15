@@ -50,8 +50,11 @@ do {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
         }
-        let automataInfo = automataInfoOpt!
+        var automataInfo = automataInfoOpt!
         print("LOADING: Automata Info read successfully")
+        
+        // apply transformation rules in case they exist
+        let rules_already_applied = automataInfo.applyTransformationRules()
 
         if let dotGraphFilename = parguments.get(dotFile) {
             let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
