@@ -36,5 +36,53 @@ class KnowledgeTransformationTest: XCTestCase {
         XCTAssertEqual(spec.guarantees[1].description, "G ((go) -> ((indicatingRight) ∨ (pastCrossing)))")
 
     }
+    
+    
+    
+    func testGraphGivenRulesTransformation01() {
+        
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1+rule.json")
+        XCTAssertTrue(automataInfoOpt != nil, "something went wrong while reading automataInfoFile")
+        var automataInfo = automataInfoOpt!
+        
+        let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
+
+        let automataOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+        XCTAssertTrue(automataOpt != nil, "something went wrong while reading automata file")
+        let automata = automataOpt!
+        
+        var tags: [String] = []
+        if tagMappingOpt != nil {
+            // case for mapping from tags to candidate sates exists
+            var candidateStateNames: [[String]] = []
+            (tags, candidateStateNames) = tagMappingOpt!
+            automata.addTagsToCandidateStates(tags: tags, candidateStateNames: candidateStateNames)
+        } else {
+            // TODO: annotate algorithmically with model checking if tags were not given by user
+        }
+
+        let kbsc = KBSConstructor(input_automata: automata)
+
+        let obsAutomata = kbsc.run()
+        obsAutomata.finalize()
+
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
+        
+        XCTAssertTrue(spec.inputs.contains("k0"))
+        XCTAssertTrue(spec.inputs.contains("k1"))
+        
+        // test if candidates states tags are forwarded correctly
+        XCTAssertEqual(spec.assumptions[8].description, "G ((s0) -> (((((⊤) ∧ (¬ (k0))) ∧ (¬ (k1))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[9].description, "G ((s1) -> ((((k0) ∧ (¬ (k1))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[10].description, "G ((s1s2) -> (((((⊤) ∧ (¬ (k0))) ∧ (¬ (k1))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[11].description, "G ((s2) -> ((((k1) ∧ (¬ (k0))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[12].description, "G ((s3) -> ((((y1) ∧ (k0)) ∧ (¬ (k1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[13].description, "G ((s4) -> ((((y2) ∧ (k1)) ∧ (¬ (k0))) ∧ (¬ (y1))))")
+        
+        //test if guarantees have been adjusted correctly
+        
+        XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
+        XCTAssertEqual(spec.guarantees[1].description, "F ((k0) ∨ (k1))")
+    }
 
 }

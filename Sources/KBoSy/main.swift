@@ -50,8 +50,12 @@ do {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
         }
-        let automataInfo = automataInfoOpt!
+        var automataInfo = automataInfoOpt!
         print("LOADING: Automata Info read successfully")
+        
+        // apply transformation rules in case they are given in automataInfo
+        let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
+        
 
         if let dotGraphFilename = parguments.get(dotFile) {
             let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
@@ -61,9 +65,15 @@ do {
             }
             let automata = automataOpt!
 
-            // TODO: annotate with model checking candidate states and add tags to this array
-            let tags: [String] = []
-            // TODO: during KBSC eliminate candidate markers for all states in which one state contained in the set was not a candidate state.
+            var tags: [String] = []
+            if tagMappingOpt != nil {
+                // case for mapping from tags to candidate sates exists
+                var candidateStateNames: [[String]] = []
+                (tags, candidateStateNames) = tagMappingOpt!
+                automata.addTagsToCandidateStates(tags: tags, candidateStateNames: candidateStateNames)
+            } else {
+                // TODO: annotate algorithmically with model checking if tags were not given by user
+            }
 
             let kbsc = KBSConstructor(input_automata: automata)
 

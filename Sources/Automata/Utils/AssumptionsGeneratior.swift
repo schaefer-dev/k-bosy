@@ -40,7 +40,7 @@ public class AssumptionsGenerator {
      
      Returns all inputAPs of the Synthesis Task
      */
-    public static func getAutomataInputAPs(auto: Automata) -> [String] {
+    public static func getAutomataInputAPs(auto: Automata, tags: [String]) -> [String] {
         var returnArray: [String] = []
 
         // add all states as input APs
@@ -55,6 +55,11 @@ public class AssumptionsGenerator {
             if ap.obs && !ap.output {
                 returnArray.append(ap.name)
             }
+        }
+        
+        // add tags as additional input APs
+        for tag in tags {
+            returnArray.append(tag)
         }
 
         return returnArray.sorted()
