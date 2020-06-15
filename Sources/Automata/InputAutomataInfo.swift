@@ -13,7 +13,7 @@ public struct InputAutomataInfo: Codable {
         self.outputs = outputs
         self.guarantees = guarantees
     }
-    
+
     public static func fromJson(string: String) -> InputAutomataInfo? {
 
         let decoder = JSONDecoder()
@@ -26,7 +26,6 @@ public struct InputAutomataInfo: Codable {
             return nil
         }
     }
-    
 
     public static func from(fileName: String) throws -> InputAutomataInfo {
         // get file contents
@@ -34,13 +33,11 @@ public struct InputAutomataInfo: Codable {
         return try from(data: data)
     }
 
-    
     public static func from(data: Data) throws -> InputAutomataInfo {
         // parse contents of `data`
         return try JSONDecoder().decode(InputAutomataInfo.self, from: data)
     }
-    
-    
+
     public func jsonString() -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -54,7 +51,7 @@ public struct InputAutomataInfo: Codable {
         } catch {
             print(error.localizedDescription)
         }
-        
+
         return ""
     }
 

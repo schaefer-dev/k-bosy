@@ -4,7 +4,6 @@
 
 import Foundation
 
-
 public struct LTLFunction: Codable {
     let symbol: String
     let arity: Int
@@ -25,10 +24,9 @@ public struct LTLFunction: Codable {
     public static let release = LTLFunction(symbol: "R", arity: 2)
     public static let finally = LTLFunction(symbol: "F", arity: 1)
     public static let globally = LTLFunction(symbol: "G", arity: 1)
-    
+
     // knowledge
     public static let know = LTLFunction(symbol: "K", arity: 1)
-    
 
     var negated: LTLFunction {
         switch self {
@@ -100,9 +98,9 @@ public enum LTL {
      */
     var isWellFormed: Bool {
         switch self {
-        case .atomicProposition(_):
+        case .atomicProposition:
             return true
-        case .pathProposition(_, _):
+        case .pathProposition:
             return true
         case .application(let function, parameters: let parameters):
             guard parameters.reduce(true, { val, parameter in val && parameter.isWellFormed }) else {
@@ -116,7 +114,7 @@ public enum LTL {
 }
 
 extension LTL {
-    
+
     public static func parse(fromString string: String) throws -> LTL {
         let scanner = ScalarScanner(scalars: string.unicodeScalars)
         let lexer = LTLLexer(scanner: scanner)
@@ -126,9 +124,9 @@ extension LTL {
 
     private func toNegationNormalForm(negated: Bool) -> LTL {
         switch self {
-        case .atomicProposition(_):
+        case .atomicProposition:
             return negated ? !self : self
-        case .pathProposition(_, _):
+        case .pathProposition:
             return negated ? !self : self
         case .application(let function, parameters: let parameters):
             if function == .negation {
@@ -151,7 +149,7 @@ extension LTL {
     * Replace occurance(s) of given knowledge term with another given LTL formula. Returns the updated LTL formula in which all replacements have been transformed.
     */
     public func replaceKnowledgeWithLTL(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
-        
+
         switch self {
         case .atomicProposition(let ap):
             return .atomicProposition(ap)
@@ -160,7 +158,7 @@ extension LTL {
         case .application(let function, var parameters):
             /* Test if it is case of knowledge operator application using knowledge_ltl argument */
             if function == LTLFunction.know {
-                if (self == knowledge_ltl) {
+                if self == knowledge_ltl {
                     print("DEBUG: found matching knowledge term " + self.description + " ... is being replaced.")
                     return replaced_ltl
                 } else {
@@ -195,9 +193,9 @@ extension LTL {
      */
     public var isNNF: Bool {
         switch self {
-        case .atomicProposition(_):
+        case .atomicProposition:
             return true
-        case .pathProposition(_, _):
+        case .pathProposition:
             return true
         case .pathQuantifier(_, parameters: _, body: let body):
             return body.isNNF
@@ -206,9 +204,9 @@ extension LTL {
                 fatalError()
             }
             switch parameter {
-            case .atomicProposition(_):
+            case .atomicProposition:
                 return true
-            case .pathProposition(_, _):
+            case .pathProposition:
                 return true
             default:
                 return false
@@ -224,9 +222,9 @@ extension LTL {
      */
     public var normalized: LTL {
         switch self {
-        case .atomicProposition(_):
+        case .atomicProposition:
             return self
-        case .pathProposition(_, _):
+        case .pathProposition:
             return self
         case .pathQuantifier(let quantifier, parameters: let parameters, body: let body):
             return .pathQuantifier(quantifier, parameters: parameters, body: body.normalized)

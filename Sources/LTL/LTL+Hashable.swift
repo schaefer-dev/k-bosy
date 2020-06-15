@@ -3,11 +3,11 @@
 //  Sourced by Daniel Schäfer on 28.02.20.
 
 extension LTLFunction: Hashable {
-    public func hash(into hasher: inout Hasher){
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(symbol)
         hasher.combine(arity)
     }
-    
+
     public static func ==(lhs: LTLFunction, rhs: LTLFunction) -> Bool {
         return lhs.symbol == rhs.symbol && lhs.arity == rhs.arity
     }
@@ -23,8 +23,8 @@ extension LTLPathVariable: Hashable {
     public static func ==(lhs: LTLPathVariable, rhs: LTLPathVariable) -> Bool {
         return lhs.name == rhs.name
     }
-    
-    public func hash(into hasher: inout Hasher){
+
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(name)
     }
 }
@@ -45,4 +45,3 @@ extension LTL: Equatable {
         }
     }
 }
-

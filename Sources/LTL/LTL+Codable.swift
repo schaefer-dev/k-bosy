@@ -13,6 +13,4 @@ extension LTL: Codable {
         try self.description.encode(to: encoder)
     }
 
-
 }
-

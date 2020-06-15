@@ -9,7 +9,7 @@ extension LTL {
      */
     public var spot: String? {
 
-        var ltl3baOperatorMapping: [LTLFunction:String] = [:]
+        var ltl3baOperatorMapping: [LTLFunction: String] = [:]
         ltl3baOperatorMapping[.tt] = "true"
         ltl3baOperatorMapping[.ff] = "false"
         ltl3baOperatorMapping[.negation] = "!"
@@ -30,7 +30,7 @@ extension LTL {
         case .pathProposition(let proposition, let path):
             return "\"\(proposition.name)[\(path.name)]\""
         case .application(let function, parameters: let parameters):
-            switch (function.arity) {
+            switch function.arity {
             case 0:
                 // true and false
                 guard let translated = ltl3baOperatorMapping[function] else {
@@ -69,4 +69,3 @@ extension LTL {
     }
 
 }
-

@@ -2,7 +2,6 @@
 //
 //  Sourced by Daniel Schäfer on 28.02.20.
 
-
 // We define operators to make working with LTL easier
 
 // FIXME: check which precedence is correct
@@ -46,5 +45,5 @@ extension LTL {
     public static func release(_ lhs: LTL, _ rhs: LTL) -> LTL {
         return .application(.release, parameters: [lhs, rhs])
     }
-    
+
 }

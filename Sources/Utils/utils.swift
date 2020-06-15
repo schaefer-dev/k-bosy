@@ -18,11 +18,10 @@ public func shell(launchPath: String, arguments: [String]) -> String {
     process.standardOutput = pipe
     process.launch()
 
-    let output_from_command = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8)!
+    let outputFromCommand = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8)!
 
-    return output_from_command
+    return outputFromCommand
 }
-
 
 public func listAllFiles(dir: URL) {
     /* try to list all files in directory */
@@ -35,7 +34,7 @@ public func listAllFiles(dir: URL) {
     } catch {
         print("Error while enumerating files \(dir.path): \(error.localizedDescription)")
     }
-    
+
 }
 
 public func getDesktopDirectory() -> URL {
