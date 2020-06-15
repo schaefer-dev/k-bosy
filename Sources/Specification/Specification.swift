@@ -36,13 +36,13 @@ public struct SynthesisSpecification: Codable {
     public var guarantees: [LTL]
     public let transformationRules: [LTL]?
 
-    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [LTL], guarantees: [LTL], transformation_rules: [LTL]) {
+    public init(semantics: TransitionSystemType, inputs: [String], outputs: [String], assumptions: [LTL], guarantees: [LTL], transformationRules: [LTL]) {
         self.semantics = semantics
         self.inputs = inputs
         self.outputs = outputs
         self.assumptions = assumptions
         self.guarantees = guarantees
-        self.transformationRules = transformation_rules
+        self.transformationRules = transformationRules
     }
 
     public init(automata: Automata, tags: [String]) {
