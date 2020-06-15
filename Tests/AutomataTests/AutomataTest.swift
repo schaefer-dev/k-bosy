@@ -200,7 +200,7 @@ class AutomataTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
 
-        let test_value = AssumptionsGenerator.getAutomataInputAPs(auto: automata)
+        let test_value = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: [])
 
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 7)

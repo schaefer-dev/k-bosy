@@ -6,14 +6,70 @@ public struct InputAutomataInfo: Codable {
     public let hiddenAP: [String]
     public let outputs: [String]
     public var guarantees: [LTL]
-    public let transformationRules: [LTL]?
+    private let knowledgeTerms: [LTL]?
+    private let candidateStates: [[String]]?
+    private var tags: [String]?
 
-    public init(observableAP: [String], hiddenAP: [String], outputs: [String], guarantees: [LTL], transformationRules: [LTL]) {
+    public init(observableAP: [String], hiddenAP: [String], outputs: [String], guarantees: [LTL], knowledgeTerms: [LTL], candidateStates: [[String]]) {
         self.observableAP = observableAP
         self.hiddenAP = hiddenAP
         self.outputs = outputs
         self.guarantees = guarantees
-        self.transformationRules = transformationRules
+        self.knowledgeTerms = knowledgeTerms
+        self.candidateStates = candidateStates
+        self.tags = nil
+    }
+    
+    private mutating func generateAndApplyTags() -> Bool {
+        // handle invalid cases
+        if self.knowledgeTerms == nil || self.knowledgeTerms!.count == 0 {
+            return false
+        }
+        if self.knowledgeTerms!.count != self.candidateStates!.count {
+            print("ERROR: not the same number of knowledge terms and candidateStateSets given!")
+            return false
+        }
+        
+        // handle regular cases
+        for knowledgeTerm in self.knowledgeTerms! {
+            // Replace all occurances in guarantees
+            let newTag = self.getNewTag()
+            do {
+                let tagLTL = try LTL.parse(fromString: newTag)
+                for i in 0 ..< self.guarantees.count {
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, replaced_ltl: tagLTL)
+                }
+            } catch {
+                print("ERROR: could not generate LTL for Tag")
+                exit(EXIT_FAILURE)
+            }
+        }
+        
+        return true
+    }
+    
+    
+    public mutating func getTagToCandidateStatesMapping() -> ([String], [[String]])? {
+        let successful = self.generateAndApplyTags()
+        if !successful {
+            return nil
+        }
+        return (self.tags!, self.candidateStates!)
+    }
+    
+    
+    private mutating func getNewTag() -> String {
+        if self.tags == nil {
+            let i = 0
+            let tagName = "k" + String(i)
+            self.tags = [tagName]
+            return tagName
+        } else {
+            let i = self.tags!.count
+            let tagName = "k" + String(i)
+            self.tags!.append(tagName)
+            return tagName
+        }
     }
 
     public static func fromJson(string: String) -> InputAutomataInfo? {
@@ -26,46 +82,6 @@ public struct InputAutomataInfo: Codable {
             return try decoder.decode(InputAutomataInfo.self, from: data)
         } catch {
             return nil
-        }
-    }
-    
-    
-    public mutating func applyTransformationRules() -> Bool {
-        if let rules = self.transformationRules {
-            let rulesMaxIndex = rules.count
-            if rulesMaxIndex == 0 {
-                print("Warning: no transformation Rules given.")
-                return true
-            }
-
-            if (rulesMaxIndex % 2) != 0 {
-                print("ERROR: transformation rules have to be given in Pairs")
-                return false
-            }
-
-            var kIndex = 0
-            var rIndex = 1
-
-            while rIndex < rulesMaxIndex {
-
-                let kLTL = rules[kIndex]
-                let rLTL = rules[rIndex]
-
-                // Replace all occurances in guarantees
-                for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, replaced_ltl: rLTL)
-                }
-
-                // TODO: maybe add warning if replacement has not worked
-
-                kIndex += 1
-                rIndex += 1
-            }
-
-            return true
-        } else {
-            print("Warning: no transformation rules given, skipping 'translation-phase'.")
-            return false
         }
     }
 

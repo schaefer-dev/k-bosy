@@ -167,6 +167,35 @@ public class Automata {
             state.reduceToObservablePart()
         }
     }
+    
+    
+    public func addTagsToCandidateStates(tags: [String], candidateStateNames: [[String]]){
+        // Translate String stateNames into AutomataState Array to work with it easier
+        assert(tags.count == candidateStateNames.count)
+        var candidateStates: [[AutomataState]] = []
+        for candidateStateNameSet in candidateStateNames {
+            var candidateStateSet: [AutomataState] = []
+            for candidateStateName in candidateStateNameSet {
+                let candidateState = self.get_state(name: candidateStateName)
+                if candidateState == nil {
+                    print("State " + candidateStateName + " was given as candidate state but does not exist in automata")
+                    exit(EXIT_FAILURE)
+                }
+                candidateStateSet.append(candidateState!)
+            }
+            candidateStates.append(candidateStateSet)
+        }
+        
+        // annotate all candidate tags with their respective tag
+        var tagIndex = 0
+        while tagIndex < tags.count {
+            let currentTag = tags[tagIndex]
+            for candidateState in candidateStates[tagIndex] {
+                candidateState.addAnnotation(annotationName: currentTag)
+            }
+            tagIndex += 1
+        }
+    }
 }
 
 func wildcard(_ string: String, pattern: String) -> Bool {
