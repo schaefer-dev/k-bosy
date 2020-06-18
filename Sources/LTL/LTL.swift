@@ -144,7 +144,39 @@ extension LTL {
             )
         }
     }
-
+    
+    
+    /**
+     returns all Formulas that contain Knowledge terms.
+     NOTE: this may include duplicates
+     */
+    public func getAllKnowledgeTerms() -> [LTL] {
+        
+        var knowledgeTermList: [LTL] = []
+        
+        switch self {
+        case .atomicProposition(_):
+            return knowledgeTermList
+        case .pathProposition(_, _):
+            return knowledgeTermList
+        case .application(let function, let parameters):
+            /* Test if it is case of knowledge operator application using knowledge_ltl argument */
+            if function == LTLFunction.know {
+                knowledgeTermList.append(self)
+            } else {
+                /* if not application of knowledge operator call down recursively */
+                for i in 0 ..< parameters.count {
+                    knowledgeTermList += parameters[i].getAllKnowledgeTerms()
+                }
+            }
+            return knowledgeTermList
+        case .pathQuantifier(_, parameters: _, let body):
+            return body.getAllKnowledgeTerms()
+        }
+        
+    }
+    
+    
     /**
     * Replace occurance(s) of given knowledge term with another given LTL formula. Returns the updated LTL formula in which all replacements have been transformed.
     */

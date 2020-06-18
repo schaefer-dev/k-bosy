@@ -22,7 +22,10 @@ public class ModelCheckCaller {
         
         
         // look for knowledge terms and replace those with tags and remember the mapping from tags to LTL content of said knowledge term
-        
+        var knowledgeTerms: Set<LTL> = Set<LTL>()
+        for guarantee in automata.guarantees {
+            guarantee.description
+        }
         
         // for every Knowledge term model check the LTL content against every node in the automata
             // if implies is true then add the tag to the AutomataState structure

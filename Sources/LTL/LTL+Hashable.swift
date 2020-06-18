@@ -45,3 +45,28 @@ extension LTL: Equatable {
         }
     }
 }
+
+extension LTL: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        switch self {
+        case .atomicProposition(let ltlAP):
+            hasher.combine(ltlAP)
+        case .pathProposition(let a, let b):
+            hasher.combine(a)
+            hasher.combine(b)
+        case .application(let function, let parameters):
+            hasher.combine(function)
+            hasher.combine(parameters)
+        case .pathQuantifier(let a, let parameters, let body):
+            hasher.combine(a)
+            hasher.combine(parameters)
+            hasher.combine(body)
+        }
+    }
+}
+
+extension LTLAtomicProposition: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+    }
+}

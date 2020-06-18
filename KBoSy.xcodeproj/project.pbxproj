@@ -47,6 +47,8 @@
 
 /* Begin PBXBuildFile section */
 		65DC97D7249BA3D500EE27C6 /* ModelCheckCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */; };
+		65DC97D9249BB27300EE27C6 /* AssumptionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97D8249BB27300EE27C6 /* AssumptionsTest.swift */; };
+		65DC97DB249BB2A800EE27C6 /* ModelCheckingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97DA249BB2A800EE27C6 /* ModelCheckingTest.swift */; };
 		OBJ_165 /* Automata.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Automata.swift */; };
 		OBJ_166 /* AutomataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AutomataState.swift */; };
 		OBJ_167 /* AutomataTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AutomataTransition.swift */; };
@@ -475,6 +477,8 @@
 /* Begin PBXFileReference section */
 		65C93C9D2496E94E0086B89F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCheckCaller.swift; sourceTree = "<group>"; };
+		65DC97D8249BB27300EE27C6 /* AssumptionsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssumptionsTest.swift; sourceTree = "<group>"; };
+		65DC97DA249BB2A800EE27C6 /* ModelCheckingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCheckingTest.swift; sourceTree = "<group>"; };
 		"KBoSy::Automata::Product" /* Automata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Automata.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"KBoSy::AutomataTests::Product" /* AutomataTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutomataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"KBoSy::IOTests::Product" /* IOTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = IOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -974,6 +978,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_49 /* AutomataTest.swift */,
+				65DC97D8249BB27300EE27C6 /* AssumptionsTest.swift */,
+				65DC97DA249BB2A800EE27C6 /* ModelCheckingTest.swift */,
 				OBJ_50 /* FormulaTest.swift */,
 				OBJ_51 /* KBSCTest.swift */,
 				OBJ_52 /* LiteralTest.swift */,
@@ -1496,8 +1502,10 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_192 /* AutomataTest.swift in Sources */,
+				65DC97D9249BB27300EE27C6 /* AssumptionsTest.swift in Sources */,
 				OBJ_193 /* FormulaTest.swift in Sources */,
 				OBJ_194 /* KBSCTest.swift in Sources */,
+				65DC97DB249BB2A800EE27C6 /* ModelCheckingTest.swift in Sources */,
 				OBJ_195 /* LiteralTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
