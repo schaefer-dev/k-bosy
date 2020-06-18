@@ -52,6 +52,39 @@ public struct LTLFunction: Codable {
             fatalError("negation of \(self) is not defined")
         }
     }
+    
+    public func getEAHyperFormat() -> String {
+        switch self {
+        case .tt:
+            return "true_p"
+        case .ff:
+            return "false_p"
+        case .or:
+            return "|"
+        case .and:
+            return "&"
+        case .next:
+            return "X"
+        case .until:
+            return "R"
+        case .release:
+            return "U"
+        case .finally:
+            return "F"
+        case .globally:
+            return "G"
+        case .know:
+            return "K"
+        case .implies:
+            return "->"
+        case .equivalent:
+            return "<->"
+        case .negation:
+            return "!"
+        default:
+            return "missing case in getEaHyperFormat for LTLFunction"
+        }
+    }
 }
 
 public struct LTLAtomicProposition: Codable {
@@ -114,6 +147,31 @@ public enum LTL {
 }
 
 extension LTL {
+    
+    /**
+     Return LTL formula in EAHyper readable format (including a "_p" to every ap such that it is bound to trace "p")
+     */
+    public func getEAHyperFormat() -> String {
+        switch self {
+        case .atomicProposition(let ap):
+            return (ap.description + "_p")
+        case .pathProposition(let ap, let path):
+            return "(ERROR PATH QUANTIFIER NOT EXPECTED)"
+        case .application(let function, parameters: let parameters):
+            switch function.arity {
+            case 0:
+                return function.getEAHyperFormat()
+            case 1:
+                return function.getEAHyperFormat() + "(" + parameters[0].getEAHyperFormat() + ")"
+            case 2:
+                return "(" + parameters[0].getEAHyperFormat() + ") " + function.getEAHyperFormat() + " (" + parameters[1].getEAHyperFormat() + ")"
+            default:
+                fatalError()
+            }
+        case .pathQuantifier(let quant, parameters: let parameters, body: let body):
+            return "(ERROR PATH QUANTIFIER NOT EXPECTED)"
+        }
+    }
 
     public static func parse(fromString string: String) throws -> LTL {
         let scanner = ScalarScanner(scalars: string.unicodeScalars)
@@ -144,7 +202,39 @@ extension LTL {
             )
         }
     }
-
+    
+    
+    /**
+     returns all Formulas that contain Knowledge terms.
+     NOTE: this may include duplicates
+     */
+    public func getAllKnowledgeTerms() -> [LTL] {
+        
+        var knowledgeTermList: [LTL] = []
+        
+        switch self {
+        case .atomicProposition(_):
+            return knowledgeTermList
+        case .pathProposition(_, _):
+            return knowledgeTermList
+        case .application(let function, let parameters):
+            /* Test if it is case of knowledge operator application using knowledge_ltl argument */
+            if function == LTLFunction.know {
+                knowledgeTermList.append(self)
+            } else {
+                /* if not application of knowledge operator call down recursively */
+                for i in 0 ..< parameters.count {
+                    knowledgeTermList += parameters[i].getAllKnowledgeTerms()
+                }
+            }
+            return knowledgeTermList
+        case .pathQuantifier(_, parameters: _, let body):
+            return body.getAllKnowledgeTerms()
+        }
+        
+    }
+    
+    
     /**
     * Replace occurance(s) of given knowledge term with another given LTL formula. Returns the updated LTL formula in which all replacements have been transformed.
     */

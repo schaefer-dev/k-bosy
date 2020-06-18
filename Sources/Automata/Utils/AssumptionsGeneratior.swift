@@ -52,7 +52,7 @@ public class AssumptionsGenerator {
         // add all observable, non-output APs as input APs
         let allAPs = auto.apList.get_allAPs()
         for ap in allAPs {
-            if ap.obs && !ap.output {
+            if !ap.output {
                 returnArray.append(ap.name)
             }
         }
@@ -109,9 +109,14 @@ public class AssumptionsGenerator {
 
                 // add condition that is being in the correct state and the transition condition holding
                 let relevantTransitionCondition = relevantTransition[transitionIndex].condition
-                // TODO: think about if we should require the following line or not
-                assert(relevantTransitionCondition.dnf == nil, "dnf structure has to be aborted at this point and worked only with bitset. This can be achieved by using automata.finalize() which builds this structure.")
-                ltlString += "((" + relevantTransitionCondition.getStringFromBitsetRepresentation(index_to_ap_map: auto.apList.get_bitset_index_to_ap_string_map()) + ")"
+                
+                // check if working with bitset or if we have to use dnf
+                if (relevantTransitionCondition.dnf == nil) {
+                    ltlString += "((" + relevantTransitionCondition.getStringFromBitsetRepresentation(index_to_ap_map: auto.apList.get_bitset_index_to_ap_string_map()) + ")"
+                } else {
+                    // TODO: think about if we should require the bitset structure to be built here
+                    ltlString += "((" + relevantTransition[transitionIndex].condition.description + ")"
+                }
                 ltlString += " && X(" + relevantTransition[transitionIndex].end.name + "))"
 
                 // if more transitions following add disjunction
@@ -150,9 +155,7 @@ public class AssumptionsGenerator {
             // get all observable APs that hold in this state
             var obsStateAPs: [AP] = []
             for ap in allStates[currentStateIndex].propositions {
-                if ap.obs {
-                    obsStateAPs.append(ap)
-                }
+                obsStateAPs.append(ap)
             }
 
             // add all the tags that have been set in this state
