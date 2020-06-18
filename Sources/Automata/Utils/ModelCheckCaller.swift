@@ -93,7 +93,7 @@ public class ModelCheckCaller {
         
         var strings: [String] = []
         for line in completeInformationAssumptions {
-            strings.append(line.description)
+            strings.append(line.getEAHyperFormat())
         }
         
         var assumptionsString = strings.joined(separator: " & ")

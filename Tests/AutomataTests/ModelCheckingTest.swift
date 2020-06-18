@@ -79,6 +79,21 @@ class ModelCheckingTest: XCTestCase {
         
         let testString = modelChecker.getCompleteInformationAssumptions(automata: automata)
         
-        XCTAssertEqual(testString, "G ((s0) -> ((((¬ (s1)) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s1) -> ((((¬ (s0)) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s2) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s3) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s4)))) & G ((s4) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3)))) & G (((((s0) ∨ (s1)) ∨ (s2)) ∨ (s3)) ∨ (s4)) & s0 & G ((s0) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s1) -> (((one) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s2) -> (((two) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s3) -> (((one) ∧ (y1)) ∧ (¬ (y2)))) & G ((s4) -> (((two) ∧ (y2)) ∧ (¬ (y1)))) & G ((¬ (s0)) ∨ (((⊤) ∧ (X (s1))) ∨ ((⊤) ∧ (X (s2))))) & G ((¬ (s1)) ∨ (((¬ (o1)) ∧ (X (s1))) ∨ ((o1) ∧ (X (s3))))) & G ((¬ (s2)) ∨ (((¬ (o2)) ∧ (X (s2))) ∨ ((o2) ∧ (X (s4))))) & G ((¬ (s3)) ∨ ((⊤) ∧ (X (s3)))) & G ((¬ (s4)) ∨ ((⊤) ∧ (X (s4))))")
+        XCTAssertEqual(testString, "G((s0_p) -> ((((!(s1_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s1_p) -> ((((!(s0_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s2_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s3_p))) & (!(s4_p)))) & G((s3_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s4_p)))) & G((s4_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s3_p)))) & G(((((s0_p) | (s1_p)) | (s2_p)) | (s3_p)) | (s4_p)) & s0_p & G((s0_p) -> (((true_p) & (!(y1_p))) & (!(y2_p)))) & G((s1_p) -> (((one_p) & (!(y1_p))) & (!(y2_p)))) & G((s2_p) -> (((two_p) & (!(y1_p))) & (!(y2_p)))) & G((s3_p) -> (((one_p) & (y1_p)) & (!(y2_p)))) & G((s4_p) -> (((two_p) & (y2_p)) & (!(y1_p)))) & G((!(s0_p)) | (((true_p) & (X(s1_p))) | ((true_p) & (X(s2_p))))) & G((!(s1_p)) | (((!(o1_p)) & (X(s1_p))) | ((o1_p) & (X(s3_p))))) & G((!(s2_p)) | (((!(o2_p)) & (X(s2_p))) | ((o2_p) & (X(s4_p))))) & G((!(s3_p)) | ((true_p) & (X(s3_p)))) & G((!(s4_p)) | ((true_p) & (X(s4_p))))")
+    }
+    
+    
+    public func testGetEAHyperFormat() {
+        do {
+            let ltlguarantee1 = try LTL.parse(fromString: "G(go -> K(G(f) -> (yes ∧ ¬go)))")
+            let ltlguarantee2 = try LTL.parse(fromString: "G(F(K(G(f) -> (yes ∧ ¬go))) ∧ F(G(yes ∨ go)))")
+            let ltlguarantee3 = try LTL.parse(fromString: "F(G(yes ∨ go))")
+            
+            XCTAssertEqual(ltlguarantee1.getEAHyperFormat(), "G((go_p) -> (K((G(f_p)) -> ((yes_p) & (!(go_p))))))")
+            XCTAssertEqual(ltlguarantee2.getEAHyperFormat(), "G((F(K((G(f_p)) -> ((yes_p) & (!(go_p)))))) & (F(G((yes_p) | (go_p)))))")
+            XCTAssertEqual(ltlguarantee3.getEAHyperFormat(), "F(G((yes_p) | (go_p)))")
+        } catch {
+            XCTAssertTrue(false, "LTL parsing error")
+        }
     }
 }
