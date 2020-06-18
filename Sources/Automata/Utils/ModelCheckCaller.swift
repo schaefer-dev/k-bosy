@@ -53,8 +53,7 @@ public class ModelCheckCaller {
             }
         }
         
-        // for every Knowledge term model check the LTL content against every node in the automata
-            // if implies is true then add the tag to the AutomataState structure
+        let complete_information_assumptions = getCompleteInformationAssumptions(automata: automata)
         
         return self.tags
     }
@@ -86,6 +85,22 @@ public class ModelCheckCaller {
         }
         
         return knowledgeTermSet
+    }
+    
+    
+    public func getCompleteInformationAssumptions(automata: Automata) -> String {
+        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
+        
+        var strings: [String] = []
+        for line in completeInformationAssumptions {
+            strings.append(line.description)
+        }
+        
+        var assumptionsString = strings.joined(separator: " & ")
+        
+        // TODO: maybe post processing of string required here because EAHyper is pretty picky!
+        
+        return assumptionsString
     }
 
 }

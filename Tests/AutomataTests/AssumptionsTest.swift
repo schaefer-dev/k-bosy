@@ -93,6 +93,7 @@ class AssumptionsTest: XCTestCase {
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_env_01_fixedTransitions.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
+        automata.reduceToObservablePart()
         automata.finalize()
 
         let test_value = AssumptionsGenerator.internal_generateStateAPsAssumptions(auto: automata)
@@ -136,17 +137,33 @@ class AssumptionsTest: XCTestCase {
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
 
-        let test_value = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: [])
+        let completeInfoAssumptions = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: [])
 
         // 1 condition for each transition
-        XCTAssertEqual(test_value.count, 7)
-        XCTAssertEqual(test_value[0], "grant")
-        XCTAssertEqual(test_value[1], "i1")
-        XCTAssertEqual(test_value[2], "i2")
-        XCTAssertEqual(test_value[3], "s0")
-        XCTAssertEqual(test_value[4], "s1")
-        XCTAssertEqual(test_value[5], "s2")
-        XCTAssertEqual(test_value[6], "s3")
+        XCTAssertEqual(completeInfoAssumptions.count, 9)
+        XCTAssertEqual(completeInfoAssumptions[0], "grant")
+        XCTAssertEqual(completeInfoAssumptions[1], "h1")
+        XCTAssertEqual(completeInfoAssumptions[2], "h2")
+        XCTAssertEqual(completeInfoAssumptions[3], "i1")
+        XCTAssertEqual(completeInfoAssumptions[4], "i2")
+        XCTAssertEqual(completeInfoAssumptions[5], "s0")
+        XCTAssertEqual(completeInfoAssumptions[6], "s1")
+        XCTAssertEqual(completeInfoAssumptions[7], "s2")
+        XCTAssertEqual(completeInfoAssumptions[8], "s3")
+        
+        automata.reduceToObservablePart()
+        
+        let incompleteInfoAssumptions = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: [])
+        
+        // 1 condition for each transition
+        XCTAssertEqual(incompleteInfoAssumptions.count, 7)
+        XCTAssertEqual(incompleteInfoAssumptions[0], "grant")
+        XCTAssertEqual(incompleteInfoAssumptions[1], "i1")
+        XCTAssertEqual(incompleteInfoAssumptions[2], "i2")
+        XCTAssertEqual(incompleteInfoAssumptions[3], "s0")
+        XCTAssertEqual(incompleteInfoAssumptions[4], "s1")
+        XCTAssertEqual(incompleteInfoAssumptions[5], "s2")
+        XCTAssertEqual(incompleteInfoAssumptions[6], "s3")
     }
 
     func testGetAutomataOutputAPs() {
@@ -195,6 +212,7 @@ class AssumptionsTest: XCTestCase {
         let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_nas_01.gv", info: automataInfo)
         XCTAssert(dotGraphOpt != nil)
         let automata = dotGraphOpt!
+        automata.reduceToObservablePart()
         automata.finalize()
 
         let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])

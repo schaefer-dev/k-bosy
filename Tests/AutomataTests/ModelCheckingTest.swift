@@ -57,5 +57,28 @@ class ModelCheckingTest: XCTestCase {
         XCTAssertEqual(tags, ["kmc1", "kmc2"])
         XCTAssertEqual(automata.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
         XCTAssertEqual(automata.guarantees[1].description, "F ((kmc1) ∨ (kmc2))")
+        XCTAssertEqual(modelChecker.tagMapping["kmc1"]!.description, "K (one)")
+        XCTAssertEqual(modelChecker.tagMapping["kmc2"]!.description, "K (two)")
+    }
+    
+    
+    func testCompleteInformationAssumptions() {
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        var automata = dotGraphOpt!
+        
+        var tags: [String] = []
+        
+        let modelChecker = ModelCheckCaller()
+        // Annotate algorithmically the remaining knowledgeTerms
+        tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+        
+        let testString = modelChecker.getCompleteInformationAssumptions(automata: automata)
+        
+        XCTAssertEqual(testString, "G ((s0) -> ((((¬ (s1)) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s1) -> ((((¬ (s0)) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s2) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s3))) ∧ (¬ (s4)))) & G ((s3) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s4)))) & G ((s4) -> ((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3)))) & G (((((s0) ∨ (s1)) ∨ (s2)) ∨ (s3)) ∨ (s4)) & s0 & G ((s0) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s1) -> (((one) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s2) -> (((two) ∧ (¬ (y1))) ∧ (¬ (y2)))) & G ((s3) -> (((one) ∧ (y1)) ∧ (¬ (y2)))) & G ((s4) -> (((two) ∧ (y2)) ∧ (¬ (y1)))) & G ((¬ (s0)) ∨ (((⊤) ∧ (X (s1))) ∨ ((⊤) ∧ (X (s2))))) & G ((¬ (s1)) ∨ (((¬ (o1)) ∧ (X (s1))) ∨ ((o1) ∧ (X (s3))))) & G ((¬ (s2)) ∨ (((¬ (o2)) ∧ (X (s2))) ∨ ((o2) ∧ (X (s4))))) & G ((¬ (s3)) ∨ ((⊤) ∧ (X (s3)))) & G ((¬ (s4)) ∨ ((⊤) ∧ (X (s4))))")
     }
 }
