@@ -29,11 +29,33 @@ class ModelCheckingTest: XCTestCase {
             XCTAssertEqual(knowledgeTerms3.count, 1)
             XCTAssertEqual(knowledgeTerms3[0].description, "K ((yes) ∨ (go))")
             
+            
+            // put all knowledge Term into a set to eliminate duplicates
             let knowledgeTermSet: Set<LTL> = Set(knowledgeTerms1 + knowledgeTerms2 + knowledgeTerms3)
             XCTAssertEqual(knowledgeTermSet.count, 2)
         } catch {
             XCTAssertTrue(false, "LTL parsing error")
         }
 
+    }
+    
+    func testAlgorithmicTagInsertion() {
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        var automata = dotGraphOpt!
+        
+        var tags: [String] = []
+        
+        let modelChecker = ModelCheckCaller()
+        // Annotate algorithmically the remaining knowledgeTerms
+        tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+        
+        XCTAssertEqual(tags, ["kmc1", "kmc2"])
+        XCTAssertEqual(automata.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
+        XCTAssertEqual(automata.guarantees[1].description, "F ((kmc1) ∨ (kmc2))")
     }
 }

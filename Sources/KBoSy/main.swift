@@ -53,6 +53,8 @@ do {
         var automataInfo = automataInfoOpt!
         print("LOADING: Automata Info read successfully")
         
+        // already apply transformation rules in case they are given in automataInfo
+        let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
 
         if let dotGraphFilename = parguments.get(dotFile) {
             let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
@@ -65,17 +67,18 @@ do {
             
             var tags: [String] = []
             
-            // already apply transformation rules in case they are given in automataInfo
-            let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
             if tagMappingOpt != nil {
                 // case for mapping from tags to candidate sates is given in specification
                 var candidateStateNames: [[String]] = []
                 (tags, candidateStateNames) = tagMappingOpt!
                 automata.addTagsToCandidateStates(tags: tags, candidateStateNames: candidateStateNames)
-            } else {
-                // TODO: annotate algorithmically with model checking if tags were not given by user
-                tags = ModelCheckCaller.generateTagsFromGuaranteesUsingMC(automata: &automata)
             }
+            
+            let modelChecker = ModelCheckCaller()
+            // Annotate algorithmically the remaining knowledgeTerms
+            tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+            
+            
 
             let kbsc = KBSConstructor(input_automata: automata)
 
