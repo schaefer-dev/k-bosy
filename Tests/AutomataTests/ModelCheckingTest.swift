@@ -50,7 +50,7 @@ class ModelCheckingTest: XCTestCase {
         
         var tags: [String] = []
         
-        let modelChecker = ModelCheckCaller()
+        let modelChecker = ModelCheckCaller(preexistingTags: [])
         // Annotate algorithmically the remaining knowledgeTerms
         tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         
@@ -73,7 +73,7 @@ class ModelCheckingTest: XCTestCase {
         
         var tags: [String] = []
         
-        let modelChecker = ModelCheckCaller()
+        let modelChecker = ModelCheckCaller(preexistingTags: [])
         // Annotate algorithmically the remaining knowledgeTerms
         tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         

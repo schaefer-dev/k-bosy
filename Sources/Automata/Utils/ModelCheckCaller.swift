@@ -11,12 +11,14 @@ import LTL
 
 public class ModelCheckCaller {
     
+    let preexistingTags: [String]
     let tagPrefix = "kmc"
     var tags: [String]
     var tagMapping: [String: LTL]
     
     
-    public init() {
+    public init(preexistingTags: [String]) {
+        self.preexistingTags = preexistingTags
         self.tags = []
         self.tagMapping = [String: LTL]()
     }
@@ -46,14 +48,14 @@ public class ModelCheckCaller {
             let tagAP = LTLAtomicProposition(name: tagName)
             let tagLTL = LTL.atomicProposition(tagAP)
             
-            var guarantee_iter = 0
-            while guarantee_iter < automata.guarantees.count {
-                automata.guarantees[guarantee_iter] = automata.guarantees[guarantee_iter].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, replaced_ltl: tagLTL)
-                guarantee_iter += 1
+            var guaranteeIter = 0
+            while guaranteeIter < automata.guarantees.count {
+                automata.guarantees[guaranteeIter] = automata.guarantees[guaranteeIter].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, replaced_ltl: tagLTL)
+                guaranteeIter += 1
             }
         }
         
-        let complete_information_assumptions = getCompleteInformationAssumptions(automata: automata)
+        let completInformationAssumptions = getCompleteInformationAssumptions(automata: automata)
         
         return self.tags
     }
@@ -89,16 +91,14 @@ public class ModelCheckCaller {
     
     
     public func getCompleteInformationAssumptions(automata: Automata) -> String {
-        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
+        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags)
         
         var strings: [String] = []
         for line in completeInformationAssumptions {
             strings.append(line.getEAHyperFormat())
         }
         
-        var assumptionsString = strings.joined(separator: " & ")
-        
-        // TODO: maybe post processing of string required here because EAHyper is pretty picky!
+        let assumptionsString = strings.joined(separator: " & ")
         
         return assumptionsString
     }

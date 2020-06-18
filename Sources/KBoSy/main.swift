@@ -65,18 +65,20 @@ do {
             var automata = automataOpt!
 
             
-            var tags: [String] = []
+            var manualTags: [String] = []
             
             if tagMappingOpt != nil {
                 // case for mapping from tags to candidate sates is given in specification
                 var candidateStateNames: [[String]] = []
-                (tags, candidateStateNames) = tagMappingOpt!
-                automata.addTagsToCandidateStates(tags: tags, candidateStateNames: candidateStateNames)
+                (manualTags, candidateStateNames) = tagMappingOpt!
+                automata.addTagsToCandidateStates(tags: manualTags, candidateStateNames: candidateStateNames)
             }
             
-            let modelChecker = ModelCheckCaller()
+            let modelChecker = ModelCheckCaller(preexistingTags: manualTags)
+            
             // Annotate algorithmically the remaining knowledgeTerms
-            tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+            // this adds the tags also in the list of APs of automata
+            let mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
             
             
 
@@ -85,7 +87,7 @@ do {
             let obsAutomata = kbsc.run()
             obsAutomata.finalize()
 
-            let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
+            let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags)
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
             print("Output file saved.")
