@@ -27,10 +27,10 @@ public class AssumptionsGenerator {
             _ = AP(name: tag, observable: true, list: auto.apList)
         }
 
-        returnAssumptions += self.generatePossibleStateAssumptions(auto: auto)
-        returnAssumptions.append(self.generateInitialStateAssumptions(auto: auto))
-        returnAssumptions +=  self.generateStateAPsAssumptions(auto: auto)
-        returnAssumptions += self.generateTransitionAssumptions(auto: auto)
+        returnAssumptions += self.internal_generatePossibleStateAssumptions(auto: auto)
+        returnAssumptions.append(self.internal_generateInitialStateAssumptions(auto: auto))
+        returnAssumptions +=  self.internal_generateStateAPsAssumptions(auto: auto)
+        returnAssumptions += self.internal_generateTransitionAssumptions(auto: auto)
 
         return returnAssumptions
     }
@@ -86,7 +86,7 @@ public class AssumptionsGenerator {
     /**
      generates all Assumptions that are caused by transitions from state to state, make sure that non-observable APs are not contained here
      */
-    public static func generateTransitionAssumptions(auto: Automata) -> [LTL] {
+    public static func internal_generateTransitionAssumptions(auto: Automata) -> [LTL] {
         let allStates = auto.get_allStates()
         var returnAssumptions: [LTL] = []
 
@@ -140,7 +140,7 @@ public class AssumptionsGenerator {
     /**
      generates assumptions which assign each state their respective APs, make sure that non-observable APs are not contained here
      */
-    public static func generateStateAPsAssumptions(auto: Automata) -> [LTL] {
+    public static func internal_generateStateAPsAssumptions(auto: Automata) -> [LTL] {
         let allStates = auto.get_allStates()
         let allObservableAPs = auto.apList.get_allObservableAPs()
         var returnAssumptions: [LTL] = []
@@ -220,7 +220,7 @@ public class AssumptionsGenerator {
     /**
      generate Assumptions which specifiy the fact that we have to be in one (and only one!)  of the environment states at any point in time
      */
-    public static func generatePossibleStateAssumptions(auto: Automata) -> [LTL] {
+    public static func internal_generatePossibleStateAssumptions(auto: Automata) -> [LTL] {
         let allStates = auto.get_allStates()
         var returnAssumptions: [LTL] = []
 
@@ -295,7 +295,7 @@ public class AssumptionsGenerator {
     /**
      generate Assumptions which specifiy the starting behaviour of the automaton
      */
-    public static func generateInitialStateAssumptions(auto: Automata) -> LTL {
+    public static func internal_generateInitialStateAssumptions(auto: Automata) -> LTL {
         let initialStates = auto.initialStates
 
         var ltlString = "("
