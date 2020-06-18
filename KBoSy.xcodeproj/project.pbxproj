@@ -46,6 +46,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		65DC97D7249BA3D500EE27C6 /* ModelCheckCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */; };
 		OBJ_165 /* Automata.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Automata.swift */; };
 		OBJ_166 /* AutomataState.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AutomataState.swift */; };
 		OBJ_167 /* AutomataTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AutomataTransition.swift */; };
@@ -473,6 +474,7 @@
 
 /* Begin PBXFileReference section */
 		65C93C9D2496E94E0086B89F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCheckCaller.swift; sourceTree = "<group>"; };
 		"KBoSy::Automata::Product" /* Automata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Automata.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"KBoSy::AutomataTests::Product" /* AutomataTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutomataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		"KBoSy::IOTests::Product" /* IOTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = IOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -905,6 +907,7 @@
 			children = (
 				OBJ_26 /* AssumptionsGeneratior.swift */,
 				OBJ_27 /* CurrentTruthValues.swift */,
+				65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -979,7 +982,7 @@
 			path = Tests/AutomataTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				65C93C9D2496E94E0086B89F /* .swiftlint.yml */,
@@ -990,7 +993,6 @@
 				OBJ_145 /* Products */,
 				OBJ_159 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_53 /* IOTests */ = {
@@ -1417,7 +1419,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_145 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1473,6 +1475,7 @@
 				OBJ_165 /* Automata.swift in Sources */,
 				OBJ_166 /* AutomataState.swift in Sources */,
 				OBJ_167 /* AutomataTransition.swift in Sources */,
+				65DC97D7249BA3D500EE27C6 /* ModelCheckCaller.swift in Sources */,
 				OBJ_168 /* AtomicProposition.swift in Sources */,
 				OBJ_169 /* Bitset.swift in Sources */,
 				OBJ_170 /* BitsetDNFFormula.swift in Sources */,

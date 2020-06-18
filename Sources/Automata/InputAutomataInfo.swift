@@ -50,8 +50,8 @@ public struct InputAutomataInfo: Codable {
     
     
     public mutating func getTagToCandidateStatesMapping() -> ([String], [[String]])? {
-        let successful = self.generateAndApplyTags()
-        if !successful {
+        let candidate_states_given_by_user_bool = self.generateAndApplyTags()
+        if !candidate_states_given_by_user_bool {
             return nil
         }
         return (self.tags!, self.candidateStates!)
