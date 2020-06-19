@@ -7,6 +7,7 @@
 
 import Foundation
 import LTL
+import Utils
 
 
 public class ModelCheckCaller {
@@ -63,15 +64,15 @@ public class ModelCheckCaller {
             // remove leading K in knowledgeTerm string representation
             var knowledgeCondition = knowledgeTerm.getEAHyperFormat()
             knowledgeCondition.removeFirst()
-            print("DEBUG: checking knowledge condition " + knowledgeCondition)
+            print("ALGO: checking knowledge condition " + knowledgeCondition)
             
             let allStates = automata.get_allStates()
             for state in allStates {
-                print("DEBUG: checking if state " + state.name + " is a candidate state.")
                 let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
 
-                if callMCHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
+                if callEAHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
                     // if MCHyper confirms implication add candidate-tag to this state
+                    print("ALGO: candidate state confirmed for " + state.name)
                     state.addAnnotation(annotationName: tagName)
                 }
             }
@@ -85,9 +86,17 @@ public class ModelCheckCaller {
     /**
      Call MCHyper and check if Assumptions imply 'implies'.
      Both argument are LTL formulas and have to conform to EAHyper-s input format including the  path quantifiers
+     TODO: fix EAHyper such that we do not have to use --pltl argument (--aalta is faster)
      */
-    public func callMCHyper(assumptions: String, implies: String) -> Bool {
+    public func callEAHyper(assumptions: String, implies: String) -> Bool {
+        let output = shell(launchPath: "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native", arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        //print("DEBUG: EAHyper output: " + output)
         
+        if output.contains("does imply") {
+            return true
+        } else {
+            return false
+        }
         return false
     }
     

@@ -93,7 +93,7 @@ public class FileParser {
                     } else {
                         // Condition to find transition description line
                         if wildcard(contentLines[index], pattern: "??*->??*") {
-                            print("DEBUG: Transition found in Statement " + String(index + 1))
+                            print("PARSING: Transition found in Statement " + String(index + 1))
                             let substrings = contentLines[index].components(separatedBy: "->")
                             let startState = substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
                             let rightSubstring = substrings[1].components(separatedBy: "[")
