@@ -2,6 +2,7 @@ import XCTest
 
 import Foundation
 import LTL
+import Specification
 
 @testable import Automata
 
@@ -62,7 +63,7 @@ class ModelCheckingTest: XCTestCase {
     }
     
     
-    func testCompleteInformationAssumptions() {
+    func testEAHyperCandidateSearch() {
         let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
@@ -75,11 +76,9 @@ class ModelCheckingTest: XCTestCase {
         
         let modelChecker = ModelCheckCaller(preexistingTags: [])
         // Annotate algorithmically the remaining knowledgeTerms
-        tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         
-        let testString = modelChecker.getEAHyperAssumptions(automata: automata)
         
-        XCTAssertEqual(testString, "G((s0_p) -> ((((!(s1_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s1_p) -> ((((!(s0_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s2_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s3_p))) & (!(s4_p)))) & G((s3_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s4_p)))) & G((s4_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s3_p)))) & G(((((s0_p) | (s1_p)) | (s2_p)) | (s3_p)) | (s4_p)) & s0_p & G((s0_p) -> (((true_p) & (!(y1_p))) & (!(y2_p)))) & G((s1_p) -> (((one_p) & (!(y1_p))) & (!(y2_p)))) & G((s2_p) -> (((two_p) & (!(y1_p))) & (!(y2_p)))) & G((s3_p) -> (((one_p) & (y1_p)) & (!(y2_p)))) & G((s4_p) -> (((two_p) & (y2_p)) & (!(y1_p)))) & G((!(s0_p)) | (((true_p) & (X(s1_p))) | ((true_p) & (X(s2_p))))) & G((!(s1_p)) | (((!(o1_p)) & (X(s1_p))) | ((o1_p) & (X(s3_p))))) & G((!(s2_p)) | (((!(o2_p)) & (X(s2_p))) | ((o2_p) & (X(s4_p))))) & G((!(s3_p)) | ((true_p) & (X(s3_p)))) & G((!(s4_p)) | ((true_p) & (X(s4_p))))")
+        // TODO: check here manually which states are annotated in a harder example
     }
     
     
