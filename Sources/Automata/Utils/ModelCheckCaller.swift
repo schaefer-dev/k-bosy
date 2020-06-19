@@ -7,6 +7,7 @@
 
 import Foundation
 import LTL
+import Utils
 
 
 public class ModelCheckCaller {
@@ -15,6 +16,7 @@ public class ModelCheckCaller {
     let tagPrefix = "kmc"
     var tags: [String]
     var tagMapping: [String: LTL]
+    let eaHyperDir = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
     
     
     public init(preexistingTags: [String]) {
@@ -55,9 +57,50 @@ public class ModelCheckCaller {
             }
         }
         
-        let completInformationAssumptions = getCompleteInformationAssumptions(automata: automata)
+        let completInformationAssumptions = getEAHyperAssumptions(automata: automata)
         
+        // for every knowledgeTerm test if it holds in every single state of the automata
+        for (tagName, knowledgeTerm) in self.tagMapping {
+            
+            // remove leading K in knowledgeTerm string representation
+            var knowledgeCondition = knowledgeTerm.getEAHyperFormat()
+            knowledgeCondition.removeFirst()
+            print("ALGO: checking knowledge condition " + knowledgeCondition)
+            
+            let allStates = automata.get_allStates()
+            for state in allStates {
+                let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
+
+                if callEAHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
+                    // if MCHyper confirms implication add candidate-tag to this state
+                    print("ALGO: candidate state confirmed for " + state.name)
+                    state.addAnnotation(annotationName: tagName)
+                }
+            }
+            
+        }
         return self.tags
+    }
+    
+    /**
+     Call MCHyper and check if Assumptions imply 'implies'.
+     Both argument are LTL formulas and have to conform to EAHyper-s input format including the  path quantifiers
+     
+     TODO: fix EAHyper such that we do not have to use --pltl argument (--aalta is faster)
+     TODO: add initial test to ensure that EAHyper is available and working somewhere in main?
+     
+     NOTE: make sure that environment variable `EAHYPER_SOLVER_DIR`  is set to `/location/eahyper/LTL_SAT_solver`
+     */
+    public func callEAHyper(assumptions: String, implies: String) -> Bool {
+        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        //print("DEBUG: EAHyper output: " + output)
+        
+        if output.contains("does imply") {
+            return true
+        } else {
+            return false
+        }
+        return false
     }
     
     
@@ -90,7 +133,7 @@ public class ModelCheckCaller {
     }
     
     
-    public func getCompleteInformationAssumptions(automata: Automata) -> String {
+    public func getEAHyperAssumptions(automata: Automata) -> String {
         let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags)
         
         var strings: [String] = []
@@ -98,7 +141,7 @@ public class ModelCheckCaller {
             strings.append(line.getEAHyperFormat())
         }
         
-        let assumptionsString = strings.joined(separator: " & ")
+        let assumptionsString = "forall p. " + strings.joined(separator: " & ")
         
         return assumptionsString
     }

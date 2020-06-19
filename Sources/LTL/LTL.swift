@@ -249,10 +249,9 @@ extension LTL {
             /* Test if it is case of knowledge operator application using knowledge_ltl argument */
             if function == LTLFunction.know {
                 if self == knowledge_ltl {
-                    print("DEBUG: found matching knowledge term " + self.description + " ... is being replaced.")
+                    //print("DEBUG: found matching knowledge term " + self.description + " ... is being replaced.")
                     return replaced_ltl
                 } else {
-                    print("DEBUG-WARNING: knowledge term " + self.description + " not matching " + knowledge_ltl.description + " ... skipping replacement.")
                     // also cover cases in which Knowledge Operators are nested
                     for i in 0 ..< parameters.count {
                         parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)

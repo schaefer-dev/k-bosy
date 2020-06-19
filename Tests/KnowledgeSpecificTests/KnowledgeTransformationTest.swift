@@ -6,6 +6,49 @@ import Foundation
 @testable import Specification
 
 class KnowledgeTransformationTest: XCTestCase {
+    
+    func testEAHyperAnnotation() {
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
+        XCTAssert(automataInfoOpt != nil)
+        let automataInfo = automataInfoOpt!
+
+        let dotGraphOpt = FileParser.readDotGraphFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", info: automataInfo)
+        XCTAssert(dotGraphOpt != nil)
+        var automata = dotGraphOpt!
+        
+        var tags: [String] = []
+        
+        let modelChecker = ModelCheckCaller(preexistingTags: [])
+        // Annotate algorithmically the remaining knowledgeTerms
+        tags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+        
+        let kbsc = KBSConstructor(input_automata: automata)
+
+        let obsAutomata = kbsc.run()
+        obsAutomata.finalize()
+
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
+        
+        // test guarantees
+        XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
+        XCTAssertEqual(spec.guarantees[1].description, "F ((kmc1) ∨ (kmc2))")
+        
+        var assumptions: [String] = []
+        for assumption in spec.assumptions {
+            assumptions.append(assumption.description)
+        }
+        
+        // 6 state assumptions (no other states at the same time)
+        // +1 global state assumption (one state always holds)
+        // +1 initial state assumption
+        // +6 transition assumptions for each state
+        // +6 AP assumptions for each state
+        // -------------------------
+        // 20 Assumptions
+        XCTAssertEqual(spec.assumptions.count, 20)
+        
+        // TODO: think about how to test exact values of assumptions (nondeterministic ordering makes this hard)  
+    }
 
     func testTransformationKnowledge01() {
         let specOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kltl/knowledge_01.kbosy")

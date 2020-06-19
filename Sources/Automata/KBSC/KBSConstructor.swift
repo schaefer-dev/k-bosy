@@ -52,7 +52,7 @@ public class KBSConstructor {
         // repeat until all states have been analyzed
         while stateAnalyzeQueue.count > 0 {
             let analyzedState = stateAnalyzeQueue.removeFirst()
-            print("DEBUG: analyzing state '" + analyzedState.description + "' in obs Automata now.")
+            print("KBSC: analyzing state '" + analyzedState.description + "' in obs Automata now.")
 
             // Builds the Transitions in `new_state` according to the behaviour in the old corresponding states given in `old_states`.
 
@@ -103,7 +103,7 @@ public class KBSConstructor {
             }
         }
 
-        print("DEBUG: Successors " + oldStateSuccessors.description + " possible according to original automata using condition " + condition.description)
+        print("KBSC: Successors " + oldStateSuccessors.description + " possible according to original automata using condition " + condition.description)
         return oldStateSuccessors
     }
 
@@ -118,7 +118,7 @@ public class KBSConstructor {
         if self.obsAutomata.get_state(name: obsSuccessorState.name) == nil {
             // obs_successor_state is in fact new and thus has to be added to the obs automata structures
             self.newToOldStatesMapping[obsSuccessorState] = obsEqStateSet
-            print("DEBUG: newly discovered state " + obsSuccessorState.name + " added to observational automata.")
+            print("KBSC: newly discovered state " + obsSuccessorState.name + " added to observational automata.")
             self.obsAutomata.add_state(newState: obsSuccessorState)
 
             return (obsSuccessorState, true)
