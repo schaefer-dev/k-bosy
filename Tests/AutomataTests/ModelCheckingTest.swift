@@ -77,7 +77,7 @@ class ModelCheckingTest: XCTestCase {
         // Annotate algorithmically the remaining knowledgeTerms
         tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         
-        let testString = modelChecker.getCompleteInformationAssumptions(automata: automata)
+        let testString = modelChecker.getEAHyperAssumptions(automata: automata)
         
         XCTAssertEqual(testString, "G((s0_p) -> ((((!(s1_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s1_p) -> ((((!(s0_p)) & (!(s2_p))) & (!(s3_p))) & (!(s4_p)))) & G((s2_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s3_p))) & (!(s4_p)))) & G((s3_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s4_p)))) & G((s4_p) -> ((((!(s0_p)) & (!(s1_p))) & (!(s2_p))) & (!(s3_p)))) & G(((((s0_p) | (s1_p)) | (s2_p)) | (s3_p)) | (s4_p)) & s0_p & G((s0_p) -> (((true_p) & (!(y1_p))) & (!(y2_p)))) & G((s1_p) -> (((one_p) & (!(y1_p))) & (!(y2_p)))) & G((s2_p) -> (((two_p) & (!(y1_p))) & (!(y2_p)))) & G((s3_p) -> (((one_p) & (y1_p)) & (!(y2_p)))) & G((s4_p) -> (((two_p) & (y2_p)) & (!(y1_p)))) & G((!(s0_p)) | (((true_p) & (X(s1_p))) | ((true_p) & (X(s2_p))))) & G((!(s1_p)) | (((!(o1_p)) & (X(s1_p))) | ((o1_p) & (X(s3_p))))) & G((!(s2_p)) | (((!(o2_p)) & (X(s2_p))) | ((o2_p) & (X(s4_p))))) & G((!(s3_p)) | ((true_p) & (X(s3_p)))) & G((!(s4_p)) | ((true_p) & (X(s4_p))))")
     }

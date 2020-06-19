@@ -77,7 +77,7 @@ public class AutomataState: Hashable, CustomStringConvertible {
                 print("WARNING: tried to add AP to state, which was already contained, skipping!")
             }
             self.propositions.append(ap)
-            print("DEBUG: added " + ap.description + " to state " + self.name)
+            //print("DEBUG: added " + ap.description + " to state " + self.name)
         }
 
         // Keep proposition list sorted

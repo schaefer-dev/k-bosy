@@ -55,11 +55,41 @@ public class ModelCheckCaller {
             }
         }
         
-        let completInformationAssumptions = getCompleteInformationAssumptions(automata: automata)
+        let completInformationAssumptions = getEAHyperAssumptions(automata: automata)
+        
+        // for every knowledgeTerm test if it holds in every single state of the automata
+        for (tagName, knowledgeTerm) in self.tagMapping {
+            
+            // remove leading K in knowledgeTerm string representation
+            var knowledgeCondition = knowledgeTerm.getEAHyperFormat()
+            knowledgeCondition.removeFirst()
+            print("DEBUG: checking knowledge condition " + knowledgeCondition)
+            
+            let allStates = automata.get_allStates()
+            for state in allStates {
+                print("DEBUG: checking if state " + state.name + " is a candidate state.")
+                let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
+
+                if callMCHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
+                    // if MCHyper confirms implication add candidate-tag to this state
+                    state.addAnnotation(annotationName: tagName)
+                }
+            }
+            
+        }
+        
         
         return self.tags
     }
     
+    /**
+     Call MCHyper and check if Assumptions imply 'implies'.
+     Both argument are LTL formulas and have to conform to EAHyper-s input format including the  path quantifiers
+     */
+    public func callMCHyper(assumptions: String, implies: String) -> Bool {
+        
+        return false
+    }
     
     /**
      Create a new tag and save the mapping internally
@@ -90,7 +120,7 @@ public class ModelCheckCaller {
     }
     
     
-    public func getCompleteInformationAssumptions(automata: Automata) -> String {
+    public func getEAHyperAssumptions(automata: Automata) -> String {
         let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags)
         
         var strings: [String] = []
@@ -98,7 +128,7 @@ public class ModelCheckCaller {
             strings.append(line.getEAHyperFormat())
         }
         
-        let assumptionsString = strings.joined(separator: " & ")
+        let assumptionsString = "forall p. " + strings.joined(separator: " & ")
         
         return assumptionsString
     }

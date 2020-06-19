@@ -15,7 +15,8 @@ public class AutomataTransition: CustomStringConvertible {
         self.start = start
         self.condition = condition
         self.end = end
-        print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with condition " + self.condition.description)
+        
+        //print("DEBUG: created transition from '" + start.name + "' to '" + end.name + " with condition " + self.condition.description)
 
         self.simplify()
     }
