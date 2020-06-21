@@ -68,6 +68,7 @@ public class ModelCheckCaller {
             print("ALGO: checking knowledge condition " + knowledgeCondition)
             
             let allStates = automata.get_allStates()
+            var found = false
             for state in allStates {
                 let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
 
@@ -75,7 +76,12 @@ public class ModelCheckCaller {
                     // if MCHyper confirms implication add candidate-tag to this state
                     print("ALGO: candidate state confirmed for " + state.name)
                     state.addAnnotation(annotationName: tagName)
+                    found = true
                 }
+            }
+            // if none of the states are candidates print warning
+            if !found {
+                print("WARNING: no states are candidates for " + knowledgeCondition)
             }
             
         }

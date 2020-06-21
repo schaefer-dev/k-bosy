@@ -55,7 +55,7 @@ public class Automata {
         }
         self.allStates[newInitialState.name] = newInitialState
         self.initialStates.append(newInitialState)
-        print("DEBUG: added initial state " + newInitialState.description + " to Automata")
+        // print("DEBUG: added initial state " + newInitialState.description + " to Automata")
     }
 
     /**
@@ -70,7 +70,7 @@ public class Automata {
         }
         self.allStates[newState.name] = newState
         newState.setParentAutomata(parent: self)
-        print("DEBUG: added state " + newState.description + " to Automata")
+        // print("DEBUG: added state " + newState.description + " to Automata")
     }
 
     public func get_state(name: String) -> AutomataState? {
