@@ -11,6 +11,9 @@ import Utils
 import Specification
 import Automata
 
+
+let inputFilePrefix = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+
 do {
     /* Create Argument Parser */
     let parser = ArgumentParser(commandName: "ap",
@@ -45,7 +48,7 @@ do {
     /* --------------------------------------------------------------------------------------------- */
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(automataInfoFile) {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: automataInfoFilename)
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: inputFilePrefix + automataInfoFilename)
         if automataInfoOpt == nil {
             print("ERROR: something went wrong while reading AutomataInfo File")
             exit(EXIT_FAILURE)
@@ -57,7 +60,7 @@ do {
         let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
 
         if let dotGraphFilename = parguments.get(dotFile) {
-            let automataOpt = FileParser.readDotGraphFile(path: dotGraphFilename, info: automataInfo)
+            let automataOpt = FileParser.readDotGraphFile(path: inputFilePrefix + dotGraphFilename, info: automataInfo)
             if automataOpt == nil {
                 print("ERROR: something went wrong while reading Automata Graph File")
                 exit(EXIT_FAILURE)
@@ -112,7 +115,7 @@ do {
     /* Handle the passed input file */
     if let inputFilename = parguments.get(input) {
 
-        let specOpt = readSpecificationFile(path: inputFilename)
+        let specOpt = readSpecificationFile(path: inputFilePrefix + inputFilename)
         if specOpt == nil {
             print("ERROR: something went wrong while reading specifictaion File")
             exit(EXIT_FAILURE)

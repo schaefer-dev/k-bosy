@@ -13,7 +13,7 @@ import Utils
 public class ModelCheckCaller {
     
     let preexistingTags: [String]
-    let tagPrefix = "kmc"
+    let tagPrefix = "k"
     var tags: [String]
     var tagMapping: [String: LTL]
     let eaHyperDir = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
