@@ -41,7 +41,7 @@ class ModelCheckingTest: XCTestCase {
     }
     
     func testAlgorithmicTagInsertion() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
 
@@ -55,11 +55,11 @@ class ModelCheckingTest: XCTestCase {
         // Annotate algorithmically the remaining knowledgeTerms
         tags += modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         
-        XCTAssertEqual(tags, ["kmc1", "kmc2"])
+        XCTAssertEqual(tags, ["k1", "k2"])
         XCTAssertEqual(automata.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
-        XCTAssertEqual(automata.guarantees[1].description, "F ((kmc1) ∨ (kmc2))")
-        XCTAssertEqual(modelChecker.tagMapping["kmc1"]!.description, "K (one)")
-        XCTAssertEqual(modelChecker.tagMapping["kmc2"]!.description, "K (two)")
+        XCTAssertEqual(automata.guarantees[1].description, "F ((k1) ∨ (k2))")
+        XCTAssertEqual(modelChecker.tagMapping["k1"]!.description, "K (one)")
+        XCTAssertEqual(modelChecker.tagMapping["k2"]!.description, "K (two)")
     }
     
     
