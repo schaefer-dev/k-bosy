@@ -64,7 +64,7 @@ class ModelCheckingTest: XCTestCase {
     
     
     func testEAHyperCandidateSearch() {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json")
+        let automataInfoOpt = FileParser.readAutomataInfoFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json")
         XCTAssert(automataInfoOpt != nil)
         let automataInfo = automataInfoOpt!
 

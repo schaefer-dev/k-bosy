@@ -92,11 +92,31 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1_knowledge.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv"
+            argument = "-i kinfo_file/nas_01.json -d automata/nas_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/random_01.json -d automata/random_01.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/ampelv2.json -d automata/ampelv2.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/ampelv3.json -d automata/ampelv3.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/info_file/test_numberv1+rule.json -d /Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv"
+            argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i xcode_tests/kinfo_file/test_numberv1.json -d xcode_tests/automata/test_numberv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i xcode_tests/info_file/test_numberv1+rule.json -d xcode_tests/automata/test_numberv1.gv"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
