@@ -45,13 +45,24 @@ public struct SynthesisSpecification: Codable {
         self.transformationRules = transformationRules
     }
 
-    public init(automata: Automata, tags: [String]) {
+    public init(automata: Automata, tags: [String], tagsAsAPs: Bool) {
         self.semantics = TransitionSystemType.mealy
-        self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: tags)
-        self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
-        self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: tags)
-        self.guarantees = automata.guarantees
-        self.transformationRules = nil
+        
+        if tagsAsAPs {
+            self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: tags)
+            self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
+            self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: tags, tagsInAPs: true)
+            self.guarantees = automata.guarantees
+            self.transformationRules = nil
+        } else {
+            // TODO: develop case in which tags are not put into assumptions, instead all states in which this tag holds are used to build a disjunction which is put directly into the guarantees.
+            self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: [])
+            self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
+            self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [], tagsInAPs: false)
+            // TODO: modify guarantees
+            self.guarantees = automata.getGuaranteesWithCandidateStateNames(tags: tags)
+            self.transformationRules = nil
+        }
     }
 
     public static func fromJson(string: String) -> SynthesisSpecification? {
@@ -115,12 +126,12 @@ public struct SynthesisSpecification: Codable {
 
                 // Replace all occurances in assumptions
                 for i in 0 ..< self.assumptions.count {
-                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, replaced_ltl: rLTL)
+                    self.assumptions[i] = self.assumptions[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, tagLTL: rLTL)
                 }
 
                 // Replace all occurances in guarantees
                 for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, replaced_ltl: rLTL)
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: kLTL, tagLTL: rLTL)
                 }
 
                 // TODO: maybe add warning if replacement has not worked

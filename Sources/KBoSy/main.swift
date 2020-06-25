@@ -14,6 +14,8 @@ import Automata
 
 let inputFilePrefix = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
 
+
+
 do {
     /* Create Argument Parser */
     let parser = ArgumentParser(commandName: "ap",
@@ -48,49 +50,11 @@ do {
     /* --------------------------------------------------------------------------------------------- */
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(automataInfoFile) {
-        let automataInfoOpt = FileParser.readAutomataInfoFile(path: inputFilePrefix + automataInfoFilename)
-        if automataInfoOpt == nil {
-            print("ERROR: something went wrong while reading AutomataInfo File")
-            exit(EXIT_FAILURE)
-        }
-        var automataInfo = automataInfoOpt!
-        print("LOADING: Automata Info read successfully")
-        
-        // already apply transformation rules in case they are given in automataInfo
-        let tagMappingOpt = automataInfo.getTagToCandidateStatesMapping()
-
         if let dotGraphFilename = parguments.get(dotFile) {
-            let automataOpt = FileParser.readDotGraphFile(path: inputFilePrefix + dotGraphFilename, info: automataInfo)
-            if automataOpt == nil {
-                print("ERROR: something went wrong while reading Automata Graph File")
-                exit(EXIT_FAILURE)
-            }
-            var automata = automataOpt!
-
-            
-            var manualTags: [String] = []
-            
-            if tagMappingOpt != nil {
-                // case for mapping from tags to candidate sates is given in specification
-                var candidateStateNames: [[String]] = []
-                (manualTags, candidateStateNames) = tagMappingOpt!
-                automata.addTagsToCandidateStates(tags: manualTags, candidateStateNames: candidateStateNames)
-            }
-            
-            let modelChecker = ModelCheckCaller(preexistingTags: manualTags)
-            
-            // Annotate algorithmically the remaining knowledgeTerms
-            // this adds the tags also in the list of APs of automata
-            let mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
             
             
-
-            let kbsc = KBSConstructor(input_automata: automata)
-
-            let obsAutomata = kbsc.run()
-            obsAutomata.finalize()
-
-            let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags)
+            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + automataInfoFilename, dotGraphPath: inputFilePrefix + dotGraphFilename, tagsAsAPs: false)
+        
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
             print("Output file saved.")
@@ -103,59 +67,6 @@ do {
 
             exit(EXIT_SUCCESS)
         }
-    }
-
-    /* performing minimization of automata with following Generation of transformation rules */
-
-    // TODO: implement
-
-    /* --------------------------------------------------------------------------------------------- */
-    /* Starting of reading kbosy spec file and performing translation into LTL followed by synthesis */
-
-    /* Handle the passed input file */
-    if let inputFilename = parguments.get(input) {
-
-        let specOpt = readSpecificationFile(path: inputFilePrefix + inputFilename)
-        if specOpt == nil {
-            print("ERROR: something went wrong while reading specifictaion File")
-            exit(EXIT_FAILURE)
-        }
-        var spec = specOpt!
-
-        print("Guarantees before transformation rules:")
-        for guarantee in spec.guarantees {
-            print(guarantee.description)
-        }
-
-        /* Apply transformation rules that are contained in the input file.*/
-        if !spec.applyTransformationRules() {
-            print("ERROR: Transformation Rules could not be applied.")
-            exit(EXIT_FAILURE)
-        }
-
-        print("Guarantees after transformation rules:")
-        for guarantee in spec.guarantees {
-            print(guarantee.description)
-        }
-
-        let inputFilePath = inputFilename.split(separator: "/")
-        let inputFilePathLastComponent = String(inputFilePath[inputFilePath.count - 1])
-
-        let outputFilename = spec.writeJsonToDir(inputFileName: inputFilePathLastComponent, dir: getMasterSpecDirectory())
-        print("Output file saved.")
-
-        if let synt = parguments.get(synthesize), synt {
-            print("\n--------------------------------------------------")
-            print("Calling Bosy now....\n")
-            callBoSy(inputFilename: outputFilename)
-        }
-
-        exit(EXIT_SUCCESS)
-
-    /* --input argument has not been specified */
-    } else {
-        print("No Specification file for following synthesis has been given!")
-        exit(EXIT_FAILURE)
     }
 
 /* Handle Argument Parser Errors */

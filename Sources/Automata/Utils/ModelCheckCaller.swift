@@ -52,7 +52,7 @@ public class ModelCheckCaller {
             
             var guaranteeIter = 0
             while guaranteeIter < automata.guarantees.count {
-                automata.guarantees[guaranteeIter] = automata.guarantees[guaranteeIter].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, replaced_ltl: tagLTL)
+                automata.guarantees[guaranteeIter] = automata.guarantees[guaranteeIter].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, tagLTL: tagLTL)
                 guaranteeIter += 1
             }
         }
@@ -140,7 +140,7 @@ public class ModelCheckCaller {
     
     
     public func getEAHyperAssumptions(automata: Automata) -> String {
-        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags)
+        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
         
         var strings: [String] = []
         for line in completeInformationAssumptions {

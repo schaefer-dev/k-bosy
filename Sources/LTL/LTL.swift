@@ -235,10 +235,27 @@ extension LTL {
     }
     
     
+    public func stringReplaceLTL(oldLTLSubString: String, newLTLSubString: String) -> LTL {
+        let oldString = self.description
+        
+        let newString = oldString.replacingOccurrences(of: oldLTLSubString, with: newLTLSubString)
+        
+        
+        do {
+            let newLTL = try LTL.parse(fromString: newString)
+            return newLTL
+        } catch {
+            assertionFailure("Error in generatingTransitionAssumptions when parsing LTL condition " + newString)
+            return self
+        }
+    }
+    
+    
+    
     /**
     * Replace occurance(s) of given knowledge term with another given LTL formula. Returns the updated LTL formula in which all replacements have been transformed.
     */
-    public func replaceKnowledgeWithLTL(knowledge_ltl: LTL, replaced_ltl: LTL) -> LTL {
+    public func replaceKnowledgeWithLTL(knowledge_ltl: LTL, tagLTL: LTL) -> LTL {
 
         switch self {
         case .atomicProposition(let ap):
@@ -250,23 +267,23 @@ extension LTL {
             if function == LTLFunction.know {
                 if self == knowledge_ltl {
                     //print("DEBUG: found matching knowledge term " + self.description + " ... is being replaced.")
-                    return replaced_ltl
+                    return tagLTL
                 } else {
                     // also cover cases in which Knowledge Operators are nested
                     for i in 0 ..< parameters.count {
-                        parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                        parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, tagLTL: tagLTL)
                     }
                     return .application(function, parameters: parameters)
                 }
             } else {
                 /* if not application of knowledge operator call down recursively */
                 for i in 0 ..< parameters.count {
-                    parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+                    parameters[i] = parameters[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, tagLTL: tagLTL)
                 }
                 return .application(function, parameters: parameters)
             }
         case .pathQuantifier(_, parameters: _, let body):
-            return body.replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, replaced_ltl: replaced_ltl)
+            return body.replaceKnowledgeWithLTL(knowledge_ltl: knowledge_ltl, tagLTL: tagLTL)
         }
     }
 

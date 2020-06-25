@@ -207,7 +207,7 @@ class KBSCConstructionTest: XCTestCase {
         let obs_automata = setupObsNumberv1_tagged()
         obs_automata.finalize()
 
-        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: ["k1", "k2"])
+        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: ["k1", "k2"], tagsInAPs: true)
 
         XCTAssertEqual(entire_assumptions.count, 20)
 
@@ -325,7 +325,7 @@ class KBSCConstructionTest: XCTestCase {
         let obs_automata = setupObsNumberv1()
         obs_automata.finalize()
 
-        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: [])
+        let entire_assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: obs_automata, tags: [], tagsInAPs: true)
 
         XCTAssertEqual(entire_assumptions.count, 20)
 

@@ -27,7 +27,7 @@ class KnowledgeTransformationTest: XCTestCase {
         let obsAutomata = kbsc.run()
         obsAutomata.finalize()
 
-        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags, tagsAsAPs: true)
         
         // test guarantees
         XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
@@ -109,7 +109,7 @@ class KnowledgeTransformationTest: XCTestCase {
         let obsAutomata = kbsc.run()
         obsAutomata.finalize()
 
-        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags)
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: tags, tagsAsAPs: true)
         
         XCTAssertTrue(spec.inputs.contains("k0"))
         XCTAssertTrue(spec.inputs.contains("k1"))
@@ -126,6 +126,53 @@ class KnowledgeTransformationTest: XCTestCase {
         
         XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
         XCTAssertEqual(spec.guarantees[1].description, "F ((k0) ∨ (k1))")
+    }
+    
+    
+    func testGraphGivenRulesStatesInGuarantees() {
+
+        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: false)
+        
+        // tags not added as input APs
+        XCTAssertTrue(!spec.inputs.contains("k0"))
+        XCTAssertTrue(!spec.inputs.contains("k1"))
+        
+        // test if candidates states tags are forwarded correctly
+        XCTAssertEqual(spec.assumptions[8].description, "G ((s0) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[9].description, "G ((s1) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[10].description, "G ((s1s2) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[11].description, "G ((s2) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[12].description, "G ((s3) -> ((y1) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[13].description, "G ((s4) -> ((y2) ∧ (¬ (y1))))")
+        
+        //test if guarantees have been adjusted correctly
+        
+        XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
+        XCTAssertEqual(spec.guarantees[1].description, "F (((s1) ∨ (s3)) ∨ ((s2) ∨ (s4)))")
+    }
+    
+    
+    func testGraphGivenRulesTagsInStateAssumptions() {
+
+        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: true)
+        
+        // tags are added as input APs
+        XCTAssertTrue(!spec.inputs.contains("k0"))
+        XCTAssertTrue(spec.inputs.contains("k1"))
+        XCTAssertTrue(spec.inputs.contains("k2"))
+        
+        // test if candidates states tags are forwarded correctly
+        XCTAssertEqual(spec.assumptions[8].description, "G ((s0) -> (((((⊤) ∧ (¬ (k1))) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[9].description, "G ((s1) -> ((((k1) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[10].description, "G ((s1s2) -> (((((⊤) ∧ (¬ (k1))) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[11].description, "G ((s2) -> ((((k2) ∧ (¬ (k1))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[12].description, "G ((s3) -> ((((y1) ∧ (k1)) ∧ (¬ (k2))) ∧ (¬ (y2))))")
+        XCTAssertEqual(spec.assumptions[13].description, "G ((s4) -> ((((y2) ∧ (k2)) ∧ (¬ (k1))) ∧ (¬ (y1))))")
+        
+        //test if guarantees have been adjusted correctly
+        
+        XCTAssertEqual(spec.guarantees[0].description, "G ((¬ (o1)) ∨ (¬ (o2)))")
+        XCTAssertEqual(spec.guarantees[1].description, "F ((k1) ∨ (k2))")
     }
 
 }

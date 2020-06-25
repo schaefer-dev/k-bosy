@@ -13,7 +13,7 @@ public class AssumptionsGenerator {
     /**
      Assumes that bitset representation has been built whenever this function is called
      */
-    public static func generateAutomataAssumptions(auto: Automata, tags: [String]) -> [LTL] {
+    public static func generateAutomataAssumptions(auto: Automata, tags: [String], tagsInAPs: Bool) -> [LTL] {
         var returnAssumptions: [LTL] = []
 
         // create set of tags that has to be used
@@ -29,7 +29,7 @@ public class AssumptionsGenerator {
 
         returnAssumptions += self.internal_generatePossibleStateAssumptions(auto: auto)
         returnAssumptions.append(self.internal_generateInitialStateAssumptions(auto: auto))
-        returnAssumptions +=  self.internal_generateStateAPsAssumptions(auto: auto)
+        returnAssumptions +=  self.internal_generateStateAPsAssumptions(auto: auto, tagsInAPs: tagsInAPs)
         returnAssumptions += self.internal_generateTransitionAssumptions(auto: auto)
 
         return returnAssumptions
@@ -145,7 +145,7 @@ public class AssumptionsGenerator {
     /**
      generates assumptions which assign each state their respective APs, make sure that non-observable APs are not contained here
      */
-    public static func internal_generateStateAPsAssumptions(auto: Automata) -> [LTL] {
+    public static func internal_generateStateAPsAssumptions(auto: Automata, tagsInAPs: Bool) -> [LTL] {
         let allStates = auto.get_allStates()
         let allObservableAPs = auto.apList.get_allObservableAPs()
         var returnAssumptions: [LTL] = []
@@ -158,11 +158,13 @@ public class AssumptionsGenerator {
                 obsStateAPs.append(ap)
             }
 
-            // add all the tags that have been set in this state
-            for tag in allStates[currentStateIndex].getAnnotation() {
-                let tagAPOpt = auto.apList.lookupAP(apName: tag)
-                assert(tagAPOpt != nil, "tag AP was not created properly")
-                obsStateAPs.append(tagAPOpt!)
+            if tagsInAPs {
+                // add all the tags that have been set in this state
+                for tag in allStates[currentStateIndex].getAnnotation() {
+                    let tagAPOpt = auto.apList.lookupAP(apName: tag)
+                    assert(tagAPOpt != nil, "tag AP was not created properly")
+                    obsStateAPs.append(tagAPOpt!)
+                }
             }
 
             // generate string version of this array with all APs that hold in this state
