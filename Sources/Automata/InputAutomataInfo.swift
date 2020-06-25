@@ -37,7 +37,7 @@ public struct InputAutomataInfo: Codable {
             do {
                 let tagLTL = try LTL.parse(fromString: newTag)
                 for i in 0 ..< self.guarantees.count {
-                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, replaced_ltl: tagLTL)
+                    self.guarantees[i] = self.guarantees[i].replaceKnowledgeWithLTL(knowledge_ltl: knowledgeTerm, tagLTL: tagLTL)
                 }
             } catch {
                 print("ERROR: could not generate LTL for Tag")

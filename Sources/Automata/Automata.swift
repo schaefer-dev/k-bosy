@@ -143,6 +143,50 @@ public class Automata {
 
         startState.addTransition(trans: newTransition)
     }
+    
+    
+    /**
+     For all  given tags, look through state-structure and then replace this tag in guarantees with the disjunction of all states that are annotated with this tag.
+     */
+    public func getGuaranteesWithCandidateStateNames(tags: [String]) -> [LTL]{
+        let allStates = self.get_allStates()
+        var newGuarantees: [LTL] = self.guarantees
+        for tag in tags {
+            var tagStates: [AutomataState] = []
+            
+            // check for every state if it was annotated with this parcitular tag
+            for state in allStates {
+                if state.getAnnotation().contains(tag) {
+                    tagStates.append(state)
+                }
+            }
+            
+            var tagStateNames: [String] = []
+            for tagState in tagStates {
+                tagStateNames.append(tagState.name)
+            }
+            
+            var tagStateFormula = ""
+            
+            if tagStateNames.count == 0 {
+                // if no candidate state replace it with formula 'false'
+                tagStateFormula = "false"
+            } else {
+                tagStateFormula = "("
+                tagStateFormula += tagStateNames.joined(separator: " || ")
+                tagStateFormula += ")"
+            }
+            
+            // replace all all occurances of this tag with this formula
+            var guaranteeIndex = 0
+            while (guaranteeIndex < newGuarantees.count) {
+                newGuarantees[guaranteeIndex] = newGuarantees[guaranteeIndex].stringReplaceLTL(oldLTLSubString: tag, newLTLSubString: tagStateFormula)
+                guaranteeIndex += 1
+            }
+        }
+        
+        return newGuarantees
+    }
 
     /**
      performs simplifications in this automata.

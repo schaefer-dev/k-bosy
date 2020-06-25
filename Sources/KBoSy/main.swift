@@ -90,7 +90,7 @@ do {
             let obsAutomata = kbsc.run()
             obsAutomata.finalize()
 
-            let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags)
+            let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: false)
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
             print("Output file saved.")
