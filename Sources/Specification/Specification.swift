@@ -46,7 +46,7 @@ public struct SynthesisSpecification: Codable {
     }
 
     public init(automata: Automata, tags: [String]) {
-        self.semantics = TransitionSystemType.moore
+        self.semantics = TransitionSystemType.mealy
         self.inputs = AssumptionsGenerator.getAutomataInputAPs(auto: automata, tags: tags)
         self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
         self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: tags)
