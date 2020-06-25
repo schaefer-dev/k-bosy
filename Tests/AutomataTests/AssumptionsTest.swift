@@ -96,7 +96,7 @@ class AssumptionsTest: XCTestCase {
         automata.reduceToObservablePart()
         automata.finalize()
 
-        let test_value = AssumptionsGenerator.internal_generateStateAPsAssumptions(auto: automata)
+        let test_value = AssumptionsGenerator.internal_generateStateAPsAssumptions(auto: automata, tagsInAPs: true)
         XCTAssertEqual(test_value.count, 4)
         XCTAssertEqual(test_value[0].description, "G ((s0) -> (((i1) ∧ (i2)) ∧ (¬ (grant))))")
         XCTAssertEqual(test_value[1].description, "G ((s1) -> (((grant) ∧ (i2)) ∧ (¬ (i1))))")
@@ -195,7 +195,7 @@ class AssumptionsTest: XCTestCase {
         let automata = dotGraphOpt!
         automata.finalize()
 
-        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [], tagsInAPs: true)
 
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)
@@ -215,7 +215,7 @@ class AssumptionsTest: XCTestCase {
         automata.reduceToObservablePart()
         automata.finalize()
 
-        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [])
+        let test_value = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [], tagsInAPs: true)
 
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)
@@ -237,5 +237,4 @@ class AssumptionsTest: XCTestCase {
 
         // TODO maybe complete this test here with different input so its not redudant with previous tests of submethods
     }
-
 }
