@@ -96,6 +96,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--spec xcode_tests/kltl/knowledge_01.kbosy"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-i kinfo_file/random_01.json -d automata/random_01.gv"
             isEnabled = "NO">
          </CommandLineArgument>
@@ -108,8 +112,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
+            argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i xcode_tests/kinfo_file/test_numberv1.json -d xcode_tests/automata/test_numberv1.gv"

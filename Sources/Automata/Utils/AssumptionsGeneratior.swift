@@ -147,7 +147,7 @@ public class AssumptionsGenerator {
      */
     public static func internal_generateStateAPsAssumptions(auto: Automata, tagsInAPs: Bool) -> [LTL] {
         let allStates = auto.get_allStates()
-        let allObservableAPs = auto.apList.get_allObservableAPs()
+        let allObservableAPs = auto.apList.get_allAPs()
         var returnAssumptions: [LTL] = []
 
         var currentStateIndex = 0

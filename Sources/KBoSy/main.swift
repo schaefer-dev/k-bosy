@@ -53,11 +53,16 @@ do {
     let parguments = try parser.parse(argsv)
 
     
-    /* --------------------------------------------------------------------------------------------- */
+    /* -------------------------------------------------------------*/
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(arg_automataInfoFile) {
         if let dotGraphFilename = parguments.get(arg_dotFile) {
             
+            /**
+             check if user wishes to keep tags as new inputAPs and add them to the assumptions.
+             Otherwise the determined states would have been added to guarantees directly
+                as a disjunciton of statenames.
+             */
             var tagsAsAPs = false
             if let tagsArg = parguments.get(arg_tags), tagsArg {
                 tagsAsAPs = true
@@ -78,6 +83,39 @@ do {
             exit(EXIT_SUCCESS)
         }
     }
+    
+    
+    /* Alternative input of just LTL assumptions and rewriting in spec directly using given rules */
+    if let inputFilename = parguments.get(input) {
+        
+        let specOpt = readSpecificationFile(path: inputFilename)
+        if (specOpt == nil) {
+            print("ERROR: something went wrong while reading specifictaion File")
+            exit(EXIT_FAILURE)
+        }
+        var spec = specOpt!
+        
+        /* Apply transformation rules that are contained in the input file.*/
+        if !spec.applyTransformationRules(){
+            print("ERROR: Transformation Rules could not be applied.")
+            exit(EXIT_FAILURE)
+        }
+        
+        
+        let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_guarantees_transformation", dir: getMasterSpecDirectory())
+        print("Output file saved.")
+        
+        
+        
+        if let synt = parguments.get(arg_synthesize), synt {
+              print("\n--------------------------------------------------")
+              print("Calling Bosy now....\n")
+              callBoSy(inputFilename: outputFilename)
+          }
+        
+          exit(EXIT_SUCCESS)
+    }
+    
 
 /* Handle Argument Parser Errors */
 } catch ArgumentParserError.expectedValue(let value) {
