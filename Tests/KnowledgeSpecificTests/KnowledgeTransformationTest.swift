@@ -49,6 +49,24 @@ class KnowledgeTransformationTest: XCTestCase {
         
         // TODO: think about how to test exact values of assumptions (nondeterministic ordering makes this hard)  
     }
+    
+    
+    func testEAHyperAnnotationUnobservableProperty() {
+
+        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/electricity_repair.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/electricity_repair.gv", tagsAsAPs: false)
+        
+        // test guarantees
+        XCTAssertEqual(spec.guarantees[0].description, "G ((repair) -> ((s0) ∨ (s1)))")
+        XCTAssertEqual(spec.guarantees[1].description, "F (repair)")
+        
+        var assumptions: [String] = []
+        for assumption in spec.assumptions {
+            assumptions.append(assumption.description)
+        }
+        
+        XCTAssertEqual(spec.assumptions.count, 14)
+        
+    }
 
     func testTransformationKnowledge01() {
         let specOpt = readSpecificationFile(path: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kltl/knowledge_01.kbosy")
