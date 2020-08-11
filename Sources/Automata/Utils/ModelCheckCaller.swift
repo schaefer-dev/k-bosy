@@ -78,10 +78,7 @@ public class ModelCheckCaller {
                     state.addAnnotation(annotationName: tagName)
                     found = true
                 } else {
-                    print("DEBUG: candidate state denied for " + state.name)
-                    print(completInformationAssumptions)
-                    print("\n")
-                    print(implyCondition)
+                    // print("DEBUG: candidate state denied for " + state.name)
                 }
             }
             // if none of the states are candidates print warning
