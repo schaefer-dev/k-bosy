@@ -243,6 +243,11 @@ public class Automata {
 }
 
 func wildcard(_ string: String, pattern: String) -> Bool {
-    let pred = NSPredicate(format: "self LIKE %@", pattern)
-    return !NSArray(object: string).filtered(using: pred).isEmpty
+    let range = NSRange(location: 0, length: string.utf16.count)
+    let regex = try! NSRegularExpression(pattern: pattern)
+    
+    if regex.firstMatch(in: string, options: [], range: range) != nil {
+        return true
+    }
+    return false
 }

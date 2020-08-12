@@ -100,9 +100,9 @@ public class ModelCheckCaller {
      NOTE: make sure that environment variable `EAHYPER_SOLVER_DIR`  is set to `/location/eahyper/LTL_SAT_solver`
      */
     public func callEAHyper(assumptions: String, implies: String) -> Bool {
-        print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
-        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies])
-        print("DEBUG: EAHyper output: " + output)
+        //print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
+        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        //print("DEBUG: EAHyper output: " + output)
         
         if output.contains("does imply") {
             return true

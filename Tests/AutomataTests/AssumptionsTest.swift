@@ -219,13 +219,14 @@ class AssumptionsTest: XCTestCase {
 
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 14)
-        XCTAssertEqual(test_value[0].description, "G ((s0) -> (((¬ (s1)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
-        XCTAssertEqual(test_value[1].description, "G ((s1) -> (((¬ (s0)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
-        XCTAssertEqual(test_value[2].description, "G ((s2) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s3))))")
-        XCTAssertEqual(test_value[3].description, "G ((s3) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))))")
-        XCTAssertEqual(test_value[4].description, "G ((((s0) ∨ (s1)) ∨ (s2)) ∨ (s3))")
+        XCTAssertEqual(test_value[0].description, "s0")
+        XCTAssertEqual(test_value[1].description, "G ((s0) -> (((¬ (s1)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[2].description, "G ((s1) -> (((¬ (s0)) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[3].description, "G ((s2) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s3))))")
+        XCTAssertEqual(test_value[4].description, "G ((s3) -> (((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))))")
+        XCTAssertEqual(test_value[5].description, "G ((((s0) ∨ (s1)) ∨ (s2)) ∨ (s3))")
 
-        XCTAssertEqual(test_value[5].description, "s0")
+        
         XCTAssertEqual(test_value[6].description, "G ((s0) -> ((⊤) ∧ (¬ (r1))))")
         XCTAssertEqual(test_value[7].description, "G ((s1) -> ((r1) ∧ (⊤)))")
         XCTAssertEqual(test_value[8].description, "G ((s2) -> ((r1) ∧ (⊤)))")

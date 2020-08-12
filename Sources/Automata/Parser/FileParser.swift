@@ -92,7 +92,7 @@ public class FileParser {
                         automata.add_initial_state(newInitialState: newInitialState)
                     } else {
                         // Condition to find transition description line
-                        if wildcard(contentLines[index], pattern: "??*->??*") {
+                        if wildcard(contentLines[index], pattern: "..->..") {
                             // print("PARSING: Transition found in Statement " + String(index + 1))
                             let substrings = contentLines[index].components(separatedBy: "->")
                             let startState = substrings[0].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -104,14 +104,14 @@ public class FileParser {
                             automata.parseAndAddTransition(startString: startState, endString: goalState, condition: equation)
                         } else {
                             // if wildcard does not match we may be looking at a state description
-                            if (wildcard(contentLines[index], pattern: "*[*label=\"{*}\"*]*")) {
+                            if (wildcard(contentLines[index], pattern: ".*\\[.*label=\"\\{.*\\}\".*\\].*")) {
                                 // matches state description line according to wildcard
                                 let substrings = contentLines[index].components(separatedBy: "\"")
                                 var formulaSubstring = substrings[1].trimmingCharacters(in: .whitespacesAndNewlines)
                                 let leftSubstring = substrings[0].components(separatedBy: "[")
                                 let statenameSubstring = leftSubstring[0].trimmingCharacters(in: .whitespacesAndNewlines)
 
-                                // print("DEBUG: Parser found APs " + formula_substring + " in state " + statename_substring)
+                                print("DEBUG: Parser found APs " + formulaSubstring + " in state " + statenameSubstring)
 
                                 // Remove brackets
                                 formulaSubstring.removeLast()
