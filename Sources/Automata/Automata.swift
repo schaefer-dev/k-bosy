@@ -175,6 +175,8 @@ public class Automata {
                 tagStateFormula = "("
                 tagStateFormula += tagStateNames.joined(separator: " || ")
                 tagStateFormula += ")"
+                
+                print("DEBUG: replacing tag " + tag + " with formula " + tagStateFormula)
             }
             
             // replace all all occurances of this tag with this formula
