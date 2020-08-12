@@ -121,11 +121,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
