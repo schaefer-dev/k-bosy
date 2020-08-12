@@ -72,7 +72,7 @@ public class ModelCheckCaller {
             for state in allStates {
                 let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
 
-                if callEAHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
+                if callEAHyper(assumptions: "forall p. " + state.name + "_p &  " + completInformationAssumptions, implies: implyCondition) {
                     // if MCHyper confirms implication add candidate-tag to this state
                     print("ALGO: candidate state confirmed for " + state.name)
                     state.addAnnotation(annotationName: tagName)
@@ -100,8 +100,9 @@ public class ModelCheckCaller {
      NOTE: make sure that environment variable `EAHYPER_SOLVER_DIR`  is set to `/location/eahyper/LTL_SAT_solver`
      */
     public func callEAHyper(assumptions: String, implies: String) -> Bool {
-        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
-        //print("DEBUG: EAHyper output: " + output)
+        print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
+        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies])
+        print("DEBUG: EAHyper output: " + output)
         
         if output.contains("does imply") {
             return true
@@ -140,16 +141,22 @@ public class ModelCheckCaller {
         return knowledgeTermSet
     }
     
-    
+    /* Returns assumptions required for EAHyper
+     NOTE: does NOT set the initial state so this can be done later!
+      we have to add later: "forall p. s0_p & "*/
     public func getEAHyperAssumptions(automata: Automata) -> String {
-        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
+        var completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
         
         var strings: [String] = []
+        
+        // Remove line which contains initial state setting
+        completeInformationAssumptions.remove(at: 0)
+        
         for line in completeInformationAssumptions {
             strings.append(line.getEAHyperFormat())
         }
         
-        let assumptionsString = "forall p. " + strings.joined(separator: " & ")
+        let assumptionsString =  strings.joined(separator: " & ")
         
         return assumptionsString
     }

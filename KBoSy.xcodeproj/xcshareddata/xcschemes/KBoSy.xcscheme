@@ -104,6 +104,14 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-i kinfo_file/detect_globally.json -d automata/detect_globally.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/detect_next.json -d automata/detect_next.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-i kinfo_file/ampelv2.json -d automata/ampelv2.gv"
             isEnabled = "NO">
          </CommandLineArgument>
@@ -113,11 +121,19 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i xcode_tests/kinfo_file/test_numberv1.json -d xcode_tests/automata/test_numberv1.gv"

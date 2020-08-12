@@ -26,9 +26,10 @@ public class AssumptionsGenerator {
         for tag in tagSet {
             _ = AP(name: tag, observable: true, list: auto.apList)
         }
+        
+        returnAssumptions.append(self.internal_generateInitialStateAssumptions(auto: auto))
 
         returnAssumptions += self.internal_generatePossibleStateAssumptions(auto: auto)
-        returnAssumptions.append(self.internal_generateInitialStateAssumptions(auto: auto))
         returnAssumptions +=  self.internal_generateStateAPsAssumptions(auto: auto, tagsInAPs: tagsInAPs)
         returnAssumptions += self.internal_generateTransitionAssumptions(auto: auto)
 
