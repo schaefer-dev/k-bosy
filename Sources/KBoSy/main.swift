@@ -12,7 +12,7 @@ import Specification
 import Automata
 
 
-let inputFilePrefix = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+let inputFilePrefix = "/home/daniel/benchmarks/kltl_inputs/"
 
 
 

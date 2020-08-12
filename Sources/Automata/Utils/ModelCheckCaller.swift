@@ -16,7 +16,7 @@ public class ModelCheckCaller {
     let tagPrefix = "k"
     var tags: [String]
     var tagMapping: [String: LTL]
-    let eaHyperDir = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
+    let eaHyperDir = "/home/daniel/eahyper/eahyper_src/eahyper.native"
     
     
     public init(preexistingTags: [String]) {
@@ -101,7 +101,7 @@ public class ModelCheckCaller {
      */
     public func callEAHyper(assumptions: String, implies: String) -> Bool {
         //print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
-        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies])
         //print("DEBUG: EAHyper output: " + output)
         
         if output.contains("does imply") {

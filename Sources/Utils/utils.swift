@@ -8,7 +8,7 @@
 
 import Foundation
 
-let output_dir = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/"
+let output_dir = "/home/daniel/Desktop"
 
 
 
