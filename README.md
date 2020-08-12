@@ -4,8 +4,11 @@ create xcodeproj from swift package using `swift package generate-xcodeproj`
 
 
 # Dependencies
-- Aalta compilation broken with clang g++, using gcc@6 might fix this?
 - adjust directories in Sources/Utils/utils.swift and Sources/KBoSy/main.swift
+- set environment variable `EAHYPER\_SOLVER\_DIR="...../eahyper/LTL\_SAT\_solver"`
+
+# Linux
+- support for aalta backend in EAHyper, huge performance benefits due to optimzation for early termination
 
 
 ## Automata Info Input
