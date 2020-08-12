@@ -5,6 +5,7 @@ create xcodeproj from swift package using `swift package generate-xcodeproj`
 
 # Dependencies
 - Aalta compilation broken with clang g++, using gcc@6 might fix this?
+- adjust directories in Sources/Utils/utils.swift and Sources/KBoSy/main.swift
 
 
 ## Automata Info Input

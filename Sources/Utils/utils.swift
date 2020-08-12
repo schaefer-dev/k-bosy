@@ -8,6 +8,10 @@
 
 import Foundation
 
+let output_dir = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/"
+
+
+
 public func shell(launchPath: String, arguments: [String]) -> String {
 
     let process = Process()
@@ -43,7 +47,7 @@ public func getDesktopDirectory() -> URL {
 }
 
 public func getMasterSpecDirectory() -> URL {
-    let pathUrl = URL(fileURLWithPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/")
+    let pathUrl = URL(fileURLWithPath: output_dir)
     return pathUrl
 }
 
