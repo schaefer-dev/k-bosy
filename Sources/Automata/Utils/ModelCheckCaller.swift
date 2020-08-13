@@ -17,12 +17,14 @@ public class ModelCheckCaller {
     var tags: [String]
     public var tagMapping: [String: LTL]
     let eaHyperDir: String
+    let aalta_backend: Bool
     
     
-    public init(preexistingTags: [String]) {
+    public init(preexistingTags: [String], aalta_backend: Bool = false) {
         self.preexistingTags = preexistingTags
         self.tags = []
         self.tagMapping = [String: LTL]()
+        self.aalta_backend = aalta_backend
         if let envValue = ProcessInfo.processInfo.environment["KBOSY_EAHYPER_BINARY"] {
             self.eaHyperDir = envValue
         } else {
@@ -101,14 +103,16 @@ public class ModelCheckCaller {
      Call MCHyper and check if Assumptions imply 'implies'.
      Both argument are LTL formulas and have to conform to EAHyper-s input format including the  path quantifiers
      
-     TODO: fix EAHyper such that we do not have to use --pltl argument (--aalta is faster)
-     TODO: add initial test to ensure that EAHyper is available and working somewhere in main?
-     
      NOTE: make sure that environment variable `EAHYPER_SOLVER_DIR`  is set to `/location/eahyper/LTL_SAT_solver`
      */
     public func callEAHyper(assumptions: String, implies: String) -> Bool {
         //print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
-        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies])
+        var output = ""
+        if self.aalta_backend {
+            output += shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--aalta"])
+        } else {
+            output += shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        }
         //print("DEBUG: EAHyper output: " + output)
         
         if output.contains("does imply") {
@@ -116,7 +120,6 @@ public class ModelCheckCaller {
         } else {
             return false
         }
-        return false
     }
     
     

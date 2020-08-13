@@ -42,6 +42,11 @@ do {
                                 usage: "enables following bosy call to synthesize transformed spec.",
                                 completion: ShellCompletion.none)
     
+    let arg_aalta_backend = parser.add(option: "--aalta",
+                                    kind: Bool.self,
+                                    usage: "enables aalta backend which results in performance improvlements on supported systems.",
+                                    completion: ShellCompletion.none)
+    
     let arg_tags = parser.add(option: "--tags", shortName: "-t",
                                 kind: Bool.self,
                                 usage: "enables following bosy call to synthesize transformed spec.",
@@ -54,6 +59,11 @@ do {
         inputFilePrefix = env_input_dir
     } else {
         print("WARNING: environment input dir not specified, entire path has to be given.")
+    }
+    
+    var aalta_backend_enabled = false
+    if let temparg = parguments.get(arg_aalta_backend), temparg {
+        aalta_backend_enabled = true
     }
 
     
@@ -72,7 +82,7 @@ do {
                 tagsAsAPs = true
             }
             
-            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs)
+            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aalta_backend_enabled)
         
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())

@@ -96,6 +96,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--aalta"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--spec xcode_tests/kltl/knowledge_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>
