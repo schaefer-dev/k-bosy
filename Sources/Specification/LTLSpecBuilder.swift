@@ -7,6 +7,7 @@
 
 import Foundation
 import Automata
+import Utils
 
 
 public class LTLSpecBuilder {
@@ -45,18 +46,24 @@ public class LTLSpecBuilder {
         
         let modelChecker = ModelCheckCaller(preexistingTags: manualTags, aalta_backend: aalta_backend)
         
-        // Annotate algorithmically the remaining knowledgeTerms
-        // this adds the tags also in the list of APs of automata
-        let mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+        var mcTags: [String] = []
+        printTimeElapsedWhenRunningCode(title: "candidateStateSearch()") {
+            // Annotate algorithmically the remaining knowledgeTerms
+            // this adds the tags also in the list of APs of automata
+            mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
+        }
         
         
 
         let kbsc = KBSConstructor(input_automata: automata)
 
-        let obsAutomata = kbsc.run()
-        obsAutomata.finalize()
+        var obsAutomata: Automata? = nil
+        printTimeElapsedWhenRunningCode(title: "kbsc()") {
+            obsAutomata = kbsc.run()
+        }
+        obsAutomata!.finalize()
 
-        let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
+        let spec = SynthesisSpecification(automata: obsAutomata!, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
         
         return spec
     }

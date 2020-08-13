@@ -133,11 +133,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i xcode_tests/kinfo_file/test_numberv1.json -d xcode_tests/automata/test_numberv1.gv"

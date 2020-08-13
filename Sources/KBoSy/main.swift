@@ -72,26 +72,28 @@ do {
     if let automataInfoFilename = parguments.get(arg_automataInfoFile) {
         if let dotGraphFilename = parguments.get(arg_dotFile) {
             
-            /**
-             check if user wishes to keep tags as new inputAPs and add them to the assumptions.
-             Otherwise the determined states would have been added to guarantees directly
-                as a disjunciton of statenames.
-             */
-            var tagsAsAPs = false
-            if let tagsArg = parguments.get(arg_tags), tagsArg {
-                tagsAsAPs = true
-            }
+            printTimeElapsedWhenRunningCode(title: "main()") {
+                /**
+                 check if user wishes to keep tags as new inputAPs and add them to the assumptions.
+                 Otherwise the determined states would have been added to guarantees directly
+                    as a disjunciton of statenames.
+                 */
+                var tagsAsAPs = false
+                if let tagsArg = parguments.get(arg_tags), tagsArg {
+                    tagsAsAPs = true
+                }
+                
+                let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aalta_backend_enabled)
             
-            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aalta_backend_enabled)
-        
 
-            let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
-            print("Output file saved.")
+                let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
+                print("Output file saved.")
 
-            if let synt = parguments.get(arg_synthesize), synt {
-                  print("\n--------------------------------------------------")
-                  print("Calling Bosy now....\n")
-                  callBoSy(inputFilename: outputFilename)
+                if let synt = parguments.get(arg_synthesize), synt {
+                      print("\n--------------------------------------------------")
+                      print("Calling Bosy now....\n")
+                      callBoSy(inputFilename: outputFilename)
+                }
             }
 
             exit(EXIT_SUCCESS)
@@ -102,32 +104,34 @@ do {
     /* Alternative input of just LTL assumptions and rewriting in spec directly using given rules */
     if let inputFilename = parguments.get(input) {
         
-        let specOpt = readSpecificationFile(path: inputFilename)
-        if (specOpt == nil) {
-            print("ERROR: something went wrong while reading specifictaion File")
-            exit(EXIT_FAILURE)
+        printTimeElapsedWhenRunningCode(title: "main()") {
+        
+            let specOpt = readSpecificationFile(path: inputFilename)
+            if (specOpt == nil) {
+                print("ERROR: something went wrong while reading specifictaion File")
+                exit(EXIT_FAILURE)
+            }
+            var spec = specOpt!
+            
+            /* Apply transformation rules that are contained in the input file.*/
+            if !spec.applyTransformationRules(){
+                print("ERROR: Transformation Rules could not be applied.")
+                exit(EXIT_FAILURE)
+            }
+            
+            
+            let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_guarantees_transformation", dir: getMasterSpecDirectory())
+            print("Output file saved.")
+            
+            
+            
+            if let synt = parguments.get(arg_synthesize), synt {
+                print("\n--------------------------------------------------")
+                print("Calling Bosy now....\n")
+                callBoSy(inputFilename: outputFilename)
+            }
         }
-        var spec = specOpt!
-        
-        /* Apply transformation rules that are contained in the input file.*/
-        if !spec.applyTransformationRules(){
-            print("ERROR: Transformation Rules could not be applied.")
-            exit(EXIT_FAILURE)
-        }
-        
-        
-        let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_guarantees_transformation", dir: getMasterSpecDirectory())
-        print("Output file saved.")
-        
-        
-        
-        if let synt = parguments.get(arg_synthesize), synt {
-              print("\n--------------------------------------------------")
-              print("Calling Bosy now....\n")
-              callBoSy(inputFilename: outputFilename)
-          }
-        
-          exit(EXIT_SUCCESS)
+        exit(EXIT_SUCCESS)
     }
     
 
