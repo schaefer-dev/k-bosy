@@ -4,7 +4,6 @@ create xcodeproj from swift package using `swift package generate-xcodeproj`
 
 
 # Dependencies
-- adjust directories in Sources/Utils/utils.swift and Sources/KBoSy/main.swift
 - set environment variable `EAHYPER_SOLVER_DIR="...../eahyper/LTL_SAT_solver"`
 - set environment variable `KBOSY_EAHYPER_BINARY="..../eahyper/eahyper_src/eahyper.native"`
 - set environment variable `KBOSY_OUTPUT_DIR`
