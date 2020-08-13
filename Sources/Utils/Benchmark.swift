@@ -44,8 +44,13 @@ public class Benchmark {
             print("ERROR: Benchmark for \(self.name) was not started or stopped correctly")
         }
         let timeElapsed = self.stopTime! - self.startTime!
-        let timeRounded = Double(round(1000 *  timeElapsed) / 1000)
+        let timeRounded = roundDouble(number: timeElapsed, toPlaces: 4)
         print("Time elapsed during \(self.name): \(timeRounded)s.")
+    }
+    
+    func roundDouble(number: Double, toPlaces:Int) -> Double {
+        let divisor = pow(10.0, Double(toPlaces))
+        return (number * divisor).rounded() / divisor
     }
     
 }
