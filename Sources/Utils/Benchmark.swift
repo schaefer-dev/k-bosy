@@ -11,8 +11,8 @@ import Foundation
 public class Benchmark {
     
     var name: String
-    var startTime: CFAbsoluteTime?
-    var stopTime: CFAbsoluteTime?
+    var startTime: TimeInterval?
+    var stopTime: TimeInterval?
     
     public init(name: String) {
         self.name = name
@@ -24,7 +24,7 @@ public class Benchmark {
         if (self.startTime != nil) {
             print("ERROR: Benchmark for \(self.name) was attempted to be started a second time!")
         }
-        self.startTime = CFAbsoluteTimeGetCurrent()
+        self.startTime = ProcessInfo.processInfo.systemUptime
     }
     
     public func stop() {
@@ -35,7 +35,7 @@ public class Benchmark {
             print("ERROR: Benchmark for \(self.name) was attempted to be stopped a second time!")
         }
         
-        self.stopTime = CFAbsoluteTimeGetCurrent()
+        self.stopTime = ProcessInfo.processInfo.systemUptime
     }
     
     
