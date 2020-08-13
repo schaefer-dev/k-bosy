@@ -11,9 +11,7 @@ import Utils
 import Specification
 import Automata
 
-
-let inputFilePrefix = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
-
+var inputFilePrefix = ""
 
 
 do {
@@ -51,6 +49,12 @@ do {
 
     let argsv = Array(CommandLine.arguments.dropFirst())
     let parguments = try parser.parse(argsv)
+    
+    if let env_input_dir = ProcessInfo.processInfo.environment["KBOSY_INPUT_DIR"] {
+        inputFilePrefix = env_input_dir
+    } else {
+        print("WARNING: environment input dir not specified, entire path has to be given.")
+    }
 
     
     /* -------------------------------------------------------------*/
@@ -68,7 +72,7 @@ do {
                 tagsAsAPs = true
             }
             
-            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + automataInfoFilename, dotGraphPath: inputFilePrefix + dotGraphFilename, tagsAsAPs: tagsAsAPs)
+            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs)
         
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
