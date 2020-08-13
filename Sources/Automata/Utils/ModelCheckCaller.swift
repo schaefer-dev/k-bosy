@@ -16,13 +16,19 @@ public class ModelCheckCaller {
     let tagPrefix = "k"
     var tags: [String]
     public var tagMapping: [String: LTL]
-    let eaHyperDir = "/home/daniel/eahyper/eahyper_src/eahyper.native"
+    let eaHyperDir: String
     
     
     public init(preexistingTags: [String]) {
         self.preexistingTags = preexistingTags
         self.tags = []
         self.tagMapping = [String: LTL]()
+        if let envValue = ProcessInfo.processInfo.environment["KBOSY_EAHYPER_BINARY"] {
+            self.eaHyperDir = envValue
+        } else {
+            print("Missing environment variable 'KBOSY_EAHYPER_BINARY', set to eahyper.native")
+            exit(EXIT_FAILURE)
+        }
     }
 
     /**

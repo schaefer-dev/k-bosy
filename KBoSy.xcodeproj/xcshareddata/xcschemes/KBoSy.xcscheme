@@ -151,6 +151,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "KBOSY_EAHYPER_BINARY"
+            value = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "KBOSY_INPUT_DIR"
             value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
             isEnabled = "YES">
