@@ -15,7 +15,7 @@ public class ModelCheckCaller {
     let preexistingTags: [String]
     let tagPrefix = "k"
     var tags: [String]
-    var tagMapping: [String: LTL]
+    public var tagMapping: [String: LTL]
     let eaHyperDir = "/home/daniel/eahyper/eahyper_src/eahyper.native"
     
     
@@ -42,6 +42,7 @@ public class ModelCheckCaller {
         let knowledgeTermSet = self.getUniqueOccurances(knowledgeTermOccurances: knowledgeTermOccurances)
         
         for knowledgeTerm in knowledgeTermSet {
+
             createNewTagFor(knowledgeFormula: knowledgeTerm)
         }
         

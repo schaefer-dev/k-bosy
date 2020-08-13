@@ -121,7 +121,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
@@ -129,7 +129,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
@@ -148,6 +148,16 @@
          <EnvironmentVariable
             key = "EAHYPER_SOLVER_DIR"
             value = "/Users/daniel/dev/master/eahyper/LTL_SAT_solver"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_INPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_OUTPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
