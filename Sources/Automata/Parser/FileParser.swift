@@ -101,7 +101,7 @@ public class FileParser {
                             let leftSubstring = substrings[0].components(separatedBy: "[")
                             let statenameSubstring = leftSubstring[0].trimmingCharacters(in: .whitespacesAndNewlines)
 
-                            print("DEBUG: Parser found APs " + formulaSubstring + " in state " + statenameSubstring)
+                            //print("DEBUG: Parser found APs " + formulaSubstring + " in state " + statenameSubstring)
 
                             // Remove brackets
                             formulaSubstring.removeLast()
