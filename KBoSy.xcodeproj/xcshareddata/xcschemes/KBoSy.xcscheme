@@ -150,6 +150,16 @@
             value = "/Users/daniel/dev/master/eahyper/LTL_SAT_solver"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_INPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_OUTPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
