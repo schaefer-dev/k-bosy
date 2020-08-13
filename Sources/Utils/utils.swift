@@ -57,17 +57,3 @@ public func callBoSy(inputFilename: String) {
     //let command = "cd /Users/daniel/dev/master/bosy; swift run -c release BoSy --synthesize /Users/daniel/dev/master/bosy/Specs/kbosy_outputs/" + inputFilename
     print(shell(launchPath: "/usr/bin/env", arguments: ["/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/bosy_call.sh", inputFilename]))
 }
-
-public func printTimeElapsedWhenRunningCode(title:String, operation:()->()) {
-    let startTime = CFAbsoluteTimeGetCurrent()
-    operation()
-    let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-    print("Time elapsed for \(title): \(timeElapsed) s.")
-}
-
-public func timeElapsedInSecondsWhenRunningCode(operation: ()->()) -> Double {
-    let startTime = CFAbsoluteTimeGetCurrent()
-    operation()
-    let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-    return Double(timeElapsed)
-}

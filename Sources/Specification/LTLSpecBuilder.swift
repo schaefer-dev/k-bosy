@@ -11,8 +11,17 @@ import Utils
 
 
 public class LTLSpecBuilder {
+    
+    
+    /**
+     Core Function of the main use-case. Reads input files, performs candidate state search
+        followed by knowledge-based subset construction. Finalizes the automaton afterwards
+        to perform optimizations and returns the resulting LTL synthesis task.
+     */
+    public static func KBoSyAlgorithm(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool, aalta_backend: Bool = false, benchmarkEnabled: Bool = false) -> SynthesisSpecification {
         
-    public static func prepareSynthesis(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool, aalta_backend: Bool = false) -> SynthesisSpecification {
+        let mainBenchmark = Benchmark(name: "main()")
+        mainBenchmark.start()
         
         // Read Automata Info File
         let automataInfoOpt = FileParser.readAutomataInfoFile(path: automataInfoPath)
@@ -44,26 +53,37 @@ public class LTLSpecBuilder {
             automata.addTagsToCandidateStates(tags: manualTags, candidateStateNames: candidateStateNames)
         }
         
+        let candidateStateSearchBenchmark = Benchmark(name: "candidateStateSearch()")
+        candidateStateSearchBenchmark.start()
+        
         let modelChecker = ModelCheckCaller(preexistingTags: manualTags, aalta_backend: aalta_backend)
         
-        var mcTags: [String] = []
-        printTimeElapsedWhenRunningCode(title: "candidateStateSearch()") {
-            // Annotate algorithmically the remaining knowledgeTerms
-            // this adds the tags also in the list of APs of automata
-            mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
-        }
+        // Annotate algorithmically the remaining knowledgeTerms
+        // this adds the tags also in the list of APs of automata
+        let mcTags = modelChecker.generateTagsFromGuaranteesUsingMC(automata: &automata)
         
+        candidateStateSearchBenchmark.stop()
         
-
+        let kbscBenchmark = Benchmark(name: "kbsc()")
+        kbscBenchmark.start()
+        
         let kbsc = KBSConstructor(input_automata: automata)
+        let obsAutomata = kbsc.run()
+        
+        kbscBenchmark.stop()
+        
+        obsAutomata.finalize()
 
-        var obsAutomata: Automata? = nil
-        printTimeElapsedWhenRunningCode(title: "kbsc()") {
-            obsAutomata = kbsc.run()
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
+        
+        mainBenchmark.stop()
+        
+        if benchmarkEnabled {
+            print("------BENCHMARK RESULTS------")
+            candidateStateSearchBenchmark.report()
+            kbscBenchmark.report()
+            mainBenchmark.report()
         }
-        obsAutomata!.finalize()
-
-        let spec = SynthesisSpecification(automata: obsAutomata!, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
         
         return spec
     }

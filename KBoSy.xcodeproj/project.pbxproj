@@ -46,6 +46,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		654AA17624E560F400570704 /* Benchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654AA17424E560EE00570704 /* Benchmark.swift */; };
 		6598A3ED24A4FAC500358C7E /* LTLSpecBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6598A3EB24A4FA2700358C7E /* LTLSpecBuilder.swift */; };
 		65DC97D7249BA3D500EE27C6 /* ModelCheckCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */; };
 		65DC97D9249BB27300EE27C6 /* AssumptionsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DC97D8249BB27300EE27C6 /* AssumptionsTest.swift */; };
@@ -476,6 +477,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		654AA17424E560EE00570704 /* Benchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benchmark.swift; sourceTree = "<group>"; };
 		6598A3EB24A4FA2700358C7E /* LTLSpecBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTLSpecBuilder.swift; sourceTree = "<group>"; };
 		65C93C9D2496E94E0086B89F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		65DC97D6249BA3D500EE27C6 /* ModelCheckCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCheckCaller.swift; sourceTree = "<group>"; };
@@ -961,6 +963,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_46 /* utils.swift */,
+				654AA17424E560EE00570704 /* Benchmark.swift */,
 			);
 			name = Utils;
 			path = Sources/Utils;
@@ -1681,6 +1684,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_430 /* utils.swift in Sources */,
+				654AA17624E560F400570704 /* Benchmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
