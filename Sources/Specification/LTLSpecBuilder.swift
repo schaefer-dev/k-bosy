@@ -11,7 +11,7 @@ import Automata
 
 public class LTLSpecBuilder {
         
-    public static func prepareSynthesis(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool) -> SynthesisSpecification {
+    public static func prepareSynthesis(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool, aalta_backend: Bool = false) -> SynthesisSpecification {
         
         // Read Automata Info File
         let automataInfoOpt = FileParser.readAutomataInfoFile(path: automataInfoPath)
@@ -43,7 +43,7 @@ public class LTLSpecBuilder {
             automata.addTagsToCandidateStates(tags: manualTags, candidateStateNames: candidateStateNames)
         }
         
-        let modelChecker = ModelCheckCaller(preexistingTags: manualTags)
+        let modelChecker = ModelCheckCaller(preexistingTags: manualTags, aalta_backend: aalta_backend)
         
         // Annotate algorithmically the remaining knowledgeTerms
         // this adds the tags also in the list of APs of automata
