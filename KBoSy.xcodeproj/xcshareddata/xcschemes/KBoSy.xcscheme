@@ -104,6 +104,14 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-i kinfo_file/detect_globally.json -d automata/detect_globally.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/detect_next.json -d automata/detect_next.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-i kinfo_file/ampelv2.json -d automata/ampelv2.gv"
             isEnabled = "NO">
          </CommandLineArgument>
@@ -113,10 +121,18 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
@@ -132,6 +148,21 @@
          <EnvironmentVariable
             key = "EAHYPER_SOLVER_DIR"
             value = "/Users/daniel/dev/master/eahyper/LTL_SAT_solver"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_EAHYPER_BINARY"
+            value = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_INPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_OUTPUT_DIR"
+            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

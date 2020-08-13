@@ -212,16 +212,14 @@ class KBSCConstructionTest: XCTestCase {
         XCTAssertEqual(entire_assumptions.count, 20)
 
         // state assumptions
-        XCTAssertEqual(entire_assumptions[0].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[1].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[2].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[3].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[4].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[5].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
-        XCTAssertEqual(entire_assumptions[6].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
-
-        // initial state assumptions
-        XCTAssertEqual(entire_assumptions[7].description, "s0")
+        XCTAssertEqual(entire_assumptions[0].description, "s0")
+        XCTAssertEqual(entire_assumptions[1].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[2].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[3].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[4].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[5].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[6].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(entire_assumptions[7].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
 
         // state ap assumptions including tags
         XCTAssertEqual(entire_assumptions[8].description, "G ((s0) -> (((((⊤) ∧ (¬ (k1))) ∧ (¬ (k2))) ∧ (¬ (y1))) ∧ (¬ (y2))))")
@@ -330,16 +328,17 @@ class KBSCConstructionTest: XCTestCase {
         XCTAssertEqual(entire_assumptions.count, 20)
 
         // state assumptions
-        XCTAssertEqual(entire_assumptions[0].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[1].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[2].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[3].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[4].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
-        XCTAssertEqual(entire_assumptions[5].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
-        XCTAssertEqual(entire_assumptions[6].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
+        XCTAssertEqual(entire_assumptions[0].description, "s0")
+        XCTAssertEqual(entire_assumptions[1].description, "G ((s0) -> (((((¬ (s1)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[2].description, "G ((s1) -> (((((¬ (s0)) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[3].description, "G ((s1s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[4].description, "G ((s2) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s3))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[5].description, "G ((s3) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s4))))")
+        XCTAssertEqual(entire_assumptions[6].description, "G ((s4) -> (((((¬ (s0)) ∧ (¬ (s1))) ∧ (¬ (s1s2))) ∧ (¬ (s2))) ∧ (¬ (s3))))")
+        XCTAssertEqual(entire_assumptions[7].description, "G ((((((s0) ∨ (s1)) ∨ (s1s2)) ∨ (s2)) ∨ (s3)) ∨ (s4))")
 
         // initial state assumptions
-        XCTAssertEqual(entire_assumptions[7].description, "s0")
+        
 
         // state ap assumptions
         XCTAssertEqual(entire_assumptions[8].description, "G ((s0) -> (((⊤) ∧ (¬ (y1))) ∧ (¬ (y2))))")

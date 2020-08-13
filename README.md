@@ -1,6 +1,17 @@
-# KBoSy
+ KBoSy
 
 create xcodeproj from swift package using `swift package generate-xcodeproj`
+
+
+# Dependencies
+- adjust directories in Sources/Utils/utils.swift and Sources/KBoSy/main.swift
+- set environment variable `EAHYPER_SOLVER_DIR="...../eahyper/LTL_SAT_solver"`
+- set environment variable `KBOSY_EAHYPER_BINARY="..../eahyper/eahyper_src/eahyper.native"`
+- set environment variable `KBOSY_OUTPUT_DIR`
+- optionally set environment variable `KBOSY_INPUT_DIR` to directory to avoid the need to specify absolute paths for both specification, input file and dot-graph
+
+# Linux
+- support for aalta backend in EAHyper, huge performance benefits due to optimzation for early termination
 
 
 ## Automata Info Input

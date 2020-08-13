@@ -15,14 +15,20 @@ public class ModelCheckCaller {
     let preexistingTags: [String]
     let tagPrefix = "k"
     var tags: [String]
-    var tagMapping: [String: LTL]
-    let eaHyperDir = "/Users/daniel/dev/master/eahyper/eahyper_src/eahyper.native"
+    public var tagMapping: [String: LTL]
+    let eaHyperDir: String
     
     
     public init(preexistingTags: [String]) {
         self.preexistingTags = preexistingTags
         self.tags = []
         self.tagMapping = [String: LTL]()
+        if let envValue = ProcessInfo.processInfo.environment["KBOSY_EAHYPER_BINARY"] {
+            self.eaHyperDir = envValue
+        } else {
+            print("Missing environment variable 'KBOSY_EAHYPER_BINARY', set to eahyper.native")
+            exit(EXIT_FAILURE)
+        }
     }
 
     /**
@@ -42,6 +48,7 @@ public class ModelCheckCaller {
         let knowledgeTermSet = self.getUniqueOccurances(knowledgeTermOccurances: knowledgeTermOccurances)
         
         for knowledgeTerm in knowledgeTermSet {
+
             createNewTagFor(knowledgeFormula: knowledgeTerm)
         }
         
@@ -72,16 +79,13 @@ public class ModelCheckCaller {
             for state in allStates {
                 let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
 
-                if callEAHyper(assumptions: completInformationAssumptions, implies: implyCondition) {
+                if callEAHyper(assumptions: "forall p. " + state.name + "_p &  " + completInformationAssumptions, implies: implyCondition) {
                     // if MCHyper confirms implication add candidate-tag to this state
                     print("ALGO: candidate state confirmed for " + state.name)
                     state.addAnnotation(annotationName: tagName)
                     found = true
                 } else {
-                    print("DEBUG: candidate state denied for " + state.name)
-                    print(completInformationAssumptions)
-                    print("\n")
-                    print(implyCondition)
+                    // print("DEBUG: candidate state denied for " + state.name)
                 }
             }
             // if none of the states are candidates print warning
@@ -103,7 +107,8 @@ public class ModelCheckCaller {
      NOTE: make sure that environment variable `EAHYPER_SOLVER_DIR`  is set to `/location/eahyper/LTL_SAT_solver`
      */
     public func callEAHyper(assumptions: String, implies: String) -> Bool {
-        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies, "--pltl"])
+        //print("DEBUG: EAHyper input assumptions: \n" + assumptions + "\n implies:\n" + implies)
+        let output = shell(launchPath: self.eaHyperDir, arguments: ["-fs", assumptions, "-is", implies])
         //print("DEBUG: EAHyper output: " + output)
         
         if output.contains("does imply") {
@@ -143,16 +148,22 @@ public class ModelCheckCaller {
         return knowledgeTermSet
     }
     
-    
+    /* Returns assumptions required for EAHyper
+     NOTE: does NOT set the initial state so this can be done later!
+      we have to add later: "forall p. s0_p & "*/
     public func getEAHyperAssumptions(automata: Automata) -> String {
-        let completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
+        var completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
         
         var strings: [String] = []
+        
+        // Remove line which contains initial state setting
+        completeInformationAssumptions.remove(at: 0)
+        
         for line in completeInformationAssumptions {
             strings.append(line.getEAHyperFormat())
         }
         
-        let assumptionsString = "forall p. " + strings.joined(separator: " & ")
+        let assumptionsString =  strings.joined(separator: " & ")
         
         return assumptionsString
     }

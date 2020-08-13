@@ -45,7 +45,7 @@ public struct SynthesisSpecification: Codable {
         self.transformationRules = transformationRules
     }
 
-    public init(automata: Automata, tags: [String], tagsAsAPs: Bool) {
+    public init(automata: Automata, tags: [String], tagsAsAPs: Bool, tag_knowledge_mapping : [String: LTL]? = nil) {
         self.semantics = TransitionSystemType.mealy
         
         if tagsAsAPs {
@@ -60,7 +60,7 @@ public struct SynthesisSpecification: Codable {
             self.outputs = AssumptionsGenerator.getAutomataOutputAPs(auto: automata)
             self.assumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: [], tagsInAPs: false)
             // TODO: modify guarantees
-            self.guarantees = automata.getGuaranteesWithCandidateStateNames(tags: tags)
+            self.guarantees = automata.getGuaranteesWithCandidateStateNames(tags: tags, tag_knowledge_mapping: tag_knowledge_mapping)
             self.transformationRules = nil
         }
     }

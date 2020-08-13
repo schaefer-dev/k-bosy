@@ -148,7 +148,7 @@ public class Automata {
     /**
      For all  given tags, look through state-structure and then replace this tag in guarantees with the disjunction of all states that are annotated with this tag.
      */
-    public func getGuaranteesWithCandidateStateNames(tags: [String]) -> [LTL]{
+    public func getGuaranteesWithCandidateStateNames(tags: [String], tag_knowledge_mapping : [String: LTL]? = nil) -> [LTL]{
         let allStates = self.get_allStates()
         var newGuarantees: [LTL] = self.guarantees
         for tag in tags {
@@ -175,6 +175,12 @@ public class Automata {
                 tagStateFormula = "("
                 tagStateFormula += tagStateNames.joined(separator: " || ")
                 tagStateFormula += ")"
+                
+                if tag_knowledge_mapping == nil {
+                    print("DEBUG: replacing tag " + tag + " with formula " + tagStateFormula)
+                } else {
+                    print("DEBUG: replacing " + tag_knowledge_mapping![tag]!.description + " with formula " + tagStateFormula)
+                }
             }
             
             // replace all all occurances of this tag with this formula
@@ -243,6 +249,11 @@ public class Automata {
 }
 
 func wildcard(_ string: String, pattern: String) -> Bool {
-    let pred = NSPredicate(format: "self LIKE %@", pattern)
-    return !NSArray(object: string).filtered(using: pred).isEmpty
+    let range = NSRange(location: 0, length: string.utf16.count)
+    let regex = try! NSRegularExpression(pattern: pattern)
+    
+    if regex.firstMatch(in: string, options: [], range: range) != nil {
+        return true
+    }
+    return false
 }

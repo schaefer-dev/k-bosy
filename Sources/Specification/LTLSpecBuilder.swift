@@ -56,7 +56,7 @@ public class LTLSpecBuilder {
         let obsAutomata = kbsc.run()
         obsAutomata.finalize()
 
-        let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: tagsAsAPs)
+        let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
         
         return spec
     }

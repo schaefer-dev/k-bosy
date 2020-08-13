@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public func shell(launchPath: String, arguments: [String]) -> String {
 
     let process = Process()
@@ -43,8 +44,13 @@ public func getDesktopDirectory() -> URL {
 }
 
 public func getMasterSpecDirectory() -> URL {
-    let pathUrl = URL(fileURLWithPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs/")
-    return pathUrl
+    if let output_dir = ProcessInfo.processInfo.environment["KBOSY_OUTPUT_DIR"] {
+        let pathUrl = URL(fileURLWithPath: output_dir)
+        return pathUrl
+    } else {
+        print("Environment Variable 'KBOSY_OUTPUT_DIR' not set!")
+        exit(EXIT_FAILURE)
+    }
 }
 
 public func callBoSy(inputFilename: String) {

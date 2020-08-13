@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import LTL
 
 public class KBSConstructor {
 
