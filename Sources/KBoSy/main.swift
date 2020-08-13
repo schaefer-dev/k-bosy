@@ -42,6 +42,11 @@ do {
                                 usage: "enables following bosy call to synthesize transformed spec.",
                                 completion: ShellCompletion.none)
     
+    let arg_benchmark = parser.add(option: "--benchmark", shortName: "-b",
+                                kind: Bool.self,
+                                usage: "enables timing output to benchmark transformation process",
+                                completion: ShellCompletion.none)
+    
     let arg_aalta_backend = parser.add(option: "--aalta",
                                     kind: Bool.self,
                                     usage: "enables aalta backend which results in performance improvlements on supported systems.",
@@ -61,9 +66,15 @@ do {
         print("WARNING: environment input dir not specified, entire path has to be given.")
     }
     
-    var aalta_backend_enabled = false
+    /* Handling parameter arguments */
+    var aaltaBackendEnabled = false
     if let temparg = parguments.get(arg_aalta_backend), temparg {
-        aalta_backend_enabled = true
+        aaltaBackendEnabled = true
+    }
+    
+    var benchmarkEnabled = false
+    if let temparg = parguments.get(arg_benchmark), temparg {
+        benchmarkEnabled = true
     }
 
     
@@ -71,7 +82,6 @@ do {
     /* Starting of reading Automata file(s) */
     if let automataInfoFilename = parguments.get(arg_automataInfoFile) {
         if let dotGraphFilename = parguments.get(arg_dotFile) {
-            
             /**
              check if user wishes to keep tags as new inputAPs and add them to the assumptions.
              Otherwise the determined states would have been added to guarantees directly
@@ -82,7 +92,7 @@ do {
                 tagsAsAPs = true
             }
             
-            let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aalta_backend_enabled)
+            let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aaltaBackendEnabled, benchmarkEnabled: benchmarkEnabled)
         
 
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
@@ -93,7 +103,6 @@ do {
                   print("Calling Bosy now....\n")
                   callBoSy(inputFilename: outputFilename)
             }
-
             exit(EXIT_SUCCESS)
         }
     }
@@ -101,7 +110,6 @@ do {
     
     /* Alternative input of just LTL assumptions and rewriting in spec directly using given rules */
     if let inputFilename = parguments.get(input) {
-        
         let specOpt = readSpecificationFile(path: inputFilename)
         if (specOpt == nil) {
             print("ERROR: something went wrong while reading specifictaion File")
@@ -122,12 +130,11 @@ do {
         
         
         if let synt = parguments.get(arg_synthesize), synt {
-              print("\n--------------------------------------------------")
-              print("Calling Bosy now....\n")
-              callBoSy(inputFilename: outputFilename)
-          }
-        
-          exit(EXIT_SUCCESS)
+            print("\n--------------------------------------------------")
+            print("Calling Bosy now....\n")
+            callBoSy(inputFilename: outputFilename)
+        }
+        exit(EXIT_SUCCESS)
     }
     
 

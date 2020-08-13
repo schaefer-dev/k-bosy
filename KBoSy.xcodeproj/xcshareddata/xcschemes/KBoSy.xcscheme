@@ -100,6 +100,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--benchmark"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--spec xcode_tests/kltl/knowledge_01.kbosy"
             isEnabled = "NO">
          </CommandLineArgument>

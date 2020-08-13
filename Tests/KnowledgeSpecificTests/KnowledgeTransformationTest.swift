@@ -53,7 +53,7 @@ class KnowledgeTransformationTest: XCTestCase {
     
     func testEAHyperAnnotationUnobservableProperty() {
 
-        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/electricity_repair.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/electricity_repair.gv", tagsAsAPs: false)
+        let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/electricity_repair.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/electricity_repair.gv", tagsAsAPs: false)
         
         // test guarantees
         XCTAssertEqual(spec.guarantees[0].description, "G ((repair) -> ((s0) ∨ (s1)))")
@@ -149,7 +149,7 @@ class KnowledgeTransformationTest: XCTestCase {
     
     func testGraphGivenRulesStatesInGuarantees() {
 
-        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: false)
+        let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: false)
         
         // tags not added as input APs
         XCTAssertTrue(!spec.inputs.contains("k0"))
@@ -172,7 +172,7 @@ class KnowledgeTransformationTest: XCTestCase {
     
     func testGraphGivenRulesTagsInStateAssumptions() {
 
-        let spec = LTLSpecBuilder.prepareSynthesis(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: true)
+        let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/kinfo_file/test_numberv1.json", dotGraphPath: "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/xcode_tests/automata/test_numberv1.gv", tagsAsAPs: true)
         
         // tags are added as input APs
         XCTAssertTrue(!spec.inputs.contains("k0"))
