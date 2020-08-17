@@ -101,6 +101,8 @@ do {
             if let synt = parguments.get(arg_synthesize), synt {
                   print("\n--------------------------------------------------")
                 callBoSy(inputFilename: outputDir.path + "/" + outputFilename, benchmarkEnabled: benchmarkEnabled)
+            } else {
+                print("\ncontinue synthesis using Bosy:\n./bosy_run.sh " + outputDir.path + "/" + outputFilename + " --synthesize")
             }
             exit(EXIT_SUCCESS)
         }
