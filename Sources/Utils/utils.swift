@@ -56,6 +56,8 @@ public func getMasterSpecDirectory() -> URL {
 public func callBoSy(inputFilename: String, benchmarkEnabled: Bool = false) {
     //let command = "cd /Users/daniel/dev/master/bosy; swift run -c release BoSy --synthesize /Users/daniel/dev/master/bosy/Specs/kbosy_outputs/" + inputFilename
     if let output_dir = ProcessInfo.processInfo.environment["KBOSY_ROOT_DIR"] {
+        print("Calling Bosy using:")
+        print(output_dir + "/bosy_run.sh " + inputFilename + " --synthesize\n")
         if benchmarkEnabled {
             let bosyBenchmark = Benchmark(name: "BoSy()")
             bosyBenchmark.start()

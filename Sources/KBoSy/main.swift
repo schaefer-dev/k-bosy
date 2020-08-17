@@ -100,7 +100,6 @@ do {
 
             if let synt = parguments.get(arg_synthesize), synt {
                   print("\n--------------------------------------------------")
-                  print("Calling Bosy now....\n")
                 callBoSy(inputFilename: outputDir.path + "/" + outputFilename, benchmarkEnabled: benchmarkEnabled)
             }
             exit(EXIT_SUCCESS)
@@ -131,7 +130,6 @@ do {
         
         if let synt = parguments.get(arg_synthesize), synt {
             print("\n--------------------------------------------------")
-            print("Calling Bosy now....\n")
             callBoSy(inputFilename: outputFilename)
         }
         exit(EXIT_SUCCESS)
