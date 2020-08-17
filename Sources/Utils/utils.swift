@@ -58,7 +58,7 @@ public func callBoSy(inputFilename: String, benchmarkEnabled: Bool = false) {
     if let output_dir = ProcessInfo.processInfo.environment["KBOSY_ROOT_DIR"] {
         print(shell(launchPath: "/bin/sh", arguments: [output_dir + "/bosy_run.sh", inputFilename, "--synthesize"]))
     } else {
-        print("Environment Variable 'KBOSY_BOSY_ROOT' not set!")
+        print("Environment Variable 'KBOSY_ROOT_DIR' not set!")
         exit(EXIT_FAILURE)
     }
     
