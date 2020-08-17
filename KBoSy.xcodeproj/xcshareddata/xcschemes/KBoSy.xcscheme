@@ -96,12 +96,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--synthesize"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--aalta"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--benchmark"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--spec xcode_tests/kltl/knowledge_01.kbosy"
@@ -133,11 +137,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
@@ -156,6 +160,11 @@
          <EnvironmentVariable
             key = "EAHYPER_SOLVER_DIR"
             value = "/Users/daniel/dev/master/eahyper/LTL_SAT_solver"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "KBOSY_ROOT_DIR"
+            value = "/Users/daniel/dev/master/kbosy"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
