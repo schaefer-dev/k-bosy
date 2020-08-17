@@ -8,7 +8,9 @@ create xcodeproj from swift package using `swift package generate-xcodeproj`
 - set environment variable `EAHYPER_SOLVER_DIR="...../eahyper/LTL_SAT_solver"`
 - set environment variable `KBOSY_EAHYPER_BINARY="..../eahyper/eahyper_src/eahyper.native"`
 - set environment variable `KBOSY_OUTPUT_DIR`
+- set environment variable `KBOSY_ROOT_DIR` to absolute path of KBoSy's root directory
 - optionally set environment variable `KBOSY_INPUT_DIR` to directory to avoid the need to specify absolute paths for both specification, input file and dot-graph
+- adjust BoSy Directory in `bosy_run.sh` script if it is desired to call BoSy automatically after KBoSy for LTL synthesis
 
 # Linux
 - support for aalta backend in EAHyper, huge performance benefits due to optimzation for early termination
