@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
+
 # absolute path required here
-cd /Users/daniel/dev/master/bosy
-./.build/release/BoSy ${@:1}
+cd /home/daniel/bosy/;
+.build/release/BoSy ${@:1}
 
 exit_code=$?
 
