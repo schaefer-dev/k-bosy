@@ -53,7 +53,23 @@ public func getMasterSpecDirectory() -> URL {
     }
 }
 
-public func callBoSy(inputFilename: String) {
+public func callBoSy(inputFilename: String, benchmarkEnabled: Bool = false) {
     //let command = "cd /Users/daniel/dev/master/bosy; swift run -c release BoSy --synthesize /Users/daniel/dev/master/bosy/Specs/kbosy_outputs/" + inputFilename
-    print(shell(launchPath: "/usr/bin/env", arguments: ["/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/bosy_call.sh", inputFilename]))
+    if let output_dir = ProcessInfo.processInfo.environment["KBOSY_ROOT_DIR"] {
+        print("Calling Bosy using:")
+        print(output_dir + "/bosy_run.sh " + inputFilename + " --synthesize\n")
+        if benchmarkEnabled {
+            let bosyBenchmark = Benchmark(name: "BoSy()")
+            bosyBenchmark.start()
+            print(shell(launchPath: "/usr/bin/env", arguments: [output_dir + "/bosy_run.sh", inputFilename, "--synthesize"]))
+            bosyBenchmark.stop()
+            bosyBenchmark.report()
+        } else {
+            print(shell(launchPath: "/usr/bin/env", arguments: [output_dir + "/bosy_run.sh", inputFilename, "--synthesize"]))
+        }
+    } else {
+        print("Environment Variable 'KBOSY_ROOT_DIR' not set!")
+        exit(EXIT_FAILURE)
+    }
+    
 }

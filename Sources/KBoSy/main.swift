@@ -94,14 +94,15 @@ do {
             
             let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aaltaBackendEnabled, benchmarkEnabled: benchmarkEnabled)
         
-
-            let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: getMasterSpecDirectory())
-            print("Output file saved.")
+            let outputDir = getMasterSpecDirectory()
+            let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: outputDir)
+            print("Output file saved at " + outputDir.path + "/" + outputFilename)
 
             if let synt = parguments.get(arg_synthesize), synt {
                   print("\n--------------------------------------------------")
-                  print("Calling Bosy now....\n")
-                  callBoSy(inputFilename: outputFilename)
+                callBoSy(inputFilename: outputDir.path + "/" + outputFilename, benchmarkEnabled: benchmarkEnabled)
+            } else {
+                print("\ncontinue synthesis using Bosy:\n./bosy_run.sh " + outputDir.path + "/" + outputFilename + " --synthesize")
             }
             exit(EXIT_SUCCESS)
         }
@@ -131,7 +132,6 @@ do {
         
         if let synt = parguments.get(arg_synthesize), synt {
             print("\n--------------------------------------------------")
-            print("Calling Bosy now....\n")
             callBoSy(inputFilename: outputFilename)
         }
         exit(EXIT_SUCCESS)
