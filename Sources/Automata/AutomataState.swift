@@ -145,7 +145,7 @@ public class AutomataState: Hashable, CustomStringConvertible {
         
         var newTransitions: [AutomataTransition] = []
         for (_, transitionSet) in endStateToTransitionMap {
-            print("DEBUG: merge call perfmed")
+            print("DEBUG: merge call performed")
             newTransitions += AutomataState.tryTransitionMerge(transitionSet: transitionSet)
         }
         
