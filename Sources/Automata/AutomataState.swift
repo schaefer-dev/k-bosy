@@ -122,13 +122,16 @@ public class AutomataState: Hashable, CustomStringConvertible {
         Tautologies are also removed in the formulas
      Also the Bitset representations of these simplified transitions are built.
      */
-    public func finalize() {
+    public func finalize(optimizationUsingReduce: Bool = false) {
         print("DEBUG: starting finalize")
         for trans in self.transitions {
             trans.simplify()
             trans.buildBitsetRepresentation()
         }
-        print("DEBUG: finalize: completed initial simplifications")
+        
+        if !optimizationUsingReduce {
+            return
+        }
         
         /* merge transitions whenever possible */
         // divide transitions by their outgoing state
@@ -145,7 +148,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
         
         var newTransitions: [AutomataTransition] = []
         for (_, transitionSet) in endStateToTransitionMap {
-            print("DEBUG: merge call performed")
             newTransitions += AutomataState.tryTransitionMerge(transitionSet: transitionSet)
         }
         
@@ -153,7 +155,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
         
         // overwrite old transitions
         self.transitions = newTransitions
-        print("DEBUG: finalize: completed")
     }
     
     

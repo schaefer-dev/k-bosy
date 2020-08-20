@@ -198,9 +198,9 @@ public class Automata {
      performs simplifications in this automata.
      This includes optimizations that are performed on Transition-Conditions and also the building of BitsetRepresentations for all transitions.
      */
-    public func finalize() {
+    public func finalize(optimizationUsingReduce: Bool = false) {
         for state in self.get_allStates() {
-            state.finalize()
+            state.finalize(optimizationUsingReduce: optimizationUsingReduce)
         }
     }
 

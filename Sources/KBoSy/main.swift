@@ -47,6 +47,11 @@ do {
                                 usage: "enables timing output to benchmark transformation process",
                                 completion: ShellCompletion.none)
     
+    let arg_reduce = parser.add(option: "--reduce", shortName: "-r",
+                                kind: Bool.self,
+                                usage: "enabled automatic reduction of assumption output for transition assumptions. May significantly improve performance of following synthesis because LTL assumption complexity lowered.",
+                                completion: ShellCompletion.none)
+    
     let arg_aalta_backend = parser.add(option: "--aalta",
                                     kind: Bool.self,
                                     usage: "enables aalta backend which results in performance improvlements on supported systems.",
@@ -76,6 +81,11 @@ do {
     if let temparg = parguments.get(arg_benchmark), temparg {
         benchmarkEnabled = true
     }
+    
+    var optimizationUsingReduce = true
+    if let temparg = parguments.get(arg_reduce), temparg {
+        optimizationUsingReduce = true
+    }
 
     
     /* -------------------------------------------------------------*/
@@ -92,7 +102,7 @@ do {
                 tagsAsAPs = true
             }
             
-            let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aaltaBackendEnabled, benchmarkEnabled: benchmarkEnabled)
+            let spec = LTLSpecBuilder.KBoSyAlgorithm(automataInfoPath: inputFilePrefix + "/" + automataInfoFilename, dotGraphPath: inputFilePrefix + "/" + dotGraphFilename, tagsAsAPs: tagsAsAPs, aalta_backend: aaltaBackendEnabled, benchmarkEnabled: benchmarkEnabled, optimizationUsingReduce: optimizationUsingReduce)
         
             let outputDir = getMasterSpecDirectory()
             let outputFilename = spec.writeJsonToDir(inputFileName: "temp_after_automata_translation", dir: outputDir)
