@@ -12,7 +12,7 @@ public class BitsetDNFFormula: CustomStringConvertible {
 
     // Empty bitset corresponds to false
 
-    private var conjunctions: [Bitset]?
+    public var conjunctions: [Bitset]?
     private let apToIndexMap: [String: Int]
 
     public var description: String {
@@ -44,6 +44,8 @@ public class BitsetDNFFormula: CustomStringConvertible {
         }
         self.conjunctions = []
     }
+    
+    
     public func add_formula(bitset: Bitset) {
         if self.conjunctions == nil {
             self.initialize()
@@ -165,6 +167,31 @@ public class BitsetDNFFormula: CustomStringConvertible {
             }
             bitsetIndex += 1
         }
+    }
+    
+    /**
+     Reduces size of this bitset by intelligently combining cases
+     */
+    public func reduce() {
+        assert(self.conjunctions != nil, "Bitset must exist first, before being reduced")
+        /* Can not reduce with size 0 or 1 */
+        if self.conjunctions!.count < 2 {
+            return
+        }
+        
+        var newBitset = Bitset.bitOR(bs1: self.conjunctions![0], bs2: self.conjunctions![1])
+        
+        /* First merge into newBitset */
+        var iter = 2
+        while ( iter < self.conjunctions!.count ) {
+            let newBitsetLast = newBitset.popLast()!
+            newBitset += Bitset.bitOR(bs1: newBitsetLast, bs2: self.conjunctions![iter])
+            iter += 1
+        }
+        
+        // TODO: do the main work here with comparisons in newBitset to reduce its size
+        
+        self.conjunctions! = newBitset
     }
 }
 

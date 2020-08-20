@@ -121,9 +121,9 @@ class AssumptionsTest: XCTestCase {
         // 1 condition for each transition
         XCTAssertEqual(test_value.count, 4)
 
-        XCTAssertEqual(test_value[0].description, "G ((¬ (s0)) ∨ (((request) ∧ (X (s1))) ∨ ((¬ (request)) ∧ (X (s0)))))")
+        XCTAssertTrue(test_value[0].description == "G ((¬ (s0)) ∨ (((request) ∧ (X (s1))) ∨ ((¬ (request)) ∧ (X (s0)))))" || test_value[0].description == "G ((¬ (s0)) ∨ (((¬ (request)) ∧ (X (s0))) ∨ ((request) ∧ (X (s1)))))")
         XCTAssertEqual(test_value[1].description, "G ((¬ (s1)) ∨ ((⊤) ∧ (X (s1))))")
-        XCTAssertEqual(test_value[2].description, "G ((¬ (s2)) ∨ (((⊤) ∧ (X (s2))) ∨ ((⊤) ∧ (X (s3)))))")
+        XCTAssertTrue(test_value[2].description == "G ((¬ (s2)) ∨ (((⊤) ∧ (X (s2))) ∨ ((⊤) ∧ (X (s3)))))" || test_value[2].description == "G ((¬ (s2)) ∨ (((⊤) ∧ (X (s3))) ∨ ((⊤) ∧ (X (s2)))))")
         XCTAssertEqual(test_value[3].description, "G ((¬ (s3)) ∨ ((⊤) ∧ (X (s3))))")
     }
 
@@ -231,9 +231,9 @@ class AssumptionsTest: XCTestCase {
         XCTAssertEqual(test_value[7].description, "G ((s1) -> ((r1) ∧ (⊤)))")
         XCTAssertEqual(test_value[8].description, "G ((s2) -> ((r1) ∧ (⊤)))")
         XCTAssertEqual(test_value[9].description, "G ((s3) -> ((⊤) ∧ (¬ (r1))))")
-        XCTAssertEqual(test_value[10].description, "G ((¬ (s0)) ∨ (((⊤) ∧ (X (s0))) ∨ ((⊤) ∧ (X (s1)))))")
-        XCTAssertEqual(test_value[11].description, "G ((¬ (s1)) ∨ (((¬ (g1)) ∧ (X (s1))) ∨ ((g1) ∧ (X (s2)))))")
-        XCTAssertEqual(test_value[12].description, "G ((¬ (s2)) ∨ (((¬ (g1)) ∧ (X (s2))) ∨ ((g1) ∧ (X (s3)))))")
+        XCTAssertTrue(test_value[10].description == "G ((¬ (s0)) ∨ (((⊤) ∧ (X (s0))) ∨ ((⊤) ∧ (X (s1)))))" || test_value[10].description == "G ((¬ (s0)) ∨ (((⊤) ∧ (X (s1))) ∨ ((⊤) ∧ (X (s0)))))")
+        XCTAssertTrue(test_value[11].description == "G ((¬ (s1)) ∨ (((¬ (g1)) ∧ (X (s1))) ∨ ((g1) ∧ (X (s2)))))" || test_value[11].description == "G ((¬ (s1)) ∨ (((g1) ∧ (X (s2))) ∨ ((¬ (g1)) ∧ (X (s1)))))")
+        XCTAssertTrue(test_value[12].description == "G ((¬ (s2)) ∨ (((¬ (g1)) ∧ (X (s2))) ∨ ((g1) ∧ (X (s3)))))" || test_value[12].description == "G ((¬ (s2)) ∨ (((g1) ∧ (X (s3))) ∨ ((¬ (g1)) ∧ (X (s2)))))")
         XCTAssertEqual(test_value[13].description, "G ((¬ (s3)) ∨ ((⊤) ∧ (X (s1))))")
 
         // TODO maybe complete this test here with different input so its not redudant with previous tests of submethods
