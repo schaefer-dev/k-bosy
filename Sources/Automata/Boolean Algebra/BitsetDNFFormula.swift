@@ -197,6 +197,8 @@ public class BitsetDNFFormula: CustomStringConvertible {
                 let newBitsetLast = newBitset.popLast()
                 let compareBitset = newBitset.remove(at: iter2)
                 newBitset += Bitset.bitOR(bs1: compareBitset, bs2:newBitsetLast!)
+                
+                iter2 += 1
             }
             // shuffle bitsets around
             let newBitsetLast = newBitset.popLast()
