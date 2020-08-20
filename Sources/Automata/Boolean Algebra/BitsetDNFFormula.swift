@@ -191,11 +191,11 @@ public class BitsetDNFFormula: CustomStringConvertible {
         
         // TODO: do the main work here with comparisons in newBitset to reduce its size
         var round = 0
-        while round < newBitset.count {
+        while round < newBitset.count * newBitset.count {
             var iter2 = 0
             while(iter2 < newBitset.count - 1 ) {
                 let newBitsetLast = newBitset.popLast()
-                let compareBitset = newBitset.remove(at: iter2)
+                let compareBitset = newBitset.remove(at: 0)
                 newBitset += Bitset.bitOR(bs1: compareBitset, bs2:newBitsetLast!)
                 
                 iter2 += 1
