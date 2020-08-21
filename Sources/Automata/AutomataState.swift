@@ -123,7 +123,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
      Also the Bitset representations of these simplified transitions are built.
      */
     public func finalize(optimizationUsingReduce: Bool = false) {
-        print("DEBUG: starting finalize")
         for trans in self.transitions {
             trans.simplify()
             trans.buildBitsetRepresentation()
@@ -143,8 +142,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
                 endStateToTransitionMap[trans.end]!.append(trans)
             }
         }
-        
-        print(endStateToTransitionMap)
         
         var newTransitions: [AutomataTransition] = []
         for (_, transitionSet) in endStateToTransitionMap {
