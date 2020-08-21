@@ -148,8 +148,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
             newTransitions += AutomataState.tryTransitionMerge(transitionSet: transitionSet)
         }
         
-        print(newTransitions)
-        
         // overwrite old transitions
         self.transitions = newTransitions
     }
