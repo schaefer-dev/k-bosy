@@ -117,7 +117,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/detect_globally.json -d automata/detect_globally.gv"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/detect_next.json -d automata/detect_next.gv"
@@ -137,7 +137,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"

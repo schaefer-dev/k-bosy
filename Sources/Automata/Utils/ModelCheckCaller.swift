@@ -81,7 +81,7 @@ public class ModelCheckCaller {
             for state in allStates {
                 let implyCondition = "forall p. G(" + state.name + "_p -> " + knowledgeCondition + ")"
 
-                if callEAHyper(assumptions: "forall p. " + state.name + "_p &  " + completInformationAssumptions, implies: implyCondition) {
+                if callEAHyper(assumptions: "forall p. " + completInformationAssumptions, implies: implyCondition) {
                     // if MCHyper confirms implication add candidate-tag to this state
                     print("ALGO: candidate state confirmed for " + state.name)
                     state.addAnnotation(annotationName: tagName)
@@ -158,9 +158,6 @@ public class ModelCheckCaller {
         var completeInformationAssumptions = AssumptionsGenerator.generateAutomataAssumptions(auto: automata, tags: self.preexistingTags, tagsInAPs: true)
         
         var strings: [String] = []
-        
-        // Remove line which contains initial state setting
-        completeInformationAssumptions.remove(at: 0)
         
         for line in completeInformationAssumptions {
             strings.append(line.getEAHyperFormat())
