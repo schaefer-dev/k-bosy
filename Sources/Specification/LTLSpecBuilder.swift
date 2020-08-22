@@ -18,7 +18,7 @@ public class LTLSpecBuilder {
         followed by knowledge-based subset construction. Finalizes the automaton afterwards
         to perform optimizations and returns the resulting LTL synthesis task.
      */
-    public static func KBoSyAlgorithm(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool, aalta_backend: Bool = false, benchmarkEnabled: Bool = false) -> SynthesisSpecification {
+    public static func KBoSyAlgorithm(automataInfoPath: String, dotGraphPath: String, tagsAsAPs: Bool, aalta_backend: Bool = false, benchmarkEnabled: Bool = false, optimizationUsingReduce: Bool = false) -> SynthesisSpecification {
         
         let mainBenchmark = Benchmark(name: "main()")
         mainBenchmark.start()
@@ -72,7 +72,7 @@ public class LTLSpecBuilder {
         
         kbscBenchmark.stop()
         
-        obsAutomata.finalize()
+        obsAutomata.finalize(optimizationUsingReduce: optimizationUsingReduce)
 
         let spec = SynthesisSpecification(automata: obsAutomata, tags: mcTags, tagsAsAPs: tagsAsAPs, tag_knowledge_mapping: modelChecker.tagMapping)
         

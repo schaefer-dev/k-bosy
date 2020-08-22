@@ -45,6 +45,14 @@ public struct Formula: Equatable, CustomStringConvertible {
         self.dnf = containedConjunctions
         self.bitsetRepresentation = BitsetDNFFormula(ap_index_map: bitset_ap_mapping)
      }
+    
+    /**
+     Only used during optimization
+     */
+    public init(bitsetRepresentation: BitsetDNFFormula) {
+        self.bitsetRepresentation = bitsetRepresentation
+        self.dnf = nil
+    }
 
     public func getStringFromBitsetRepresentation(index_to_ap_map: [String]) -> String {
         return bitsetRepresentation.get_formula_string(bitsetAPMapping: index_to_ap_map)

@@ -65,6 +65,46 @@ class BitsetTest: XCTestCase {
 
         XCTAssertEqual(bs3.description, "[1, 0, 1, 0, *]")
     }
+    
+    func testBitsetOR1() {
+        let bs1 = Bitset(size: 0) // 101**
+        let bs2 = Bitset(size: 0) // 10*0*
+
+        bs1.addTrue()
+        bs2.addTrue()
+        bs1.addFalse()
+        bs2.addFalse()
+        bs1.addTrue()
+        bs2.addWildcard()
+        bs1.addWildcard()
+        bs2.addFalse()
+        bs1.addWildcard()
+        bs2.addWildcard()
+
+        let bs3 = Bitset.bitOR(bs1: bs1, bs2: bs2)
+
+        XCTAssertEqual(bs3.description, "[[1, 0, 1, *, *], [1, 0, *, 0, *]]")
+    }
+    
+    func testBitsetOR2() {
+        let bs1 = Bitset(size: 0) // 1010*
+        let bs2 = Bitset(size: 0) // 10*0*
+
+        bs1.addTrue()
+        bs2.addTrue()
+        bs1.addFalse()
+        bs2.addFalse()
+        bs1.addTrue()
+        bs2.addWildcard()
+        bs1.addFalse()
+        bs2.addFalse()
+        bs1.addWildcard()
+        bs2.addWildcard()
+
+        let bs3 = Bitset.bitOR(bs1: bs1, bs2: bs2)
+
+        XCTAssertEqual(bs3.description, "[[1, 0, *, 0, *]]")
+    }
 
     func testLogicallyContains() {
         let bs1 = Bitset(size: 0)

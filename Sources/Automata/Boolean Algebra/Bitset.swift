@@ -268,6 +268,100 @@ public class Bitset: CustomStringConvertible {
         }
         return bsr
     }
+    
+    
+    /**
+     merges to bitsets if one implies the other initially or otherwise only if ONE difference is found
+     */
+    public static func bitOR(bs1: Bitset, bs2: Bitset) -> [Bitset] {
+        let bsr = Bitset(size: 0)
+        var bitMerged = false
+        
+        if bs1.count == 0 || bs2.count == 0 {
+            return [Bitset(size: 0)]
+        }
+        assert(bs1.count == bs2.count)
+
+        /* If one is strictly weaker condition, return it */
+        if bs1.holdsUnderAssumption(assumptionBS: bs2) {
+            return [bs1]
+        } else if bs2.holdsUnderAssumption(assumptionBS: bs1){
+            return [bs2]
+        }
+        
+        var i = 0
+        while i < bs1.count {
+            switch bs1.data[i] {
+            case .top:
+                // bs1 is true
+                switch bs2.data[i] {
+                case .top:
+                    bsr.addTrue()
+                case .bottom:
+                    // true && false
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                case .wildcard:
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                }
+
+            case .bottom:
+                // bs1 is false
+                switch bs2.data[i] {
+                case .top:
+                    // false && true
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                case .bottom:
+                    bsr.addFalse()
+                case .wildcard:
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                }
+
+            case .wildcard:
+                // bs1 is wildcard
+                switch bs2.data[i] {
+                case .top:
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                case .bottom:
+                    if bitMerged {
+                        return [bs1, bs2]
+                    } else {
+                        bitMerged = true
+                        bsr.addWildcard()
+                    }
+                case .wildcard:
+                    bsr.addWildcard()
+                }
+            }
+
+            i += 1
+        }
+        return [bsr]
+    }
 
     public func size() -> Int {
         return data.capacity

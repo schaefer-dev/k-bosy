@@ -20,6 +20,15 @@ public class AutomataTransition: CustomStringConvertible {
 
         self.simplify()
     }
+    
+    /**
+     Creates Transition using only bitsetRepresentation, only used for KBSC optimizations
+     */
+    public init (start: AutomataState, bitsetRepresentation: BitsetDNFFormula, end: AutomataState) {
+        self.start = start
+        self.condition = Formula(bitsetRepresentation: bitsetRepresentation)
+        self.end = end
+    }
 
     /**
     simplify this transition, which means that all occurances of non-output APs are replaced with their respective values

@@ -122,12 +122,72 @@ public class AutomataState: Hashable, CustomStringConvertible {
         Tautologies are also removed in the formulas
      Also the Bitset representations of these simplified transitions are built.
      */
-    public func finalize() {
+    public func finalize(optimizationUsingReduce: Bool = false) {
         for trans in self.transitions {
             trans.simplify()
             trans.buildBitsetRepresentation()
         }
+        
+        if !optimizationUsingReduce {
+            return
+        }
+        
+        /* merge transitions whenever possible */
+        // divide transitions by their outgoing state
+        var endStateToTransitionMap: [AutomataState: [AutomataTransition]] = [:]
+        for trans in self.transitions {
+            if (endStateToTransitionMap[trans.end] == nil) {
+                endStateToTransitionMap[trans.end] = [trans]
+            } else {
+                endStateToTransitionMap[trans.end]!.append(trans)
+            }
+        }
+        
+        var newTransitions: [AutomataTransition] = []
+        for (_, transitionSet) in endStateToTransitionMap {
+            newTransitions += AutomataState.tryTransitionMerge(transitionSet: transitionSet)
+        }
+        
+        // overwrite old transitions
+        self.transitions = newTransitions
     }
+    
+    
+    /**
+     Tries to merge the given transitions into as few transitions as possible. Assumes that bitmapsrepresentation has been built. All endStates of given transitions have to be equal.
+     */
+    public static func tryTransitionMerge(transitionSet: [AutomataTransition]) -> [AutomataTransition] {
+        // check that all transitions share the same goalstate, otherwise this is not valid
+        for inputTransition in transitionSet {
+            assert(inputTransition.end.name == transitionSet[0].end.name, "Only transition with same endstate can be attempted to be merged")
+        }
+        var newMinimalTransitionSet: [AutomataTransition] = []
+        
+        var iter = 0
+        var newConjunctions: [Bitset] = []
+        
+        while (iter < transitionSet.count) {
+            let currentTransition = transitionSet[iter]
+            /* TODO: add subsumes check maybe here already? */
+            newConjunctions += currentTransition.condition.bitsetRepresentation.conjunctions!
+            
+            iter += 1
+        }
+        
+        let bitsetDNFFormula: BitsetDNFFormula = BitsetDNFFormula(ap_index_map: transitionSet[0].condition.bitsetRepresentation.get_mapping())
+        
+        for cond in newConjunctions {
+            bitsetDNFFormula.add_formula(bitset: cond)
+        }
+        
+        bitsetDNFFormula.reduce()
+        
+        let newAutomataTransition = AutomataTransition(start: transitionSet[0].start, bitsetRepresentation: bitsetDNFFormula, end: transitionSet[0].end)
+        newMinimalTransitionSet.append(newAutomataTransition)
+        
+        return newMinimalTransitionSet
+    }
+    
 
     // Equality of states defined over their name which has to be unique
     public static func == (state1: AutomataState, state2: AutomataState) -> Bool {
