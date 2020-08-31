@@ -1,4 +1,4 @@
- KBoSy
+[Benchmark files can be found here](https://schaefer-dev.de/kbosy-specs)
 
 create xcodeproj from swift package using `swift package generate-xcodeproj`
 
