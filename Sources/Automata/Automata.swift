@@ -218,7 +218,10 @@ public class Automata {
         }
     }
     
-    
+    /**
+     Adds the given list of tags to the given list of list of candidate state names.
+     Tag at index i is added to all candidate states whichs name appear at index i in the argument candidateStateNames.
+     */
     public func addTagsToCandidateStates(tags: [String], candidateStateNames: [[String]]){
         // Translate String stateNames into AutomataState Array to work with it easier
         assert(tags.count == candidateStateNames.count)

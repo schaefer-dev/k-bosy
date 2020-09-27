@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Structure to track a state in the automata which represents the environment behavior. May occur either in a complete-information but also in an incomplte information context.
+ */
 public class AutomataState: Hashable, CustomStringConvertible {
     public var name: String
     // proposition list is kept sorted
@@ -63,7 +66,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
     }
 
     public func addTransition(trans: AutomataTransition) {
-        // TODO: maybe check first if this exact transition is already contained
         if trans.start.name != self.name {
             print("Critical Error: Transition does not belong into this state")
             exit(EXIT_FAILURE)
@@ -77,7 +79,6 @@ public class AutomataState: Hashable, CustomStringConvertible {
                 print("WARNING: tried to add AP to state, which was already contained, skipping!")
             }
             self.propositions.append(ap)
-            //print("DEBUG: added " + ap.description + " to state " + self.name)
         }
 
         // Keep proposition list sorted
