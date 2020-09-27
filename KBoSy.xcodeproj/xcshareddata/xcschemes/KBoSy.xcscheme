@@ -92,10 +92,6 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-i kinfo_file/nas_01.json -d automata/nas_01.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "--synthesize"
             isEnabled = "NO">
          </CommandLineArgument>
@@ -105,54 +101,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--benchmark"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i crossingv1.json -d crossingv1.gv"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--spec xcode_tests/kltl/knowledge_01.kbosy"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/random_01.json -d automata/random_01.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/detect_globally.json -d automata/detect_globally.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/detect_next.json -d automata/detect_next.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/ampelv2.json -d automata/ampelv2.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/ampelv3.json -d automata/ampelv3.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/electricity_repair.json -d automata/electricity_repair.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/numberv1.json -d automata/numberv1.gv"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/numberv4.json -d automata/numberv4.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i kinfo_file/numberv6.json -d automata/numberv6.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i xcode_tests/kinfo_file/test_numberv1.json -d xcode_tests/automata/test_numberv1.gv"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i xcode_tests/info_file/test_numberv1+rule.json -d xcode_tests/automata/test_numberv1.gv"
+            argument = "-i ampelv3.json -d ampelv3.gv"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -174,12 +130,12 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "KBOSY_INPUT_DIR"
-            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_inputs/"
+            value = "/Users/daniel/uni_repos/repo_masterThesisBenchmarks/kltl_inputs"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "KBOSY_OUTPUT_DIR"
-            value = "/Users/daniel/uni_repos/repo_masterThesisSpecifications/kbosy_outputs"
+            value = "/Users/daniel/uni_repos/repo_masterThesisBenchmarks/output"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
